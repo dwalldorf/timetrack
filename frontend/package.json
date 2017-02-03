@@ -3,7 +3,7 @@
     "version": "0.0.1-SNAPSHOT",
     "description": "Interface for timetrack app",
     "author": "Daniel Walldorf",
-    "license": "ISC",
+    "license": "MIT",
     "scripts": {
         "start": "concurrently \"npm run tsc:w\" \"npm run watch-css\" \"npm run lite\" ",
         "e2e": "tsc && concurrently \"http-server -s\" \"protractor protractor.config.js\" --kill-others --success first",

@@ -16,3 +16,6 @@ monitor the frontend and rebuild it on the fly, but shutdown the backend so you 
 Run the backend with the `dev` profile in this case.
 
 Check out the [./Makefile](Makefile) for more useful commands.
+
+# License
+[./LICENSE](MIT)
