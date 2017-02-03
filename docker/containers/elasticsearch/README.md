@@ -1,4 +1,4 @@
 # timetrack elasticsearch
 
 ---
-[to project root](../../../)
+[to project root](https://github.com/dwalldorf/timetrack)

@@ -6,4 +6,4 @@
 Run with `make run-env` or `docker-compose up -d frontend` from project root.
 
 ---
-[to project root](../)
+[to project root](https://github.com/dwalldorf/timetrack)

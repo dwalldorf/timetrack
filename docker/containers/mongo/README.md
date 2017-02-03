@@ -5,4 +5,4 @@ Run with `make run-env` or `docker-compose up -d mongo` from project root.
 Connect to via `docker-compose exec mongo mongo` from the project root.
 
 ---
-[to project root](../../../)
+[to project root](https://github.com/dwalldorf/timetrack)

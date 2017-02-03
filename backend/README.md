@@ -9,4 +9,4 @@ then run the application in `dev` profile.
 Also checkout [elasticsearch](../docker/containers/elasticsearch/README.md) and [kibana](../docker/containers/kibana/README.md).
 
 ---
-[to project root](../)
+[to project root](https://github.com/dwalldorf/timetrack)
