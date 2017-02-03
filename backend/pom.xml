@@ -40,7 +40,27 @@
             <artifactId>morphia</artifactId>
             <version>${morphia.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.internetitem</groupId>
+            <artifactId>logback-elasticsearch-appender</artifactId>
+            <version>${logback-elasticsearch-appender.version}</version>
+        </dependency>
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>docker-build</id>
+            <build>
+                <finalName>backend</finalName>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <resources>

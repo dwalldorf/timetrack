@@ -1,0 +1,51 @@
+version: '2'
+
+services:
+
+  # backend application
+  backend:
+    build: ./backend
+    ports:
+      - 8080:8080
+    links:
+      - mongo
+      - elasticsearch
+    volumes:
+      - ./backend/target/log:/var/log
+  mongo:
+    build: ./docker/containers/mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - timetrack-mongo-data:/data/db
+
+  # frontend
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+      - 3001:3001
+    volumes:
+      - ./frontend:/html
+
+  # infra
+  elasticsearch:
+      build: ./docker/containers/elasticsearch/
+      ports:
+        - 9200:9200
+        - 9300:9300
+      environment:
+        ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+      volumes:
+        - timetrack-elastic-data:/usr/share/elasticsearch/data
+
+  kibana:
+    build: ./docker/containers/kibana/
+    volumes:
+     - ./docker/containers/kibana/config/:/opt/kibana/config/
+    ports:
+     - 5601:5601
+
+volumes:
+  timetrack-mongo-data: {}
+  timetrack-elastic-data: {}
