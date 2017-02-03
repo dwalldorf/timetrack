@@ -2,11 +2,11 @@
 
 ## Components
 - [backend](backend)
-- [./frontend](frontend)
-- [./docker](docker)
-  - [./docker/containers/elasticsearch](elasticsearch)
-  - [./docker/containers/kibana](kibana)
-  - [./docker/containers/mong](mongo)
+- [frontend](frontend)
+- [docker](docker)
+  - [elasticsearch](docker/containers/elasticsearch)
+  - [kibana](docker/containers/kibana)
+  - [mongo](docker/containers/mongo)
 
 ## Run it
 In the root of the project, type `make build && make up` to build the project all components in docker containers.
@@ -18,4 +18,4 @@ Run the backend with the `dev` profile in this case.
 Check out the [./Makefile](Makefile) for more useful commands.
 
 # License
-[./LICENSE](MIT)
+[MIT](LICENSE)
