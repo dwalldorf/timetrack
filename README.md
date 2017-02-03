@@ -1,7 +1,7 @@
 # Timetrack
 
 ## Components
-- [./backend](backend)
+- [backend](backend)
 - [./frontend](frontend)
 - [./docker](docker)
   - [./docker/containers/elasticsearch](elasticsearch)
