@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 import {LoginService} from "./login/service/login.service";
 
 @Component({
-    selector: 'csgocfg-app',
+    selector: 'timetrack-app',
     templateUrl: '/app/views/layout.html'
 })
 export class AppComponent {
