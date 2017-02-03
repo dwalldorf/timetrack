@@ -1,0 +1,118 @@
+[
+  {
+    "_id": "Errors-Dashboard",
+    "_type": "dashboard",
+    "_source": {
+      "title": "Errors Dashboard",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"id\":\"errors\",\"type\":\"search\",\"panelIndex\":1,\"size_x\":12,\"size_y\":9,\"col\":1,\"row\":1,\"columns\":[\"logger\",\"message\"],\"sort\":[\"@timestamp\",\"desc\"]}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "App-Overview",
+    "_type": "dashboard",
+    "_source": {
+      "title": "App Overview",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"col\":1,\"columns\":[\"severity\",\"message\"],\"id\":\"appInfo\",\"panelIndex\":2,\"row\":1,\"size_x\":6,\"size_y\":7,\"sort\":[\"@timestamp\",\"desc\"],\"type\":\"search\"},{\"col\":7,\"id\":\"logins\",\"panelIndex\":3,\"row\":1,\"size_x\":6,\"size_y\":2,\"type\":\"visualization\"}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"marker: appInfo\"}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "errors",
+    "_type": "search",
+    "_source": {
+      "title": "errors",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "logger",
+        "message"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"owbackend-*\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"severity: \\\"ERROR\\\" && !stacktrace: \\\"*com.dwalldorf.owbackend.exception.NotFoundException*\\\"\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "logins",
+    "_type": "search",
+    "_source": {
+      "title": "logins",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "@timestamp",
+        "message",
+        "logger",
+        "application-profile"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"owbackend-*\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"message: \\\"User\\\" \\\"logged in\\\"\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "appInfo",
+    "_type": "search",
+    "_source": {
+      "title": "appInfo",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "severity",
+        "message",
+        "active-profiles",
+        "host"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"owbackend-*\",\"query\":{\"query_string\":{\"query\":\"marker: appInfo\",\"analyze_wildcard\":true}},\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647}}"
+      }
+    }
+  },
+  {
+    "_id": "logins",
+    "_type": "visualization",
+    "_source": {
+      "title": "logins",
+      "visState": "{\"title\":\"logins\",\"type\":\"area\",\"params\":{\"shareYAxis\":true,\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"smoothLines\":false,\"scale\":\"linear\",\"interpolate\":\"linear\",\"mode\":\"stacked\",\"times\":[],\"addTimeMarker\":false,\"defaultYExtents\":false,\"setYExtents\":false,\"yAxis\":{}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{}},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"@timestamp\",\"interval\":\"auto\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{}}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "logins",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  }
+]

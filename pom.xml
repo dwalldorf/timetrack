@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.dwalldorf</groupId>
+    <artifactId>timetrack</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.4.4.RELEASE</version>
+    </parent>
+
+    <modules>
+        <module>docker</module>
+        <module>backend</module>
+        <module>frontend</module>
+    </modules>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <spring-profile>default</spring-profile>
+
+        <spring-boot.version>1.4.3.RELEASE</spring-boot.version>
+        <javax.inject.version>1</javax.inject.version>
+        <log4j.version>1.2.17</log4j.version>
+        <logback-elasticsearch-appender.version>1.4</logback-elasticsearch-appender.version>
+        <morphia.version>1.2.1</morphia.version>
+    </properties>
+</project>
