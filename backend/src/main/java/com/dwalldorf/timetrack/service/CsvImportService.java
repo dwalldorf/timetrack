@@ -56,7 +56,7 @@ public class CsvImportService {
             final String customer = getCleanString(entry.get(0));
             final String project = getCleanString(entry.get(1));
             final String task = getCleanString(entry.get(1));
-            final Long minutes = getLongFromString(entry.get(5));
+            final Integer minutes = getIntegerFromString(entry.get(5));
 
             if (customer != null && start != null && stop != null) {
                 WorklogEntry worklogEntry = new WorklogEntry()
@@ -87,12 +87,12 @@ public class CsvImportService {
                   .trim();
     }
 
-    private Long getLongFromString(String str) {
+    private Integer getIntegerFromString(String str) {
         str = getCleanString(str);
         if (str == null || str.isEmpty()) {
             return null;
         }
-        return Long.valueOf(str);
+        return Integer.valueOf(str);
     }
 
     private DateTime getDateTimeFromString(String str) {

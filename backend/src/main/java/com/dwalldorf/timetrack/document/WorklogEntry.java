@@ -20,16 +20,31 @@ public class WorklogEntry {
 
     private DateTime stop;
 
-    private Long minutes;
+    private Integer minutes;
 
     private String comment;
+
+    public WorklogEntry() {
+    }
+
+    public WorklogEntry(WorklogEntry worklogEntry) {
+        this.id = worklogEntry.getId();
+        this.customer = worklogEntry.getCustomer();
+        this.project = worklogEntry.getProject();
+        this.task = worklogEntry.getTask();
+        this.start = worklogEntry.getStart();
+        this.stop = worklogEntry.getStop();
+        this.minutes = worklogEntry.getMinutes();
+        this.comment = worklogEntry.getComment();
+    }
 
     public boolean equalsLogically(WorklogEntry entry) {
         return (entry.getCustomer().equals(this.getCustomer()) &&
                 entry.getProject().equals(this.getProject()) &&
                 entry.getStart().equals(this.getStart()) &&
                 entry.getStop().equals(this.getStop()) &&
-                entry.getMinutes().equals(this.getMinutes()));
+                entry.getMinutes().equals(this.getMinutes())
+        );
     }
 
     public String getId() {
@@ -86,11 +101,11 @@ public class WorklogEntry {
         return this;
     }
 
-    public Long getMinutes() {
+    public Integer getMinutes() {
         return minutes;
     }
 
-    public WorklogEntry setMinutes(Long minutes) {
+    public WorklogEntry setMinutes(Integer minutes) {
         this.minutes = minutes;
         return this;
     }

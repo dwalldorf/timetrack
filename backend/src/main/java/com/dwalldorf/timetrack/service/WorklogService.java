@@ -2,6 +2,7 @@ package com.dwalldorf.timetrack.service;
 
 import com.dwalldorf.timetrack.document.WorklogEntry;
 import com.dwalldorf.timetrack.repository.WorklogRepository;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.stereotype.Service;
@@ -17,15 +18,23 @@ public class WorklogService {
     }
 
     public List<WorklogEntry> diffWithDatabase(List<WorklogEntry> worklogEntries) {
-        findAll().forEach(dbEntry -> {
-            for (WorklogEntry worklogEntry : worklogEntries) {
-                if (worklogEntry.equalsLogically(dbEntry)) {
-                    worklogEntries.remove(worklogEntry);
+        ArrayList<WorklogEntry> retVal = new ArrayList<>();
+
+        List<WorklogEntry> dbEntries = findAll();
+        worklogEntries.forEach(entry -> {
+            boolean found = false;
+            for (WorklogEntry dbEntry : dbEntries) {
+                if (dbEntry.equalsLogically(entry)) {
+                    found = true;
                     break;
                 }
             }
+
+            if (!found) {
+                retVal.add(entry);
+            }
         });
-        return worklogEntries;
+        return retVal;
     }
 
     public List<WorklogEntry> save(List<WorklogEntry> worklogEntries) {
