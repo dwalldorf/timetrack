@@ -39,11 +39,6 @@ public class RandomUtil {
         return dataGenerator.nextInt(0, max);
     }
 
-    public <T extends Enum<?>> T randomEnum(final Class<T> clazz) {
-        Integer randomIndex = randomInt((clazz.getEnumConstants().length - 1));
-        return clazz.getEnumConstants()[randomIndex];
-    }
-
     public long randomLong(final long min, final long max) {
         return dataGenerator.nextLong(min, max);
     }
