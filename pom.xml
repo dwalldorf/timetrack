@@ -34,6 +34,11 @@
         <log4j.version>1.2.17</log4j.version>
         <logback-elasticsearch-appender.version>1.4</logback-elasticsearch-appender.version>
         <morphia.version>1.2.1</morphia.version>
+        <joda-time.version>2.9.7</joda-time.version>
+        <commons-math3.version>3.6.1</commons-math3.version>
+
+        <jsonpath.version>2.2.0</jsonpath.version>
+        <jsonsmart.version>2.2.1</jsonsmart.version>
     </properties>
 
     <build>

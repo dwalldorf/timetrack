@@ -11,3 +11,8 @@ run-env: up
 down:
 	docker-compose stop -t 3
 	docker-compose down
+
+mongo-connect:
+	docker-compose exec mongo mongo timetrack
+mongo-drop-database:
+	docker-compose exec mongo mongo timetrack --eval "db.dropDatabase()"
