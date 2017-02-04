@@ -56,7 +56,7 @@ public class CsvImportService {
             final String customer = getCleanString(entry.get(0));
             final String project = getCleanString(entry.get(1));
             final String task = getCleanString(entry.get(1));
-            final Integer minutes = getIntegerFromString(entry.get(5));
+            final Integer duration = getIntegerFromString(entry.get(5));
 
             if (customer != null && start != null && stop != null) {
                 WorklogEntry worklogEntry = new WorklogEntry()
@@ -65,7 +65,7 @@ public class CsvImportService {
                         .setTask(task)
                         .setStart(start)
                         .setStop(stop)
-                        .setMinutes(minutes)
+                        .setDuration(duration)
                         .setComment(comment);
 
                 retVal.add(worklogEntry);

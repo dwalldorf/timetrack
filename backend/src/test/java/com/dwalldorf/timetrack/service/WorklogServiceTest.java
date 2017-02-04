@@ -50,7 +50,7 @@ public class WorklogServiceTest extends BaseTest {
         WorklogEntry newEntry3_New = new WorklogEntry(dbEntry2);
         newEntry3_New.setId(null)
                      .setStart(new DateTime(newEntry3_New.getStop()).minusMinutes(5))
-                     .setMinutes(newEntry3_New.getMinutes() - 5);
+                     .setDuration(newEntry3_New.getDuration() - 5);
 
         final List<WorklogEntry> mockDbEntries = Arrays.asList(dbEntry1, dbEntry2, dbEntry3);
         final List<WorklogEntry> newEntries = Arrays.asList(newEntry1_Duplicate, newEntry2_New, newEntry3_New);
@@ -85,6 +85,6 @@ public class WorklogServiceTest extends BaseTest {
                 .setProject(project)
                 .setStart(start)
                 .setStop(stop)
-                .setMinutes(minutes);
+                .setDuration(minutes);
     }
 }

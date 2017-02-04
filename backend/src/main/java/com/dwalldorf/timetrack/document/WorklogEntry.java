@@ -20,7 +20,7 @@ public class WorklogEntry {
 
     private DateTime stop;
 
-    private Integer minutes;
+    private Integer duration;
 
     private String comment;
 
@@ -34,7 +34,7 @@ public class WorklogEntry {
         this.task = worklogEntry.getTask();
         this.start = worklogEntry.getStart();
         this.stop = worklogEntry.getStop();
-        this.minutes = worklogEntry.getMinutes();
+        this.duration = worklogEntry.getDuration();
         this.comment = worklogEntry.getComment();
     }
 
@@ -43,7 +43,7 @@ public class WorklogEntry {
                 entry.getProject().equals(this.getProject()) &&
                 entry.getStart().equals(this.getStart()) &&
                 entry.getStop().equals(this.getStop()) &&
-                entry.getMinutes().equals(this.getMinutes())
+                entry.getDuration().equals(this.getDuration())
         );
     }
 
@@ -101,12 +101,12 @@ public class WorklogEntry {
         return this;
     }
 
-    public Integer getMinutes() {
-        return minutes;
+    public Integer getDuration() {
+        return duration;
     }
 
-    public WorklogEntry setMinutes(Integer minutes) {
-        this.minutes = minutes;
+    public WorklogEntry setDuration(Integer duration) {
+        this.duration = duration;
         return this;
     }
 
