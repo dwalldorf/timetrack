@@ -4,7 +4,7 @@ services:
 
   # backend application
   backend:
-    build: ./backend
+    image: timetrack/backend:latest
     ports:
       - 8080:8080
     links:
@@ -13,15 +13,21 @@ services:
     volumes:
       - ./backend/target/log:/var/log
   mongo:
-    build: ./docker/containers/mongo
+    image: timetrack/mongo:latest
     ports:
       - 27017:27017
     volumes:
       - timetrack-mongo-data:/data/db
+  redis:
+    image: timetrack/redis:latest
+    ports:
+      - 6379:6379
+    volumes:
+      - timetrack-redis-data:/var/lib/redis
 
   # frontend
   frontend:
-    build: ./frontend
+    image: timetrack/frontend:latest
     ports:
       - 3000:3000
       - 3001:3001
@@ -30,22 +36,22 @@ services:
 
   # infra
   elasticsearch:
-      build: ./docker/containers/elasticsearch/
-      ports:
-        - 9200:9200
-        - 9300:9300
-      environment:
-        ES_JAVA_OPTS: "-Xms1g -Xmx1g"
-      volumes:
-        - timetrack-elastic-data:/usr/share/elasticsearch/data
-
+    image: timetrack/elasticsearch:latest
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    volumes:
+      - timetrack-elastic-data:/usr/share/elasticsearch/data
   kibana:
-    build: ./docker/containers/kibana/
+    image: timetrack/kibana:latest
     volumes:
      - ./docker/containers/kibana/config/:/opt/kibana/config/
     ports:
      - 5601:5601
 
 volumes:
+  timetrack-redis-data: {}
   timetrack-mongo-data: {}
   timetrack-elastic-data: {}
