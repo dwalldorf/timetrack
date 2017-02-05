@@ -24,7 +24,7 @@ public class UserControllerTest extends BaseTest {
     private UserController userController;
 
     @Test(expected = InvalidInputException.class)
-    public void testLoginThrowsInvalidInputException() {
+    public void testLogin_ThrowsInvalidInputException() {
         LoginDto loginDto = new LoginDto();
         loginDto.setUsername("");
         loginDto.setPassword("");
@@ -55,10 +55,5 @@ public class UserControllerTest extends BaseTest {
         when(userService.login(any(), any())).thenCallRealMethod();
 
         userController.login(loginDto);
-    }
-
-    @Test
-    public void testGetMe_NotLoggedIn() throws Exception {
-
     }
 }

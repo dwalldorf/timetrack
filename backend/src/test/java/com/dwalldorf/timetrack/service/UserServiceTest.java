@@ -149,7 +149,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void testLogin_PublishedLoginFailureEventWithWrongPassword() throws Exception {
+    public void testLogin_WrongPassword_PublishesLoginFailureEvent() throws Exception {
         when(userRepository.findByUserProperties_Username(eq(USERNAME))).thenReturn(createUser());
         userService.login(USERNAME, "wrongPassword");
 
@@ -163,7 +163,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void testLogin_PublishesAlreadyLoggedIn() throws Exception {
+    public void testLogin_AlreadyLoggedIn_Publishes() throws Exception {
         final String username = "someUsername";
         User mockUser = new User()
                 .setId("someId")
