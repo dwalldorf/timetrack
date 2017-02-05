@@ -31,7 +31,6 @@ public class ErrorController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleLoginRequireException(LoginRequiredException e) {
         eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(e.getMessage()));
-
         return NOT_FOUND;
     }
 
@@ -42,11 +41,10 @@ public class ErrorController {
         final User currentUser = userService.getCurrentUser();
 
         if (currentUser != null) {
-            eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(currentUser, e.getMessage()));
+            eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(currentUser, errorMessage));
         } else {
-            eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(e.getMessage()));
+            eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(errorMessage));
         }
-
         return NOT_FOUND;
     }
 }
