@@ -37,7 +37,7 @@ public class ErrorController {
 
     @ExceptionHandler(AdminRequiredException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleAdminRequireException(AdminRequiredException e) {
+    public String handleAdminRequiredException(AdminRequiredException e) {
         final String errorMessage = e.getMessage();
         final User currentUser = userService.getCurrentUser();
 
