@@ -1,6 +1,5 @@
 package com.dwalldorf.timetrack.service;
 
-import com.dwalldorf.timetrack.annotation.Log;
 import com.dwalldorf.timetrack.document.WorklogEntry;
 import com.dwalldorf.timetrack.exception.CsvParsingException;
 import java.io.BufferedReader;
@@ -14,14 +13,14 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class CsvImportService {
 
-    @Log
-    private Logger logger;
+    private static final Logger logger= LoggerFactory.getLogger(CsvImportService.class);
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
     private static final String SEPARATOR = ",";
