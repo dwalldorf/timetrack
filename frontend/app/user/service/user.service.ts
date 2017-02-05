@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
-import * as http from "selenium-webdriver/http";
 
 @Injectable()
 export class UserService {
@@ -16,6 +15,6 @@ export class UserService {
     }
 
     public getLoginLink(){
-        this.http.get("http://localhost:8080/login/steam_openid_url");
+        // this.http.get("http://localhost:8080/login/steam_openid_url");
     }
 }

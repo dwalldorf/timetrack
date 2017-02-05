@@ -1,5 +1,4 @@
 import {Component} from "@angular/core";
-import {isNullOrUndefined} from "util";
 import {UserService} from "./service/user.service";
 
 @Component({
@@ -15,7 +14,7 @@ export class LoginComponent {
 
     ngOnInit() {
         let claimedId = this.getQueryStringValue('openid.claimed_id');
-        if (!isNullOrUndefined(claimedId)) {
+        if (claimedId === undefined) {
             this.userService.login(claimedId);
         }
     }

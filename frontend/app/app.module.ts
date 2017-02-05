@@ -3,8 +3,8 @@ import {AppComponent} from "./app.component";
 import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
 import {AppRoutingModule} from "./app.routing.module";
-import {LoginModule} from "./user/login.module";
-import {HttpModule, Http} from "@angular/http";
+import {UserModule} from "./user/user.module";
+import {HttpModule} from "@angular/http";
 
 @NgModule({
     imports: [
@@ -13,12 +13,11 @@ import {HttpModule, Http} from "@angular/http";
         FormsModule,
         HttpModule,
 
-        LoginModule
+        UserModule
     ],
     declarations: [
         AppComponent
     ],
-    providers: [Http, HttpModule],
     bootstrap: [AppComponent]
 })
 export class AppModule {

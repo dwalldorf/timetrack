@@ -13,5 +13,5 @@ import {Http, HttpModule} from "@angular/http";
         UserService,
     ]
 })
-export class LoginModule {
+export class UserModule {
 }
