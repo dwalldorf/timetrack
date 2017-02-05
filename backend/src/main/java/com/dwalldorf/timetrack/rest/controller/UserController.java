@@ -1,5 +1,7 @@
 package com.dwalldorf.timetrack.rest.controller;
 
+import static org.springframework.http.HttpStatus.OK;
+
 import com.dwalldorf.timetrack.annotation.RequireLogin;
 import com.dwalldorf.timetrack.document.User;
 import com.dwalldorf.timetrack.exception.InvalidInputException;
@@ -47,7 +49,7 @@ public class UserController {
             throw new InvalidInputException();
         }
 
-        return new ResponseEntity<>(UserDto.fromUser(loginUser), HttpStatus.OK);
+        return new ResponseEntity<>(UserDto.fromUser(loginUser), OK);
     }
 
     @GetMapping(URI_ME)
@@ -61,6 +63,6 @@ public class UserController {
     @RequireLogin
     public ResponseEntity logout() {
         userService.logout();
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(OK);
     }
 }

@@ -62,6 +62,11 @@ public class UserService {
     }
 
     public User login(final String username, final String password) {
+        if (getCurrentUser() != null) {
+            eventPublisher.publishEvent(UserAuthenticationEvent.loginFailedEvent(username, "user already logged in"));
+            return getCurrentUser();
+        }
+
         User dbUser = userRepository.findByUserProperties_Username(username);
         if (dbUser == null) {
             eventPublisher.publishEvent(UserAuthenticationEvent.loginFailedEvent(username, "username not found"));

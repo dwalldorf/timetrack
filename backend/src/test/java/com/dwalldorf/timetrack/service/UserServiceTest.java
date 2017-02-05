@@ -1,8 +1,13 @@
 package com.dwalldorf.timetrack.service;
 
+import static com.dwalldorf.timetrack.event.ActionEvent.Action.LOGIN;
+import static com.dwalldorf.timetrack.event.ActionEvent.Action.LOGOUT;
+import static com.dwalldorf.timetrack.event.ActionEvent.Result.FAILURE;
+import static com.dwalldorf.timetrack.event.ActionEvent.Result.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -10,11 +15,14 @@ import static org.mockito.Mockito.*;
 
 import com.dwalldorf.timetrack.BaseTest;
 import com.dwalldorf.timetrack.document.User;
+import com.dwalldorf.timetrack.document.UserProperties;
+import com.dwalldorf.timetrack.event.UserAuthenticationEvent;
 import com.dwalldorf.timetrack.exception.InvalidInputException;
 import com.dwalldorf.timetrack.repository.UserRepository;
 import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
@@ -125,7 +133,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void testLoginReturnsNullIfUserNotFound() {
+    public void testLogin_ReturnsNullIfUserNotFound() {
         when(userRepository.findByUserProperties_Username(eq(USERNAME))).thenReturn(null);
         User retVal = userService.login(USERNAME, PASSWORD);
 
@@ -133,7 +141,7 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
-    public void testLoginReturnsNullIfUserFoundButWrongPassword() {
+    public void testLogin_ReturnsNullIfUserFoundButWrongPassword() {
         when(userRepository.findByUserProperties_Username(eq(USERNAME))).thenReturn(createUser());
 
         User retVal = userService.login(USERNAME, "wrongPassword");
@@ -141,10 +149,51 @@ public class UserServiceTest extends BaseTest {
     }
 
     @Test
+    public void testLogin_PublishedLoginFailureEventWithWrongPassword() throws Exception {
+        when(userRepository.findByUserProperties_Username(eq(USERNAME))).thenReturn(createUser());
+        userService.login(USERNAME, "wrongPassword");
+
+        ArgumentCaptor<UserAuthenticationEvent> captor = ArgumentCaptor.forClass(UserAuthenticationEvent.class);
+        verify(eventPublisher).publishEvent(captor.capture());
+
+        UserAuthenticationEvent event = captor.getValue();
+        assertEquals(LOGIN, event.getAction());
+        assertEquals(FAILURE, event.getResult());
+        assertTrue(event.getMessage().contains("wrong password"));
+    }
+
+    @Test
+    public void testLogin_PublishesAlreadyLoggedIn() throws Exception {
+        final String username = "someUsername";
+        User mockUser = new User()
+                .setId("someId")
+                .setUserProperties(
+                        new UserProperties()
+                                .setUsername(username)
+                );
+        when(httpSession.getAttribute("user")).thenReturn(mockUser);
+        ArgumentCaptor<UserAuthenticationEvent> captor = ArgumentCaptor.forClass(UserAuthenticationEvent.class);
+
+        userService.login(username, "somePassword");
+        verify(eventPublisher).publishEvent(captor.capture());
+
+        UserAuthenticationEvent event = captor.getValue();
+        assertEquals(LOGIN, event.getAction());
+        assertEquals(FAILURE, event.getResult());
+        assertTrue(event.getMessage().contains("already logged in"));
+    }
+
+    @Test
     public void testLogout_PublishesLogoutEvent() throws Exception {
+        ArgumentCaptor<UserAuthenticationEvent> captor = ArgumentCaptor.forClass(UserAuthenticationEvent.class);
         userService.logout();
 
         verify(httpSession).invalidate();
+        verify(eventPublisher).publishEvent(captor.capture());
+
+        UserAuthenticationEvent event = captor.getValue();
+        assertEquals(LOGOUT, event.getAction());
+        assertEquals(SUCCESS, event.getResult());
     }
 
     private User createUser() {
