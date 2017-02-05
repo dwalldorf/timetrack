@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.rest.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -60,6 +61,10 @@ public abstract class BaseControllerIT {
 
     protected ResultActions doPut(final String uri, final Object body) throws Exception {
         return prepareRequest(put(uri), body);
+    }
+
+    protected ResultActions doDelete(final String uri) throws Exception {
+        return prepareRequest(delete(uri));
     }
 
     private ResultActions prepareRequest(MockHttpServletRequestBuilder builder) throws Exception {
