@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
 
-public class UserControllerIT extends BaseTest {
+public class UserControllerTest extends BaseTest {
 
     @Mock
     private UserService userService;
@@ -55,5 +55,10 @@ public class UserControllerIT extends BaseTest {
         when(userService.login(any(), any())).thenCallRealMethod();
 
         userController.login(loginDto);
+    }
+
+    @Test
+    public void testGetMe_NotLoggedIn() throws Exception {
+
     }
 }

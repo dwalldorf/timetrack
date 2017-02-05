@@ -1,6 +1,7 @@
 package com.dwalldorf.timetrack;
 
 import com.dwalldorf.timetrack.document.WorklogEntryTest;
+import com.dwalldorf.timetrack.rest.controller.UserControllerTest;
 import com.dwalldorf.timetrack.service.CsvImportServiceTest;
 import com.dwalldorf.timetrack.service.PasswordServiceTest;
 import com.dwalldorf.timetrack.service.UserServiceTest;
@@ -12,6 +13,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         WorklogEntryTest.class,
+
+        UserControllerTest.class,
 
         CsvImportServiceTest.class,
         PasswordServiceTest.class,

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class UserAuthenticationEventHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(UserAuthenticationEventHandler.class);
+    private static final Marker marker = MarkerFactory.getMarker("user_auth");
 
     @EventListener(UserAuthenticationEvent.class)
     public void onUserAuthenticationEvent(final UserAuthenticationEvent authenticationEvent) {
@@ -59,8 +60,7 @@ public class UserAuthenticationEventHandler {
         }
     }
 
-    private void logAuthenticationInfo(String format, Object... arguments) {
-        Marker marker = MarkerFactory.getMarker("user_auth");
+    private void logAuthenticationInfo(final String format, final Object... arguments) {
         logger.info(marker, format, arguments);
     }
 }

@@ -5,9 +5,9 @@ import com.dwalldorf.timetrack.document.UserProperties;
 import com.dwalldorf.timetrack.event.UserAuthenticationEvent;
 import com.dwalldorf.timetrack.exception.InvalidInputException;
 import com.dwalldorf.timetrack.repository.UserRepository;
-import java.util.Date;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import org.joda.time.DateTime;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +50,7 @@ public class UserService {
             throw new InvalidInputException(message);
         }
 
-        properties.setRegistration(new Date())
+        properties.setRegistration(new DateTime())
                   .setSalt(passwordService.createSalt())
                   .setHashedPassword(
                           passwordService.hash(properties.getPassword().toCharArray(), properties.getSalt())

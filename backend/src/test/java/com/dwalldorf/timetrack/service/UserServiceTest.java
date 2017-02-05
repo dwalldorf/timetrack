@@ -12,8 +12,8 @@ import com.dwalldorf.timetrack.BaseTest;
 import com.dwalldorf.timetrack.document.User;
 import com.dwalldorf.timetrack.exception.InvalidInputException;
 import com.dwalldorf.timetrack.repository.UserRepository;
-import java.util.Date;
 import javax.servlet.http.HttpSession;
+import org.joda.time.DateTime;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -25,7 +25,7 @@ public class UserServiceTest extends BaseTest {
     private final static String ID = "someId";
     private final static String USERNAME = "testUser";
     private final static String EMAIL = "max@mustermann.org";
-    private final static Date REGISTRATION = new Date();
+    private final static DateTime REGISTRATION = new DateTime();
     private final static String PASSWORD = "notSoSecurePassword123";
     private final static byte[] SALT = "salt".getBytes();
     private final static byte[] HASHED_PASSWORD = "hashedPassword".getBytes();

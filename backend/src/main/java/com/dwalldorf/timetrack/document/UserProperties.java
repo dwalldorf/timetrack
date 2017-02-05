@@ -1,9 +1,9 @@
 package com.dwalldorf.timetrack.document;
 
-import java.util.Date;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Reference;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -30,11 +30,11 @@ public class UserProperties {
     private byte[] salt;
 
     @NotEmpty
-    private Date registration;
+    private DateTime registration;
 
-    private Date firstLogin;
+    private DateTime firstLogin;
 
-    private Date lastLogin;
+    private DateTime lastLogin;
 
     private boolean confirmedEmail = false;
 
@@ -86,29 +86,29 @@ public class UserProperties {
         return this;
     }
 
-    public Date getRegistration() {
+    public DateTime getRegistration() {
         return registration;
     }
 
-    public UserProperties setRegistration(Date registration) {
+    public UserProperties setRegistration(DateTime registration) {
         this.registration = registration;
         return this;
     }
 
-    public Date getFirstLogin() {
+    public DateTime getFirstLogin() {
         return firstLogin;
     }
 
-    public UserProperties setFirstLogin(Date firstLogin) {
+    public UserProperties setFirstLogin(DateTime firstLogin) {
         this.firstLogin = firstLogin;
         return this;
     }
 
-    public Date getLastLogin() {
+    public DateTime getLastLogin() {
         return lastLogin;
     }
 
-    public UserProperties setLastLogin(Date lastLogin) {
+    public UserProperties setLastLogin(DateTime lastLogin) {
         this.lastLogin = lastLogin;
         return this;
     }

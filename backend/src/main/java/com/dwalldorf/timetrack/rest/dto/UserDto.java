@@ -4,10 +4,10 @@ import com.dwalldorf.timetrack.document.User;
 import com.dwalldorf.timetrack.document.UserProperties;
 import com.dwalldorf.timetrack.document.UserSettings;
 import java.io.Serializable;
-import java.util.Date;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
 import org.springframework.data.annotation.Transient;
 
 public class UserDto implements Serializable {
@@ -23,10 +23,9 @@ public class UserDto implements Serializable {
     private String email;
 
     @Transient
-    @NotEmpty
     private String password;
 
-    private Date registration;
+    private DateTime registration;
 
     private boolean confirmedEmail;
 
@@ -103,11 +102,11 @@ public class UserDto implements Serializable {
         return this;
     }
 
-    public Date getRegistration() {
+    public DateTime getRegistration() {
         return registration;
     }
 
-    public UserDto setRegistration(Date registration) {
+    public UserDto setRegistration(DateTime registration) {
         this.registration = registration;
         return this;
     }
