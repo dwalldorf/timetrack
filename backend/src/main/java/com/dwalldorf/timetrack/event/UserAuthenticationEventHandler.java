@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,6 +14,7 @@ public class UserAuthenticationEventHandler {
     private static final Logger logger = LoggerFactory.getLogger(UserAuthenticationEventHandler.class);
     private static final Marker marker = MarkerFactory.getMarker("user_auth");
 
+    @Async
     @EventListener(UserAuthenticationEvent.class)
     public void onUserAuthenticationEvent(final UserAuthenticationEvent authenticationEvent) {
         switch (authenticationEvent.getAction()) {
