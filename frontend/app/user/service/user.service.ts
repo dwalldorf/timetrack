@@ -1,20 +1,21 @@
 import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
+import {User} from "../model/user";
+import {HttpService} from "../../core/service/http.service";
 
 @Injectable()
 export class UserService {
 
-    private http: Http;
+    private httpService: HttpService;
 
-    constructor(http:Http){
-        this.http = http;
+    constructor(httpService: HttpService) {
+        this.httpService = httpService;
     }
 
-    public login(claimedId: string) {
-
+    getCurrentUser() {
+        return this.httpService.get('http://localhost:8080/users/me');
     }
 
-    public getLoginLink(){
-        // this.http.get("http://localhost:8080/login/steam_openid_url");
+    login(user: User) {
+        return this.httpService.post('http://localhost:8080/users/login', user);
     }
 }

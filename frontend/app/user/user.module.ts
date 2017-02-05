@@ -1,15 +1,20 @@
 import {NgModule} from "@angular/core";
 import {LoginComponent} from "./login.component";
 import {UserService} from "./service/user.service";
-import {Http, HttpModule} from "@angular/http";
+import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
+import {HttpModule} from "@angular/http";
 
 @NgModule({
     declarations: [
         LoginComponent
     ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        HttpModule
+    ],
     providers: [
-        Http,
-        HttpModule,
         UserService,
     ]
 })
