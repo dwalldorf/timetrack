@@ -1,6 +1,7 @@
 package com.dwalldorf.timetrack.rest.controller;
 
 import static com.dwalldorf.timetrack.rest.controller.UserController.BASE_URI;
+import static com.dwalldorf.timetrack.rest.controller.UserController.URI_LOGIN;
 import static com.dwalldorf.timetrack.rest.controller.UserController.URI_LOGOUT;
 import static com.dwalldorf.timetrack.rest.controller.UserController.URI_ME;
 import static org.hamcrest.CoreMatchers.is;
@@ -11,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.dwalldorf.timetrack.document.User;
 import com.dwalldorf.timetrack.document.UserProperties;
 import com.dwalldorf.timetrack.document.UserSettings;
+import com.dwalldorf.timetrack.rest.dto.LoginDto;
 import com.dwalldorf.timetrack.rest.dto.UserDto;
 import com.dwalldorf.timetrack.service.UserService;
 import org.joda.time.DateTime;
@@ -60,6 +62,30 @@ public class UserControllerIT extends BaseControllerIT {
                 .setEmail("name@host.tld");
 
         doPost(BASE_URI, userDto)
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testLogin_Success() throws Exception {
+        final String username = "username";
+        final String password = "password";
+        LoginDto loginDto = new LoginDto()
+                .setUsername(username)
+                .setPassword(password);
+        when(userService.login(eq(username), eq(password))).thenReturn(createUser());
+
+        doPost(BASE_URI + URI_LOGIN, loginDto)
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testLogin_Failure() throws Exception {
+        LoginDto loginDto = new LoginDto()
+                .setUsername("username")
+                .setPassword("password");
+        when(userService.login(anyString(), anyString())).thenReturn(null);
+
+        doPost(BASE_URI + URI_LOGIN, loginDto)
                 .andExpect(status().isBadRequest());
     }
 

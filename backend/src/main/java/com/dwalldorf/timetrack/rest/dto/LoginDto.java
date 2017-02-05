@@ -12,15 +12,17 @@ public class LoginDto implements Serializable {
         return username;
     }
 
-    public void setUsername(String username) {
+    public LoginDto setUsername(String username) {
         this.username = username;
+        return this;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public LoginDto setPassword(String password) {
         this.password = password;
+        return this;
     }
 }
