@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ErrorController {
 
-    private final static String NOT_FOUND = "NOT FOUND";
+    private final static String EMPTY_RESULT = "";
 
     private final ApplicationEventPublisher eventPublisher;
 
@@ -31,20 +31,20 @@ public class ErrorController {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleLoginRequireException(LoginRequiredException e) {
         eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(e.getMessage()));
-        return NOT_FOUND;
+        return EMPTY_RESULT;
     }
 
     @ExceptionHandler(AdminRequiredException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public String handleAdminRequiredException(AdminRequiredException e) {
         final String errorMessage = e.getMessage();
-        final User currentUser = userService.getCurrentUser();
+        final User user = userService.getCurrentUser();
 
-        if (currentUser != null) {
-            eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(currentUser, errorMessage));
+        if (user != null) {
+            eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(user, errorMessage));
         } else {
             eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(errorMessage));
         }
-        return NOT_FOUND;
+        return EMPTY_RESULT;
     }
 }

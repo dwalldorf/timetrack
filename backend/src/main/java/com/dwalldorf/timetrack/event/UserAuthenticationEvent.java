@@ -16,13 +16,20 @@ public class UserAuthenticationEvent extends ActionEvent {
 
     private final String message;
 
-    UserAuthenticationEvent(final Action action, final User user, final Result result) {
+    private UserAuthenticationEvent(final Action action, final User user, final Result result) {
         this(action, user, result, null);
     }
 
-    UserAuthenticationEvent(final Action action, final User user, final Result result, final String message) {
+    private UserAuthenticationEvent(final Action action, final User user, final Result result, final String message) {
         super(action, user, result);
         this.message = message;
+    }
+
+    public String getMessage() {
+        if (message == null) {
+            return MESSAGE_NONE;
+        }
+        return message;
     }
 
     public static UserAuthenticationEvent loginSuccessEvent(final User user) {
@@ -49,13 +56,5 @@ public class UserAuthenticationEvent extends ActionEvent {
         return new User().setUserProperties(
                 new UserProperties().setUsername(username)
         );
-    }
-
-    public String getMessage() {
-        if (message == null) {
-            return MESSAGE_NONE;
-        }
-
-        return message;
     }
 }
