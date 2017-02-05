@@ -23,6 +23,7 @@ public class UserDto implements Serializable {
     private String email;
 
     @Transient
+    @NotEmpty
     private String password;
 
     private DateTime registration;

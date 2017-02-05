@@ -11,7 +11,8 @@ public class UserSettings {
         return admin;
     }
 
-    public void setAdmin(boolean admin) {
+    public UserSettings setAdmin(boolean admin) {
         this.admin = admin;
+        return this;
     }
 }
