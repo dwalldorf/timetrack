@@ -7,6 +7,7 @@ import {UserModule} from "./user/user.module";
 import {XHRBackend, RequestOptions} from "@angular/http";
 import {CommonModule} from "@angular/common";
 import {HttpService} from "./core/service/http.service";
+import {DashboardModule} from "./dashboard/dashboard.module";
 
 @NgModule({
     imports: [
@@ -15,6 +16,7 @@ import {HttpService} from "./core/service/http.service";
         CommonModule,
         FormsModule,
 
+        DashboardModule,
         UserModule
     ],
     providers: [

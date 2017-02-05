@@ -18,4 +18,8 @@ export class UserService {
     login(user: User) {
         return this.httpService.post('http://localhost:8080/users/login', user);
     }
+
+    logout() {
+        return this.httpService.delete('http://localhost:8080/users/logout');
+    }
 }
