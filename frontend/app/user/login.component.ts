@@ -1,22 +1,22 @@
 import {Component} from "@angular/core";
 import {isNullOrUndefined} from "util";
-import {LoginService} from "./service/login.service";
+import {UserService} from "./service/user.service";
 
 @Component({
     template: ''
 })
 export class LoginComponent {
 
-    private loginService: LoginService;
+    private userService: UserService;
 
-    constructor(loginService: LoginService) {
-        this.loginService = loginService;
+    constructor(loginService: UserService) {
+        this.userService = loginService;
     }
 
     ngOnInit() {
         let claimedId = this.getQueryStringValue('openid.claimed_id');
         if (!isNullOrUndefined(claimedId)) {
-            this.loginService.login(claimedId);
+            this.userService.login(claimedId);
         }
     }
 

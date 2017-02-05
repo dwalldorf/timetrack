@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {LoginService} from "./login/service/login.service";
+import {UserService} from "./user/service/user.service";
 
 @Component({
     selector: 'timetrack-app',
@@ -7,14 +7,14 @@ import {LoginService} from "./login/service/login.service";
 })
 export class AppComponent {
 
-    private loginService: LoginService;
+    private userService: UserService;
 
-    constructor(loginService: LoginService) {
-        this.loginService = loginService;
+    constructor(loginService: UserService) {
+        this.userService = loginService;
     }
 
     getSteamOpenIdLink() {
-        this.loginService.getLoginLink();
+        this.userService.getLoginLink();
 
         let uri = '';
         let str = 'http://steamcommunity.com/openid/login?openid.ns=http:%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http:%2F%2Flocalhost:3000/login&openid.identity=http:%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http:%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select';

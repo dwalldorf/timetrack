@@ -3,7 +3,7 @@ import {Http} from "@angular/http";
 import * as http from "selenium-webdriver/http";
 
 @Injectable()
-export class LoginService {
+export class UserService {
 
     private http: Http;
 
