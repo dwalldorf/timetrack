@@ -10,7 +10,7 @@ To use kibana, you need the container running and at start the backend applicati
 so there are logs to create the index pattern. In doubt, `make up` will get you there.
 
 Open kibana in your browser and configure the index pattern `timetrack-*`.
-Now you can go to Management -> Saved Objects and import [savedObjects.json](/containers/kibana/data/savedObjects.json).
+Now you can go to Management -> Saved Objects and import [savedObjects.json](data/savedObjects.json).
 
 ---
 [to docker](/docker)
