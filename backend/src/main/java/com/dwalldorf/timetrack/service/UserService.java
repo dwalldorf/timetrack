@@ -2,7 +2,6 @@ package com.dwalldorf.timetrack.service;
 
 import com.dwalldorf.timetrack.document.User;
 import com.dwalldorf.timetrack.document.UserProperties;
-import com.dwalldorf.timetrack.event.LoginFailedEvent;
 import com.dwalldorf.timetrack.event.UserAuthenticationEvent;
 import com.dwalldorf.timetrack.exception.InvalidInputException;
 import com.dwalldorf.timetrack.repository.UserRepository;
@@ -45,7 +44,10 @@ public class UserService {
 
         User byUsernameOrEmail = userRepository.findByUserProperties_Username(properties.getUsername());
         if (byUsernameOrEmail != null) {
-            throw new InvalidInputException("username or email already in use");
+            final String message = "username or email already in use";
+
+            eventPublisher.publishEvent(UserAuthenticationEvent.registrationFailedEvent(properties.getUsername(), message));
+            throw new InvalidInputException(message);
         }
 
         properties.setRegistration(new Date())
@@ -53,17 +55,16 @@ public class UserService {
                   .setHashedPassword(
                           passwordService.hash(properties.getPassword().toCharArray(), properties.getSalt())
                   );
-
         User persistedUser = userRepository.save(user);
 
-        eventPublisher.publishEvent(UserAuthenticationEvent.registerEvent(persistedUser));
+        eventPublisher.publishEvent(UserAuthenticationEvent.registrationSuccessEvent(persistedUser));
         return getSecureUserCopy(persistedUser);
     }
 
     public User login(final String username, final String password) {
         User dbUser = userRepository.findByUserProperties_Username(username);
         if (dbUser == null) {
-            eventPublisher.publishEvent(new LoginFailedEvent(username));
+            eventPublisher.publishEvent(UserAuthenticationEvent.loginFailedEvent(username, "username not found"));
             return null;
         }
 
@@ -74,7 +75,7 @@ public class UserService {
                 properties.getHashedPassword()
         );
         if (!passwordMatch) {
-            eventPublisher.publishEvent(UserAuthenticationEvent.loginFailureEvent(username));
+            eventPublisher.publishEvent(UserAuthenticationEvent.loginFailedEvent(username, "wrong password"));
             return null;
         }
 

@@ -1,21 +1,13 @@
 package com.dwalldorf.timetrack.event;
 
-
 import com.dwalldorf.timetrack.document.User;
 
-public abstract class UserEvent {
-
-    private final Action action;
-
-    private final User actor;
-
-    private final Result result;
+public abstract class ActionEvent {
 
     public enum Action {
         LOGIN,
         LOGOUT,
-        REGISTER,
-        CREATED
+        REGISTER
     }
 
     public enum Result {
@@ -23,7 +15,13 @@ public abstract class UserEvent {
         FAILURE
     }
 
-    public UserEvent(Action action, User actor, Result result) {
+    private final Action action;
+
+    private final User actor;
+
+    private final Result result;
+
+    protected ActionEvent(Action action, User actor, Result result) {
         this.action = action;
         this.actor = actor;
         this.result = result;
@@ -33,15 +31,18 @@ public abstract class UserEvent {
         return action;
     }
 
-    public boolean hasUser() {
-        return actor != null;
-    }
-
     public User getActor() {
         return actor;
     }
 
     public Result getResult() {
         return result;
+    }
+
+    public String getUsername() {
+        if (actor == null || actor.getUserProperties() == null || actor.getUserProperties().getUsername() == null) {
+            return "";
+        }
+        return actor.getUserProperties().getUsername();
     }
 }
