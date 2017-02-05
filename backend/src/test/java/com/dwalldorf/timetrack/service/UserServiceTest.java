@@ -140,6 +140,13 @@ public class UserServiceTest extends BaseTest {
         assertNull(retVal);
     }
 
+    @Test
+    public void testLogout_PublishesLogoutEvent() throws Exception {
+        userService.logout();
+
+        verify(httpSession).invalidate();
+    }
+
     private User createUser() {
         User user = new User(ID);
         user.getUserProperties()

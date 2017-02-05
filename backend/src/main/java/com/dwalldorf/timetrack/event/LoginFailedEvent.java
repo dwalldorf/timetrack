@@ -1,11 +1,11 @@
 package com.dwalldorf.timetrack.event;
 
-public class LoginFailedEvent extends UserEvent {
+public class LoginFailedEvent extends UserAuthenticationEvent {
 
     private final String loginName;
 
     public LoginFailedEvent(final String loginName) {
-        super(Action.LOGIN, null);
+        super(Action.LOGIN, null, Result.FAILURE);
         this.loginName = loginName;
     }
 

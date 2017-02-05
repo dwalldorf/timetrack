@@ -7,7 +7,9 @@ public abstract class UserEvent {
 
     private final Action action;
 
-    private final User user;
+    private final User actor;
+
+    private final Result result;
 
     public enum Action {
         LOGIN,
@@ -16,9 +18,15 @@ public abstract class UserEvent {
         CREATED
     }
 
-    public UserEvent(Action action, User user) {
+    public enum Result {
+        SUCCESS,
+        FAILURE
+    }
+
+    public UserEvent(Action action, User actor, Result result) {
         this.action = action;
-        this.user = user;
+        this.actor = actor;
+        this.result = result;
     }
 
     public Action getAction() {
@@ -26,10 +34,14 @@ public abstract class UserEvent {
     }
 
     public boolean hasUser() {
-        return user != null;
+        return actor != null;
     }
 
-    public User getUser() {
-        return user;
+    public User getActor() {
+        return actor;
+    }
+
+    public Result getResult() {
+        return result;
     }
 }

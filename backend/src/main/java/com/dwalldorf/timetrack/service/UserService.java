@@ -3,9 +3,7 @@ package com.dwalldorf.timetrack.service;
 import com.dwalldorf.timetrack.document.User;
 import com.dwalldorf.timetrack.document.UserProperties;
 import com.dwalldorf.timetrack.event.LoginFailedEvent;
-import com.dwalldorf.timetrack.event.UserLoginEvent;
-import com.dwalldorf.timetrack.event.UserLogoutEvent;
-import com.dwalldorf.timetrack.event.UserRegisterEvent;
+import com.dwalldorf.timetrack.event.UserAuthenticationEvent;
 import com.dwalldorf.timetrack.exception.InvalidInputException;
 import com.dwalldorf.timetrack.repository.UserRepository;
 import java.util.Date;
@@ -58,7 +56,7 @@ public class UserService {
 
         User persistedUser = userRepository.save(user);
 
-        eventPublisher.publishEvent(new UserRegisterEvent(persistedUser));
+        eventPublisher.publishEvent(UserAuthenticationEvent.registerEvent(persistedUser));
         return getSecureUserCopy(persistedUser);
     }
 
@@ -76,7 +74,7 @@ public class UserService {
                 properties.getHashedPassword()
         );
         if (!passwordMatch) {
-            eventPublisher.publishEvent(new LoginFailedEvent(username));
+            eventPublisher.publishEvent(UserAuthenticationEvent.loginFailureEvent(username));
             return null;
         }
 
@@ -85,7 +83,7 @@ public class UserService {
     }
 
     public void logout() {
-        eventPublisher.publishEvent(new UserLogoutEvent(getCurrentUser()));
+        eventPublisher.publishEvent(UserAuthenticationEvent.logoutEvent(getCurrentUser()));
         httpSession.invalidate();
     }
 
@@ -93,7 +91,7 @@ public class UserService {
         user = getSecureUserCopy(user);
         httpSession.setAttribute(SESSION_USER_ATTRIBUTE, user);
 
-        eventPublisher.publishEvent(new UserLoginEvent(user));
+        eventPublisher.publishEvent(UserAuthenticationEvent.loginSuccessEvent(user));
     }
 
     public User getCurrentUser() {
