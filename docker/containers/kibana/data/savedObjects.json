@@ -1,0 +1,211 @@
+[
+  {
+    "_id": "67a2e1f0-ea50-11e6-80c3-a5b5c71c0ea8",
+    "_type": "dashboard",
+    "_source": {
+      "title": "Logs",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"size_x\":12,\"size_y\":10,\"panelIndex\":1,\"type\":\"search\",\"id\":\"49359370-ea50-11e6-80c3-a5b5c71c0ea8\",\"col\":1,\"row\":1,\"columns\":[\"_id\",\"host\",\"severity\",\"logger\",\"message\"],\"sort\":[\"@timestamp\",\"desc\"]}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "cf9dcb00-eb98-11e6-82d0-19ec596ae470",
+    "_type": "dashboard",
+    "_source": {
+      "title": "user auth",
+      "hits": 0,
+      "description": "",
+      "panelsJSON": "[{\"col\":1,\"columns\":[\"logger\",\"host\",\"message\"],\"id\":\"c2834d00-eb98-11e6-82d0-19ec596ae470\",\"panelIndex\":1,\"row\":1,\"size_x\":9,\"size_y\":6,\"sort\":[\"@timestamp\",\"desc\"],\"type\":\"search\"},{\"col\":10,\"id\":\"b42a7b40-eb9b-11e6-a3f9-ad62b95fa7fd\",\"panelIndex\":2,\"row\":1,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"col\":10,\"id\":\"0948a480-eb9c-11e6-a3f9-ad62b95fa7fd\",\"panelIndex\":3,\"row\":3,\"size_x\":3,\"size_y\":2,\"type\":\"visualization\"},{\"size_x\":12,\"size_y\":3,\"panelIndex\":4,\"type\":\"visualization\",\"id\":\"277e72d0-eb9d-11e6-b146-c5306a4ec919\",\"col\":1,\"row\":7}]",
+      "optionsJSON": "{\"darkTheme\":false}",
+      "uiStateJSON": "{\"P-2\":{\"spy\":{\"mode\":{\"fill\":false,\"name\":null}}}}",
+      "version": 1,
+      "timeRestore": false,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[{\"query\":{\"query_string\":{\"analyze_wildcard\":true,\"query\":\"*\"}}}]}"
+      }
+    }
+  },
+  {
+    "_id": "49359370-ea50-11e6-80c3-a5b5c71c0ea8",
+    "_type": "search",
+    "_source": {
+      "title": "all-logs",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "@timestamp",
+        "_id",
+        "_index",
+        "host",
+        "logger",
+        "message",
+        "severity"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"timetrack-*\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"*\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "fd129310-eb9b-11e6-a3f9-ad62b95fa7fd",
+    "_type": "search",
+    "_source": {
+      "title": "registration - failure",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"timetrack-*\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"marker: user_auth && message: \\\"registration\\\" && message: \\\"failure\\\"\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "ec71a2e0-eb9a-11e6-a3f9-ad62b95fa7fd",
+    "_type": "search",
+    "_source": {
+      "title": "login - success",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"timetrack-*\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"marker: user_auth && message: \\\"Successful login\\\"\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "e8746820-eb9b-11e6-a3f9-ad62b95fa7fd",
+    "_type": "search",
+    "_source": {
+      "title": "registration - success",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"timetrack-*\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"marker: user_auth && message: \\\"Successful registration\\\"\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "049cec30-eb9b-11e6-a3f9-ad62b95fa7fd",
+    "_type": "search",
+    "_source": {
+      "title": "login - fail - wrong password",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "_source"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"timetrack-*\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"marker: user_auth && message: \\\"login\\\" && message: \\\"wrong password\\\"\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "c2834d00-eb98-11e6-82d0-19ec596ae470",
+    "_type": "search",
+    "_source": {
+      "title": "login - fail",
+      "description": "",
+      "hits": 0,
+      "columns": [
+        "@timestamp",
+        "logger",
+        "message",
+        "marker",
+        "host"
+      ],
+      "sort": [
+        "@timestamp",
+        "desc"
+      ],
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"index\":\"timetrack-*\",\"filter\":[],\"highlight\":{\"pre_tags\":[\"@kibana-highlighted-field@\"],\"post_tags\":[\"@/kibana-highlighted-field@\"],\"fields\":{\"*\":{}},\"require_field_match\":false,\"fragment_size\":2147483647},\"query\":{\"query_string\":{\"query\":\"marker: user_auth && message: \\\"login\\\" && message: \\\"failure\\\"\",\"analyze_wildcard\":true}}}"
+      }
+    }
+  },
+  {
+    "_id": "b42a7b40-eb9b-11e6-a3f9-ad62b95fa7fd",
+    "_type": "visualization",
+    "_source": {
+      "title": "count - logins",
+      "visState": "{\"title\":\"count - logins\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":\"83\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Logins\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "ec71a2e0-eb9a-11e6-a3f9-ad62b95fa7fd",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "277e72d0-eb9d-11e6-b146-c5306a4ec919",
+    "_type": "visualization",
+    "_source": {
+      "title": "logins per hour",
+      "visState": "{\"title\":\"logins per hour\",\"type\":\"line\",\"params\":{\"addLegend\":true,\"addTimeMarker\":true,\"addTooltip\":true,\"defaultYExtents\":false,\"drawLinesBetweenPoints\":true,\"interpolate\":\"cardinal\",\"legendPosition\":\"right\",\"radiusRatio\":9,\"scale\":\"linear\",\"setYExtents\":false,\"showCircles\":true,\"times\":[],\"orderBucketsBySum\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Logins\"}},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"schema\":\"segment\",\"params\":{\"field\":\"@timestamp\",\"interval\":\"h\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{},\"customLabel\":\"per hour\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "ec71a2e0-eb9a-11e6-a3f9-ad62b95fa7fd",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  },
+  {
+    "_id": "0948a480-eb9c-11e6-a3f9-ad62b95fa7fd",
+    "_type": "visualization",
+    "_source": {
+      "title": "count - registrations",
+      "visState": "{\"title\":\"count - registrations\",\"type\":\"metric\",\"params\":{\"handleNoResults\":true,\"fontSize\":\"70\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"schema\":\"metric\",\"params\":{\"customLabel\":\"Registrations\"}}],\"listeners\":{}}",
+      "uiStateJSON": "{}",
+      "description": "",
+      "savedSearchId": "e8746820-eb9b-11e6-a3f9-ad62b95fa7fd",
+      "version": 1,
+      "kibanaSavedObjectMeta": {
+        "searchSourceJSON": "{\"filter\":[]}"
+      }
+    }
+  }
+]
