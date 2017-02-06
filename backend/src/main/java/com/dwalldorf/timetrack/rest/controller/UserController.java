@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,12 +46,12 @@ public class UserController {
 
     @PostMapping(URI_LOGIN)
     public ResponseEntity<UserDto> login(@RequestBody LoginDto loginDto) throws InvalidInputException {
-        User loginUser = userService.login(loginDto.getUsername(), loginDto.getPassword());
-        if (loginUser == null) {
+        User user = userService.login(loginDto.getUsername(), loginDto.getPassword());
+        if (user == null) {
             throw new InvalidInputException();
         }
 
-        return new ResponseEntity<>(UserDto.fromUser(loginUser), OK);
+        return new ResponseEntity<>(UserDto.fromUser(user), OK);
     }
 
     @GetMapping(URI_ME)
@@ -59,7 +60,7 @@ public class UserController {
         return UserDto.fromUser(userService.getCurrentUser());
     }
 
-
+    @CrossOrigin
     @DeleteMapping(URI_LOGOUT)
     @RequireLogin
     public ResponseEntity logout() {

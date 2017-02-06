@@ -16,7 +16,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         final String allowedOrigins = "http://localhost:3000";
 
         registry.addMapping("/**")
-                .allowedOrigins(allowedOrigins);
+                .allowedOrigins(allowedOrigins)
+                .allowCredentials(true);
 
         logger.info("globally enabled CORS for {}", allowedOrigins);
     }
