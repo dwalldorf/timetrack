@@ -1,5 +1,7 @@
 package com.dwalldorf.timetrack.rest.controller;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 import com.dwalldorf.timetrack.document.User;
 import com.dwalldorf.timetrack.event.PermissionFailureEvent;
 import com.dwalldorf.timetrack.exception.AdminRequiredException;
@@ -7,7 +9,7 @@ import com.dwalldorf.timetrack.exception.LoginRequiredException;
 import com.dwalldorf.timetrack.service.UserService;
 import javax.inject.Inject;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ErrorController {
 
-    private final static String EMPTY_RESULT = "";
+    private final static String EMPTY_RESULT = "no";
 
     private final ApplicationEventPublisher eventPublisher;
 
@@ -28,14 +30,14 @@ public class ErrorController {
     }
 
     @ExceptionHandler(LoginRequiredException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleLoginRequireException(LoginRequiredException e) {
+    @ResponseStatus(NOT_FOUND)
+    public ResponseEntity handleLoginRequireException(LoginRequiredException e) {
         eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(e.getMessage()));
-        return EMPTY_RESULT;
+        return new ResponseEntity(NOT_FOUND);
     }
 
     @ExceptionHandler(AdminRequiredException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(NOT_FOUND)
     public String handleAdminRequiredException(AdminRequiredException e) {
         final String errorMessage = e.getMessage();
         final User user = userService.getCurrentUser();
