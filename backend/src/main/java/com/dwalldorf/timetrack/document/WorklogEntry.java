@@ -1,11 +1,12 @@
 package com.dwalldorf.timetrack.document;
 
+import java.io.Serializable;
 import org.joda.time.DateTime;
 import org.mongodb.morphia.annotations.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "worklogs")
-public class WorklogEntry {
+public class WorklogEntry implements Serializable {
 
     @Id
     private String id;

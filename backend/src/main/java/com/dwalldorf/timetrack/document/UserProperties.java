@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.document;
 
+import java.io.Serializable;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -9,7 +10,7 @@ import org.mongodb.morphia.annotations.Reference;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 @Embedded
-public class UserProperties {
+public class UserProperties implements Serializable {
 
     @NotEmpty
     @Size(min = 5, max = 40)

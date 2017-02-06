@@ -1,9 +1,10 @@
 package com.dwalldorf.timetrack.document;
 
+import java.io.Serializable;
 import org.mongodb.morphia.annotations.Embedded;
 
 @Embedded
-public class UserSettings {
+public class UserSettings implements Serializable {
 
     private boolean admin = false;
 
