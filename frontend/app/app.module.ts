@@ -6,16 +6,20 @@ import {AppRoutingModule} from "./app.routing.module";
 import {UserModule} from "./user/user.module";
 import {XHRBackend, RequestOptions} from "@angular/http";
 import {CommonModule} from "@angular/common";
-import {HttpService} from "./core/service/http.service";
 import {DashboardModule} from "./dashboard/dashboard.module";
+import {HttpService} from "./core/service/http.service";
+import {CoreModule} from "./core/core.module";
+import {CookieService} from "angular2-cookie/services/cookies.service";
 
 @NgModule({
     imports: [
-        AppRoutingModule,
         BrowserModule,
         CommonModule,
         FormsModule,
 
+        AppRoutingModule,
+
+        CoreModule,
         DashboardModule,
         UserModule
     ],
@@ -26,7 +30,8 @@ import {DashboardModule} from "./dashboard/dashboard.module";
                 return new HttpService(backend, options);
             },
             deps: [XHRBackend, RequestOptions]
-        }
+        },
+        CookieService
     ],
     declarations: [
         AppComponent

@@ -1,42 +1,38 @@
 import {Component} from "@angular/core";
 import {UserService} from "./service/user.service";
-import {User} from "./model/user";
-import {Router} from "@angular/router";
+import {LoginUser} from "./model/login.user";
+import {RouterService} from "../core/service/router.service";
 
 @Component({
     templateUrl: '/app/user/views/login.html'
 })
 export class LoginComponent {
 
-    private router: Router;
+    private routerService: RouterService;
 
     private userService: UserService;
 
-    private user: User;
+    private user: LoginUser;
 
     loginError: string = null;
 
-    constructor(router: Router, userService: UserService) {
-        this.router = router;
+    constructor(routerService: RouterService, userService: UserService) {
+        this.routerService = routerService;
         this.userService = userService;
-        this.user = new User();
+        this.user = new LoginUser();
     }
 
     ngOnInit() {
-        this.userService
-            .getCurrentUser()
-            .subscribe(() => {
-                    this.router.navigateByUrl('/');
-                }, () => {
-                    console.log('not logged in');
-                }
-            );
+        if (this.userService.isLoggedIn()) {
+            console.log('logged in');
+            this.routerService.goToHome();
+        }
     }
 
     login() {
         this.userService.login(this.user)
             .subscribe(
-                () => this.router.navigateByUrl('/'),
+                () => this.routerService.goToHome(),
                 err => console.log(err)
             );
     }

@@ -4,10 +4,12 @@ import {UserService} from "./service/user.service";
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
+import {RegisterComponent} from "./register.component";
 
 @NgModule({
     declarations: [
-        LoginComponent
+        LoginComponent,
+        RegisterComponent
     ],
     imports: [
         CommonModule,

@@ -1,11 +1,14 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
-import {LoginComponent} from "./user/login.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
+import {LoginComponent} from "./user/login.component";
+import {RegisterComponent} from "./user/register.component";
+import {AppConfig} from "./core/config/app.config";
 
 const appRoutes: Routes = [
-    {path: '', component: DashboardComponent},
-    {path: 'login', component: LoginComponent},
+    {path: AppConfig.getRouterLink(AppConfig.ROUTE_HOME), component: DashboardComponent},
+    {path: AppConfig.getRouterLink(AppConfig.ROUTE_LOGIN), component: LoginComponent},
+    {path: AppConfig.getRouterLink(AppConfig.ROUTE_REGISTER), component: RegisterComponent},
 ];
 
 @NgModule({

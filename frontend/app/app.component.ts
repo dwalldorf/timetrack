@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
 import {UserService} from "./user/service/user.service";
+import {RouterService} from "./core/service/router.service";
 
 @Component({
     selector: 'timetrack-app',
@@ -7,10 +8,20 @@ import {UserService} from "./user/service/user.service";
 })
 export class AppComponent {
 
+
     private userService: UserService;
 
-    constructor(userService: UserService) {
+    private routerService: RouterService;
+
+    constructor(userService: UserService, routerService: RouterService) {
+        this.routerService = routerService;
         this.userService = userService;
+    }
+
+    ngOnInit() {
+        if (!this.userService.isLoggedIn()) {
+            this.routerService.goToLogin();
+        }
     }
 
     logout() {

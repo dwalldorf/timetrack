@@ -22,14 +22,18 @@
 
             // other libraries
             'rxjs': 'npm:rxjs',
-            'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js'
+            'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
+            'angular2-cookie': 'npm:angular2-cookie'
         },
         packages: {
-            app: {
+            'app': {
                 main: './main.js',
                 defaultExtension: 'js'
             },
-            rxjs: {
+            'rxjs': {
+                defaultExtension: 'js'
+            },
+            'angular2-cookie': {
                 defaultExtension: 'js'
             }
         }
