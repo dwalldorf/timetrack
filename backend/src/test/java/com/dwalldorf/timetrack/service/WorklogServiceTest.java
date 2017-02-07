@@ -51,7 +51,7 @@ public class WorklogServiceTest extends BaseTest {
 
         // new entry
         final WorklogEntry newEntry2_New = worklogStub.createWorklogEntry(customer, project)
-                .setComment("Should not be filtered");
+                                                      .setComment("Should not be filtered");
 
         // duplicate of dbEntry2 but with modified stop - should be treated as new entry
         WorklogEntry newEntry3_New = new WorklogEntry(dbEntry2);
