@@ -11,18 +11,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.dwalldorf.timetrack.document.User;
 import com.dwalldorf.timetrack.document.UserProperties;
-import com.dwalldorf.timetrack.document.UserSettings;
 import com.dwalldorf.timetrack.rest.dto.LoginDto;
 import com.dwalldorf.timetrack.rest.dto.UserDto;
+import com.dwalldorf.timetrack.service.PasswordService;
 import com.dwalldorf.timetrack.service.UserService;
-import org.joda.time.DateTime;
+import com.dwalldorf.timetrack.stub.UserStub;
+import com.dwalldorf.timetrack.util.RandomUtil;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 public class UserControllerIT extends BaseControllerIT {
 
+    private final UserStub userStub;
+
     @MockBean
     private UserService userService;
+
+    public UserControllerIT() throws Exception {
+        userStub = new UserStub(new RandomUtil(), new PasswordService());
+    }
 
     @Test
     public void testRegister_Success() throws Exception {
@@ -72,7 +79,7 @@ public class UserControllerIT extends BaseControllerIT {
         LoginDto loginDto = new LoginDto()
                 .setUsername(username)
                 .setPassword(password);
-        when(userService.login(eq(username), eq(password))).thenReturn(createUser());
+        when(userService.login(eq(username), eq(password))).thenReturn(userStub.createUser());
 
         doPost(BASE_URI + URI_LOGIN, loginDto)
                 .andExpect(status().isOk());
@@ -99,15 +106,16 @@ public class UserControllerIT extends BaseControllerIT {
 
     @Test
     public void testGetMe_Success() throws Exception {
-        User mockUser = createUser();
+        User mockUser = userStub.createUser();
+        UserProperties userProperties = mockUser.getUserProperties();
         when(userService.getCurrentUser()).thenReturn(mockUser);
 
         doGet(BASE_URI + URI_ME)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(mockUser.getId())))
-                .andExpect(jsonPath("$.username", is(mockUser.getUserProperties().getUsername())))
-                .andExpect(jsonPath("$.email", is(mockUser.getUserProperties().getEmail())))
-                .andExpect(jsonPath("$.confirmedEmail", is(true)));
+                .andExpect(jsonPath("$.username", is(userProperties.getUsername())))
+                .andExpect(jsonPath("$.email", is(userProperties.getEmail())))
+                .andExpect(jsonPath("$.confirmedEmail", is(userProperties.isConfirmedEmail())));
     }
 
     @Test
@@ -118,30 +126,10 @@ public class UserControllerIT extends BaseControllerIT {
 
     @Test
     public void testLogout_Success() throws Exception {
-        User mockUser = createUser();
+        User mockUser = userStub.createUser();
         when(userService.getCurrentUser()).thenReturn(mockUser);
 
         doPost(BASE_URI + URI_LOGOUT)
                 .andExpect(status().isOk());
-    }
-
-    private User createUser() {
-        return createUser(false);
-    }
-
-    private User createUser(boolean admin) {
-        return new User()
-                .setId("someId")
-                .setUserProperties(
-                        new UserProperties()
-                                .setUsername("testUser")
-                                .setRegistration(new DateTime().minusDays(3))
-                                .setEmail("name@host.tld")
-                                .setConfirmedEmail(true)
-                                .setUserSettings(
-                                        new UserSettings()
-                                                .setAdmin(admin)
-                                )
-                );
     }
 }

@@ -3,22 +3,27 @@ package com.dwalldorf.timetrack.annotation;
 import static org.mockito.Mockito.*;
 
 import com.dwalldorf.timetrack.BaseTest;
-import com.dwalldorf.timetrack.document.User;
-import com.dwalldorf.timetrack.document.UserProperties;
-import com.dwalldorf.timetrack.document.UserSettings;
 import com.dwalldorf.timetrack.exception.AdminRequiredException;
 import com.dwalldorf.timetrack.exception.LoginRequiredException;
+import com.dwalldorf.timetrack.service.PasswordService;
 import com.dwalldorf.timetrack.service.UserService;
-import org.joda.time.DateTime;
+import com.dwalldorf.timetrack.util.RandomUtil;
 import org.junit.Test;
 import org.mockito.Mock;
+import com.dwalldorf.timetrack.stub.UserStub;
 
 public class RequireAdminTest extends BaseTest {
+
+    private final UserStub userStub;
 
     @Mock
     private UserService userService;
 
     private RequireRoleInvocationHandler roleInvocationHandler;
+
+    public RequireAdminTest() throws Exception {
+        userStub = new UserStub(new RandomUtil(), new PasswordService());
+    }
 
     @Override
     protected void setUp() {
@@ -33,29 +38,13 @@ public class RequireAdminTest extends BaseTest {
 
     @Test(expected = AdminRequiredException.class)
     public void testCheckAdminBefore_AdminRequiredException() throws Exception {
-        when(userService.getCurrentUser()).thenReturn(createUser(false));
+        when(userService.getCurrentUser()).thenReturn(userStub.createUser(false));
         roleInvocationHandler.checkAdminBefore(createJoinPointMock());
     }
 
     @Test
     public void testCheckAdminBefore_Success() throws Exception {
-        when(userService.getCurrentUser()).thenReturn(createUser(true));
+        when(userService.getCurrentUser()).thenReturn(userStub.createUser(true));
         roleInvocationHandler.checkAdminBefore(createJoinPointMock());
-    }
-
-    private User createUser(boolean admin) {
-        return new User()
-                .setId("someId")
-                .setUserProperties(
-                        new UserProperties()
-                                .setUsername("testUser")
-                                .setRegistration(new DateTime().minusDays(3))
-                                .setEmail("name@host.tld")
-                                .setConfirmedEmail(true)
-                                .setUserSettings(
-                                        new UserSettings()
-                                                .setAdmin(admin)
-                                )
-                );
     }
 }

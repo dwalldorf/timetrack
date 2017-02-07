@@ -3,21 +3,26 @@ package com.dwalldorf.timetrack.annotation;
 import static org.mockito.Mockito.*;
 
 import com.dwalldorf.timetrack.BaseTest;
-import com.dwalldorf.timetrack.document.User;
-import com.dwalldorf.timetrack.document.UserProperties;
-import com.dwalldorf.timetrack.document.UserSettings;
 import com.dwalldorf.timetrack.exception.LoginRequiredException;
+import com.dwalldorf.timetrack.service.PasswordService;
 import com.dwalldorf.timetrack.service.UserService;
-import org.joda.time.DateTime;
+import com.dwalldorf.timetrack.util.RandomUtil;
 import org.junit.Test;
 import org.mockito.Mock;
+import com.dwalldorf.timetrack.stub.UserStub;
 
 public class RequireLoginTest extends BaseTest {
+
+    private final UserStub userStub;
 
     @Mock
     private UserService userService;
 
     private RequireRoleInvocationHandler roleInvocationHandler;
+
+    public RequireLoginTest() throws Exception {
+        userStub = new UserStub(new RandomUtil(), new PasswordService());
+    }
 
     @Override
     protected void setUp() {
@@ -32,20 +37,7 @@ public class RequireLoginTest extends BaseTest {
 
     @Test
     public void testCheckLoginBefore_Success() throws Exception {
-        when(userService.getCurrentUser()).thenReturn(createUser());
+        when(userService.getCurrentUser()).thenReturn(userStub.createUser());
         roleInvocationHandler.checkLoginBefore(createJoinPointMock());
-    }
-
-    private User createUser() {
-        return new User()
-                .setId("someId")
-                .setUserProperties(
-                        new UserProperties()
-                                .setUsername("testUser")
-                                .setRegistration(new DateTime().minusDays(3))
-                                .setEmail("name@host.tld")
-                                .setConfirmedEmail(true)
-                                .setUserSettings(new UserSettings())
-                );
     }
 }
