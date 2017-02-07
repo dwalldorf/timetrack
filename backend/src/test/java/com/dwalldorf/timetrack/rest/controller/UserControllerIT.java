@@ -10,14 +10,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.dwalldorf.timetrack.document.User;
+import com.dwalldorf.timetrack.document.UserProperties;
 import com.dwalldorf.timetrack.rest.dto.LoginDto;
 import com.dwalldorf.timetrack.rest.dto.UserDto;
 import com.dwalldorf.timetrack.service.PasswordService;
 import com.dwalldorf.timetrack.service.UserService;
+import com.dwalldorf.timetrack.stub.UserStub;
 import com.dwalldorf.timetrack.util.RandomUtil;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import com.dwalldorf.timetrack.stub.UserStub;
 
 public class UserControllerIT extends BaseControllerIT {
 
@@ -106,14 +107,15 @@ public class UserControllerIT extends BaseControllerIT {
     @Test
     public void testGetMe_Success() throws Exception {
         User mockUser = userStub.createUser();
+        UserProperties userProperties = mockUser.getUserProperties();
         when(userService.getCurrentUser()).thenReturn(mockUser);
 
         doGet(BASE_URI + URI_ME)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(mockUser.getId())))
-                .andExpect(jsonPath("$.username", is(mockUser.getUserProperties().getUsername())))
-                .andExpect(jsonPath("$.email", is(mockUser.getUserProperties().getEmail())))
-                .andExpect(jsonPath("$.confirmedEmail", is(true)));
+                .andExpect(jsonPath("$.username", is(userProperties.getUsername())))
+                .andExpect(jsonPath("$.email", is(userProperties.getEmail())))
+                .andExpect(jsonPath("$.confirmedEmail", is(userProperties.isConfirmedEmail())));
     }
 
     @Test
