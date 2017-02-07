@@ -1,4 +1,4 @@
-import {Injectable} from "@angular/core";
+import {Injectable, EventEmitter} from "@angular/core";
 import {LoginUser} from "../model/login.user";
 import {User} from "../model/user";
 import {Observable} from "rxjs/Rx";
@@ -14,9 +14,12 @@ export class UserService {
 
     private currentUser: User;
 
+    public userEventEmitter: EventEmitter<User>;
+
     constructor(httpService: HttpService, cookieService: CookieService) {
         this.http = httpService;
         this.cookieService = cookieService;
+        this.userEventEmitter = new EventEmitter<User>();
 
         this.fetchCurrentUser()
             .subscribe();
@@ -25,8 +28,14 @@ export class UserService {
     private fetchCurrentUser(): Observable<User> {
         let obs: Observable<User> = this.http.get('http://localhost:8080/users/me');
         obs.subscribe(
-            (user: User) => this.currentUser = user,
-            () => this.currentUser = undefined);
+            (user: User) => {
+                this.currentUser = user;
+                this.userEventEmitter.emit(this.currentUser);
+            },
+            () => {
+                this.currentUser = undefined;
+                this.userEventEmitter.error(null);
+            });
 
         return obs;
     }
@@ -45,6 +54,7 @@ export class UserService {
             () => {
                 this.currentUser = undefined;
                 this.cookieService.remove('TIMETRACK');
+                this.userEventEmitter.error(null);
             }
         );
 
@@ -55,14 +65,11 @@ export class UserService {
         return this.http.post('http://localhost:8080/users', user);
     }
 
-    isLoggedIn() {
-        return this.fetchCurrentUser();
-
-        // let loggedIn: boolean = !!this.currentUser;
-        // console.log(loggedIn);
-        // if (loggedIn) {
-        //     console.log(this.currentUser);
-        // }
-        // return loggedIn;
+    public isLoggedIn() {
+        if (this.currentUser) {
+            this.userEventEmitter.emit(this.currentUser);
+        } else {
+            this.userEventEmitter.error(null)
+        }
     }
 }

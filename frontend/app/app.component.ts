@@ -8,10 +8,11 @@ import {RouterService} from "./core/service/router.service";
 })
 export class AppComponent {
 
-
     private userService: UserService;
 
     private routerService: RouterService;
+
+    isLoggedIn: boolean = true;
 
     constructor(userService: UserService, routerService: RouterService) {
         this.routerService = routerService;
@@ -19,12 +20,23 @@ export class AppComponent {
     }
 
     ngOnInit() {
-        if (!this.userService.isLoggedIn()) {
-            this.routerService.goToLogin();
-        }
+        this.userService.userEventEmitter
+            .subscribe(
+                () => this.isLoggedIn = true,
+                () => this.handleNotLoggedIn()
+            );
     }
 
     logout() {
-        this.userService.logout();
+        this.userService.logout()
+            .subscribe(
+                () => this.routerService.goToLogin()
+            );
+    }
+
+    private handleNotLoggedIn() {
+        console.log('not logged in');
+        this.isLoggedIn = false;
+        this.routerService.goToLogin();
     }
 }

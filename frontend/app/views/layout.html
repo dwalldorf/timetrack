@@ -2,7 +2,7 @@
      class="container-fluid full-height">
 
     <header>
-        <div *ngIf="userService.isLoggedIn()"
+        <div *ngIf="isLoggedIn"
              id="logged-in-header"
              class="row">
             <div class="col-xs-offset-3">
@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div *ngIf="!userService.isLoggedIn()"
+        <div *ngIf="!isLoggedIn"
              id="logged-out-header">
         </div>
     </header>

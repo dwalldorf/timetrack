@@ -12,7 +12,6 @@ export class RouterService {
     }
 
     public goToHome() {
-        console.log(AppConfig.ROUTE_HOME);
         this.router.navigateByUrl(AppConfig.ROUTE_HOME);
     }
 

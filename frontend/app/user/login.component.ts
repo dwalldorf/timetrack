@@ -23,10 +23,10 @@ export class LoginComponent {
     }
 
     ngOnInit() {
-        if (this.userService.isLoggedIn()) {
-            console.log('logged in');
-            this.routerService.goToHome();
-        }
+        this.userService.userEventEmitter
+            .subscribe(
+                () => this.routerService.goToHome()
+            );
     }
 
     login() {
