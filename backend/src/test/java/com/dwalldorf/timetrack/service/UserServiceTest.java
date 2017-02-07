@@ -28,7 +28,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.context.ApplicationEventPublisher;
-import stub.UserStub;
+import com.dwalldorf.timetrack.stub.UserStub;
 
 public class UserServiceTest extends BaseTest {
 

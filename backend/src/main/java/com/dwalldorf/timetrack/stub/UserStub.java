@@ -1,4 +1,4 @@
-package stub;
+package com.dwalldorf.timetrack.stub;
 
 import com.dwalldorf.timetrack.document.User;
 import com.dwalldorf.timetrack.document.UserProperties;

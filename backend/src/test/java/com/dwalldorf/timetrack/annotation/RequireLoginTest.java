@@ -9,7 +9,7 @@ import com.dwalldorf.timetrack.service.UserService;
 import com.dwalldorf.timetrack.util.RandomUtil;
 import org.junit.Test;
 import org.mockito.Mock;
-import stub.UserStub;
+import com.dwalldorf.timetrack.stub.UserStub;
 
 public class RequireLoginTest extends BaseTest {
 
