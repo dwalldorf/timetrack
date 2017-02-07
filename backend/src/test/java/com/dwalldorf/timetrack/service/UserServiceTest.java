@@ -19,6 +19,7 @@ import com.dwalldorf.timetrack.document.UserProperties;
 import com.dwalldorf.timetrack.event.UserAuthenticationEvent;
 import com.dwalldorf.timetrack.exception.InvalidInputException;
 import com.dwalldorf.timetrack.repository.UserRepository;
+import com.dwalldorf.timetrack.util.RandomUtil;
 import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -27,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.context.ApplicationEventPublisher;
+import stub.UserStub;
 
 public class UserServiceTest extends BaseTest {
 
@@ -37,6 +39,8 @@ public class UserServiceTest extends BaseTest {
     private final static String PASSWORD = "notSoSecurePassword123";
     private final static byte[] SALT = "salt".getBytes();
     private final static byte[] HASHED_PASSWORD = "hashedPassword".getBytes();
+
+    private final UserStub userStub;
 
     @Mock
     private ApplicationEventPublisher eventPublisher;
@@ -52,6 +56,10 @@ public class UserServiceTest extends BaseTest {
 
     private UserService userService;
 
+    public UserServiceTest() throws Exception {
+        userStub = new UserStub(new RandomUtil(), new PasswordService());
+    }
+
     @Override
     protected void setUp() {
         this.userService = new UserService(userRepository, eventPublisher, httpSession, passwordService);
@@ -59,7 +67,7 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testGetSecureUserCopy() {
-        User user = createUser();
+        User user = userStub.createUser(ID, USERNAME, EMAIL, REGISTRATION);
 
         User secureUserCopy = userService.getSecureUserCopy(user);
 
@@ -97,7 +105,7 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testRegister_SetsRegistrationDate() throws Exception {
-        User user = createUser();
+        User user = userStub.createUser();
         user.getUserProperties().setRegistration(null);
         assertNull(user.getUserProperties().getRegistration());
 
@@ -109,7 +117,7 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testRegister_HashesCorrectly() {
-        User user = createUser();
+        User user = userStub.createUser();
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(passwordService.createSalt()).thenReturn(SALT);
 
@@ -121,7 +129,7 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testRegister_ReturnSecureUserCopy() {
-        User user = createUser();
+        User user = userStub.createUser();
         when(userRepository.save(any(User.class))).thenReturn(user);
         when(passwordService.createSalt()).thenReturn(SALT);
 
@@ -142,7 +150,7 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testLogin_ReturnsNullIfUserFoundButWrongPassword() {
-        when(userRepository.findByUserProperties_Username(eq(USERNAME))).thenReturn(createUser());
+        when(userRepository.findByUserProperties_Username(eq(USERNAME))).thenReturn(userStub.createUser());
 
         User retVal = userService.login(USERNAME, "wrongPassword");
         assertNull(retVal);
@@ -150,7 +158,7 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testLogin_WrongPassword_PublishesLoginFailureEvent() throws Exception {
-        when(userRepository.findByUserProperties_Username(eq(USERNAME))).thenReturn(createUser());
+        when(userRepository.findByUserProperties_Username(eq(USERNAME))).thenReturn(userStub.createUser());
         userService.login(USERNAME, "wrongPassword");
 
         ArgumentCaptor<UserAuthenticationEvent> captor = ArgumentCaptor.forClass(UserAuthenticationEvent.class);
@@ -194,17 +202,5 @@ public class UserServiceTest extends BaseTest {
         UserAuthenticationEvent event = captor.getValue();
         assertEquals(LOGOUT, event.getAction());
         assertEquals(SUCCESS, event.getResult());
-    }
-
-    private User createUser() {
-        User user = new User(ID);
-        user.getUserProperties()
-            .setUsername(USERNAME)
-            .setEmail(EMAIL)
-            .setRegistration(REGISTRATION)
-            .setSalt(SALT)
-            .setPassword(PASSWORD)
-            .setHashedPassword(HASHED_PASSWORD);
-        return user;
     }
 }
