@@ -1,11 +1,11 @@
 package com.dwalldorf.timetrack.backend.service;
 
-import com.dwalldorf.timetrack.repository.dao.UserDao;
 import com.dwalldorf.timetrack.backend.event.UserAuthenticationEvent;
-import com.dwalldorf.timetrack.repository.exception.BadPasswordException;
 import com.dwalldorf.timetrack.backend.exception.InvalidInputException;
-import com.dwalldorf.timetrack.repository.exception.UserNotFoundException;
 import com.dwalldorf.timetrack.model.UserModel;
+import com.dwalldorf.timetrack.repository.dao.UserDao;
+import com.dwalldorf.timetrack.repository.exception.BadPasswordException;
+import com.dwalldorf.timetrack.repository.exception.UserNotFoundException;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
@@ -51,14 +51,26 @@ public class UserService {
     }
 
     public UserModel login(final String username, final String password) {
-        if (getCurrentUser() != null) {
-            eventPublisher.publishEvent(UserAuthenticationEvent.loginFailedEvent(username, "user already logged in"));
-            return getCurrentUser();
+        final UserModel currentUser = getCurrentUser();
+        if (currentUser != null) {
+            final String currentUserUsername = currentUser.getUsername();
+            if (!currentUserUsername.equals(username)) {
+                eventPublisher.publishEvent(UserAuthenticationEvent.loginFailedEvent(
+                        currentUserUsername,
+                        String.format("user already logged in but tried to login as: '%s'", username))
+                );
+            } else {
+                eventPublisher.publishEvent(UserAuthenticationEvent
+                        .loginFailedEvent(currentUserUsername, "user already logged in")
+                );
+            }
+            return currentUser;
         }
 
         try {
-            initializeUserSession(userDao.login(username, password));
-            return getCurrentUser();
+            UserModel loginUser = userDao.login(username, password);
+            initializeUserSession(loginUser);
+            return loginUser;
         } catch (UserNotFoundException ex) {
             eventPublisher.publishEvent(UserAuthenticationEvent.loginFailedEvent(username, "username not found"));
             return null;
