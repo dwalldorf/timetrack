@@ -4,6 +4,9 @@ import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Not to be used outside of backend-repository
+ */
 @Document(collection = "users")
 public class UserDocument {
 

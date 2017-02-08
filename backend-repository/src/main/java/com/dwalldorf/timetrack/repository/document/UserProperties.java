@@ -8,6 +8,9 @@ import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Reference;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+/**
+ * Not to be used outside of backend-repository
+ */
 @Embedded
 public class UserProperties {
 

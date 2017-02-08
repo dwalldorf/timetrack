@@ -4,6 +4,9 @@ import org.joda.time.DateTime;
 import org.mongodb.morphia.annotations.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Not to be used outside of backend-repository
+ */
 @Document(collection = "worklogs")
 public class WorklogEntryDocument {
 
