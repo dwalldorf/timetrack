@@ -1,9 +1,9 @@
 package com.dwalldorf.timetrack.repository.service;
 
-import static com.dwalldorf.timetrack.repository.backend.event.ActionEvent.Action.LOGIN;
-import static com.dwalldorf.timetrack.repository.backend.event.ActionEvent.Action.LOGOUT;
-import static com.dwalldorf.timetrack.repository.backend.event.ActionEvent.Result.FAILURE;
-import static com.dwalldorf.timetrack.repository.backend.event.ActionEvent.Result.SUCCESS;
+import static com.dwalldorf.timetrack.backend.event.ActionEvent.Action.LOGIN;
+import static com.dwalldorf.timetrack.backend.event.ActionEvent.Action.LOGOUT;
+import static com.dwalldorf.timetrack.backend.event.ActionEvent.Result.FAILURE;
+import static com.dwalldorf.timetrack.backend.event.ActionEvent.Result.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -15,10 +15,11 @@ import static org.mockito.Mockito.*;
 
 import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.repository.backend.BaseTest;
-import com.dwalldorf.timetrack.repository.backend.event.UserAuthenticationEvent;
+import com.dwalldorf.timetrack.backend.event.UserAuthenticationEvent;
 import com.dwalldorf.timetrack.repository.dao.UserDao;
 import com.dwalldorf.timetrack.repository.exception.BadPasswordException;
-import com.dwalldorf.timetrack.repository.exception.InvalidInputException;
+import com.dwalldorf.timetrack.backend.exception.InvalidInputException;
+import com.dwalldorf.timetrack.backend.service.UserService;
 import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
 import org.junit.Test;

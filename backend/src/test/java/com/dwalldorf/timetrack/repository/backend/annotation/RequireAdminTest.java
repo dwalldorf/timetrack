@@ -2,11 +2,12 @@ package com.dwalldorf.timetrack.repository.backend.annotation;
 
 import static org.mockito.Mockito.*;
 
+import com.dwalldorf.timetrack.backend.annotation.RequireRoleInvocationHandler;
 import com.dwalldorf.timetrack.repository.backend.BaseTest;
-import com.dwalldorf.timetrack.repository.exception.AdminRequiredException;
-import com.dwalldorf.timetrack.repository.exception.LoginRequiredException;
+import com.dwalldorf.timetrack.backend.exception.AdminRequiredException;
+import com.dwalldorf.timetrack.backend.exception.LoginRequiredException;
 import com.dwalldorf.timetrack.model.UserModel;
-import com.dwalldorf.timetrack.repository.service.UserService;
+import com.dwalldorf.timetrack.backend.service.UserService;
 import org.junit.Test;
 import org.mockito.Mock;
 

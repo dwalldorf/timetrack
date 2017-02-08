@@ -1,17 +1,17 @@
 package com.dwalldorf.timetrack.repository.backend.rest.controller;
 
-import static com.dwalldorf.timetrack.repository.backend.rest.controller.UserController.BASE_URI;
-import static com.dwalldorf.timetrack.repository.backend.rest.controller.UserController.URI_LOGIN;
-import static com.dwalldorf.timetrack.repository.backend.rest.controller.UserController.URI_LOGOUT;
-import static com.dwalldorf.timetrack.repository.backend.rest.controller.UserController.URI_ME;
+import static com.dwalldorf.timetrack.backend.rest.controller.UserController.BASE_URI;
+import static com.dwalldorf.timetrack.backend.rest.controller.UserController.URI_LOGIN;
+import static com.dwalldorf.timetrack.backend.rest.controller.UserController.URI_LOGOUT;
+import static com.dwalldorf.timetrack.backend.rest.controller.UserController.URI_ME;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.dwalldorf.timetrack.model.UserModel;
-import com.dwalldorf.timetrack.repository.backend.rest.dto.LoginDto;
-import com.dwalldorf.timetrack.repository.service.UserService;
+import com.dwalldorf.timetrack.backend.rest.dto.LoginDto;
+import com.dwalldorf.timetrack.backend.service.UserService;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 

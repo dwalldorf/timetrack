@@ -8,6 +8,7 @@ import com.dwalldorf.timetrack.model.util.RandomUtil;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import com.dwalldorf.timetrack.model.stub.WorklogStub;
 import com.dwalldorf.timetrack.repository.WorklogRepository;
+import com.dwalldorf.timetrack.backend.service.WorklogService;
 import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;

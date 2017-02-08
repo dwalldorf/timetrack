@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.repository.backend.config;
 
+import com.dwalldorf.timetrack.backend.config.MongoConfig;
 import com.dwalldorf.timetrack.repository.UserRepository;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
