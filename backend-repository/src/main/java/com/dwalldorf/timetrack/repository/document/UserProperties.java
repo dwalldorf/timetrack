@@ -24,9 +24,6 @@ public class UserProperties {
     private String email;
 
     @NotEmpty
-    private String password;
-
-    @NotEmpty
     private byte[] hashedPassword;
 
     @NotEmpty
@@ -59,15 +56,6 @@ public class UserProperties {
 
     public UserProperties setEmail(String email) {
         this.email = email;
-        return this;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public UserProperties setPassword(String password) {
-        this.password = password;
         return this;
     }
 
