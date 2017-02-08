@@ -16,3 +16,7 @@ mongo-connect:
 	docker-compose exec mongo mongo timetrack
 mongo-drop-database:
 	docker-compose exec mongo mongo timetrack --eval "db.dropDatabase()"
+
+version:
+	@read -p "Enter version: " version; \
+	mvn versions:set -DnewVersion=$$version
