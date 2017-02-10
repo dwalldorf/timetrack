@@ -1,5 +1,9 @@
 package com.dwalldorf.timetrack.backend.event;
 
+import com.dwalldorf.timetrack.model.UserModel;
+import com.dwalldorf.timetrack.repository.dao.UserDao;
+import javax.inject.Inject;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -13,6 +17,13 @@ public class UserAuthenticationEventHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(UserAuthenticationEventHandler.class);
     private static final Marker marker = MarkerFactory.getMarker("user_auth");
+
+    private final UserDao userDao;
+
+    @Inject
+    public UserAuthenticationEventHandler(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Async
     @EventListener(UserAuthenticationEvent.class)
@@ -47,6 +58,8 @@ public class UserAuthenticationEventHandler {
         switch (authenticationEvent.getResult()) {
             case SUCCESS:
                 logAuthenticationInfo("Successful login: '{}'", authenticationEvent.getUsername());
+
+                setLoginDate(authenticationEvent.getActor());
                 break;
             case FAILURE:
                 logAuthenticationInfo("Failure during login with name: '{}', message: {}",
@@ -54,6 +67,18 @@ public class UserAuthenticationEventHandler {
                         authenticationEvent.getMessage());
                 break;
         }
+    }
+
+    private void setLoginDate(UserModel actor) {
+        final DateTime now = new DateTime();
+
+        if (actor.getFirstLogin() == null) {
+            actor.setFirstLogin(now);
+            logAuthenticationInfo("First login: '{}'", actor.getUsername());
+        }
+
+        actor.setLastLogin(now);
+        userDao.update(actor);
     }
 
     private void handleLogoutEvent(final UserAuthenticationEvent authenticationEvent) {

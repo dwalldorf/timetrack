@@ -13,7 +13,6 @@ public class UserStub {
 
     private final RandomUtil randomUtil;
 
-
     @Inject
     public UserStub(RandomUtil randomUtil) {
         this.randomUtil = randomUtil;

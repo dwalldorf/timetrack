@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.repository.document;
 
+import java.io.Serializable;
 import org.mongodb.morphia.annotations.Id;
 import org.mongodb.morphia.annotations.Reference;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  * Not to be used outside of backend-repository
  */
 @Document(collection = "users")
-public class UserDocument {
+public class UserDocument implements Serializable {
 
     @Id
     private String id;

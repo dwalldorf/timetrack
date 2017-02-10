@@ -3,7 +3,7 @@
 * [localhost:3000](http://localhost:3000)
 * [localhost:3001](http://localhost:3001)
 
-Run with `make run-env` or `docker-compose up -d frontend` from project root.
+Run with `make up` to start together with all other containers or `make fe-dev` to only run the frontend.
 
 ---
 [to project root](https://github.com/dwalldorf/timetrack)

@@ -111,7 +111,7 @@ public class UserControllerIT extends BaseControllerIT {
 
     @Test
     public void testLogout_NotLoggedIn() throws Exception {
-        doPost(BASE_URI + URI_LOGOUT)
+        doDelete(BASE_URI + URI_LOGOUT)
                 .andExpect(status().isNotFound());
     }
 
@@ -119,7 +119,7 @@ public class UserControllerIT extends BaseControllerIT {
     public void testLogout_Success() throws Exception {
         when(userService.getCurrentUser()).thenReturn(new UserModel());
 
-        doPost(BASE_URI + URI_LOGOUT)
+        doDelete(BASE_URI + URI_LOGOUT)
                 .andExpect(status().isOk());
     }
 }

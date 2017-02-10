@@ -1,11 +1,27 @@
 <div id="main-wrapper"
      class="container-fluid full-height">
-    <div id="header"
-         class="row">
-        <div class="col-xs-offset-3 col-xs-6">
-            Navigation
+
+    <header>
+        <div *ngIf="isLoggedIn"
+             id="logged-in-header"
+             class="row">
+            <div class="col-xs-offset-3">
+            </div>
+            <div class="col-xs-6">
+            </div>
+            <div class="col-xs-3">
+                <button (click)="logout()"
+                        class="pull-right btn btn-default">
+                    <span>Logout</span>
+                </button>
+            </div>
         </div>
-    </div>
+
+        <div *ngIf="!isLoggedIn"
+             id="logged-out-header">
+        </div>
+    </header>
+
     <div id="content"
          class="row">
         <div class="col-xs-3">

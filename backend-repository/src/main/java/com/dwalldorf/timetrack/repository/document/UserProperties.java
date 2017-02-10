@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.repository.document;
 
+import java.io.Serializable;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -12,7 +13,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
  * Not to be used outside of backend-repository
  */
 @Embedded
-public class UserProperties {
+public class UserProperties implements Serializable {
 
     @NotEmpty
     @Size(min = 5, max = 40)

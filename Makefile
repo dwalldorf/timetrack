@@ -7,6 +7,13 @@ up:
 
 run-env: up
 	docker-compose stop -t 1 backend
+	docker-compose stop -t 1 frontend
+
+run-frontend:
+	docker-compose up -d frontend
+
+fe-dev:
+	docker-compose up frontend
 
 down:
 	docker-compose stop -t 3

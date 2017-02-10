@@ -2,13 +2,12 @@ package com.dwalldorf.timetrack.repository.service;
 
 import static org.junit.Assert.assertEquals;
 
-import com.dwalldorf.timetrack.repository.backend.BaseTest;
-import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
-import com.dwalldorf.timetrack.model.util.RandomUtil;
+import com.dwalldorf.timetrack.backend.service.WorklogService;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import com.dwalldorf.timetrack.model.stub.WorklogStub;
-import com.dwalldorf.timetrack.repository.WorklogRepository;
-import com.dwalldorf.timetrack.backend.service.WorklogService;
+import com.dwalldorf.timetrack.model.util.RandomUtil;
+import com.dwalldorf.timetrack.repository.backend.BaseTest;
+import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
 import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;
@@ -21,9 +20,6 @@ public class WorklogServiceTest extends BaseTest {
     private final WorklogStub worklogStub;
 
     @Mock
-    private WorklogRepository worklogRepository;
-
-    @Mock
     private WorklogEntryDao worklogEntryDao;
 
     private WorklogService service;
@@ -34,7 +30,7 @@ public class WorklogServiceTest extends BaseTest {
 
     @Override
     protected void setUp() {
-        this.service = new WorklogService(worklogRepository, worklogEntryDao);
+        this.service = new WorklogService(worklogEntryDao);
     }
 
     @Test

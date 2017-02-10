@@ -1,5 +1,6 @@
 import {Component} from "@angular/core";
-import {LoginService} from "./login/service/login.service";
+import {UserService} from "./user/service/user.service";
+import {RouterService} from "./core/service/router.service";
 
 @Component({
     selector: 'timetrack-app',
@@ -7,19 +8,35 @@ import {LoginService} from "./login/service/login.service";
 })
 export class AppComponent {
 
-    private loginService: LoginService;
+    private userService: UserService;
 
-    constructor(loginService: LoginService) {
-        this.loginService = loginService;
+    private routerService: RouterService;
+
+    isLoggedIn: boolean = true;
+
+    constructor(userService: UserService, routerService: RouterService) {
+        this.routerService = routerService;
+        this.userService = userService;
     }
 
-    getSteamOpenIdLink() {
-        this.loginService.getLoginLink();
+    ngOnInit() {
+        this.userService.userEventEmitter
+            .subscribe(
+                () => this.isLoggedIn = true,
+                () => this.handleNotLoggedIn()
+            );
+    }
 
-        let uri = '';
-        let str = 'http://steamcommunity.com/openid/login?openid.ns=http:%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.mode=checkid_setup&openid.return_to=http:%2F%2Flocalhost:3000/login&openid.identity=http:%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.claimed_id=http:%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select';
+    logout() {
+        this.userService.logout()
+            .subscribe(
+                () => this.routerService.goToLogin()
+            );
+    }
 
-        // this.location.go('http://steamcommunity.com/openid/login');
-        return str
+    private handleNotLoggedIn() {
+        console.log('not logged in');
+        this.isLoggedIn = false;
+        this.routerService.goToLogin();
     }
 }

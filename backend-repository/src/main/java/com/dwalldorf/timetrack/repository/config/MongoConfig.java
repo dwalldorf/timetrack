@@ -1,5 +1,5 @@
 
-package com.dwalldorf.timetrack.backend.config;
+package com.dwalldorf.timetrack.repository.config;
 
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
@@ -14,12 +14,13 @@ import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
-@EnableMongoRepositories(basePackages = {
-        "com.dwalldorf.timetrack.repository"
-})
+@EnableMongoRepositories(
+        basePackages = {"com.dwalldorf.timetrack.repository.repository"},
+        createIndexesForQueryMethods = true
+)
 public class MongoConfig extends AbstractMongoConfiguration {
 
-    private static final Logger logger= LoggerFactory.getLogger(MongoConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(MongoConfig.class);
 
     @Value("${mongo.host}")
     private String host;

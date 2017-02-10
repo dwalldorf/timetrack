@@ -4,7 +4,6 @@ import com.dwalldorf.timetrack.repository.backend.annotation.RequireAdminTest;
 import com.dwalldorf.timetrack.repository.backend.annotation.RequireLoginTest;
 import com.dwalldorf.timetrack.repository.backend.rest.controller.UserControllerTest;
 import com.dwalldorf.timetrack.repository.service.CsvImportServiceTest;
-import com.dwalldorf.timetrack.repository.service.PasswordServiceTest;
 import com.dwalldorf.timetrack.repository.service.UserServiceTest;
 import com.dwalldorf.timetrack.repository.service.WorklogServiceTest;
 import org.junit.runner.RunWith;
@@ -18,7 +17,6 @@ import org.junit.runners.Suite;
         UserControllerTest.class,
 
         CsvImportServiceTest.class,
-        PasswordServiceTest.class,
         UserServiceTest.class,
         WorklogServiceTest.class,
 })
