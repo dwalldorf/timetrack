@@ -2,7 +2,7 @@ package com.dwalldorf.timetrack.repository.dao;
 
 import com.dwalldorf.timetrack.repository.document.WorklogEntryDocument;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
-import com.dwalldorf.timetrack.repository.WorklogRepository;
+import com.dwalldorf.timetrack.repository.repository.WorklogRepository;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

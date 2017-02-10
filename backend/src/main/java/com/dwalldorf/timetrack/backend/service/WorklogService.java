@@ -1,8 +1,7 @@
 package com.dwalldorf.timetrack.backend.service;
 
-import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
-import com.dwalldorf.timetrack.repository.WorklogRepository;
+import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -11,13 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class WorklogService {
 
-    private final WorklogRepository worklogRepository;
 
     private final WorklogEntryDao worklogEntryDao;
 
     @Inject
-    public WorklogService(WorklogRepository worklogRepository, WorklogEntryDao worklogEntryDao) {
-        this.worklogRepository = worklogRepository;
+    public WorklogService(WorklogEntryDao worklogEntryDao) {
         this.worklogEntryDao = worklogEntryDao;
     }
 

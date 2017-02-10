@@ -1,7 +1,6 @@
 package com.dwalldorf.timetrack.repository.backend.config;
 
-import com.dwalldorf.timetrack.backend.config.MongoConfig;
-import com.dwalldorf.timetrack.repository.UserRepository;
+import com.dwalldorf.timetrack.repository.repository.UserRepository;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import javax.servlet.http.HttpSession;
@@ -23,8 +22,6 @@ import org.springframework.mock.web.MockHttpSession;
 
 @Configuration
 @SpringBootApplication(exclude = {
-        MongoConfig.class,
-
         MongoAutoConfiguration.class,
         MongoDataAutoConfiguration.class,
         MongoRepositoriesAutoConfiguration.class,

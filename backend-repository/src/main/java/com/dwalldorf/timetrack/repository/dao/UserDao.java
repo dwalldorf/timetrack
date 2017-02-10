@@ -1,14 +1,15 @@
 package com.dwalldorf.timetrack.repository.dao;
 
 import com.dwalldorf.timetrack.model.UserModel;
-import com.dwalldorf.timetrack.repository.UserRepository;
 import com.dwalldorf.timetrack.repository.document.UserDocument;
 import com.dwalldorf.timetrack.repository.document.UserProperties;
 import com.dwalldorf.timetrack.repository.document.UserSettings;
 import com.dwalldorf.timetrack.repository.exception.BadPasswordException;
 import com.dwalldorf.timetrack.repository.exception.UserNotFoundException;
+import com.dwalldorf.timetrack.repository.repository.UserRepository;
 import com.dwalldorf.timetrack.repository.service.PasswordService;
 import javax.inject.Inject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -50,20 +51,40 @@ public class UserDao {
 
     public UserModel register(UserModel user) {
         byte[] salt = passwordService.createSalt();
-        UserProperties properties = new UserProperties()
-                .setUsername(user.getUsername())
-                .setEmail(user.getEmail())
-                .setRegistration(user.getRegistration())
-                .setSalt(salt)
-                .setHashedPassword(passwordService.hash(user.getPassword().toCharArray(), salt))
-                .setUserSettings(new UserSettings());
-        salt = null;
 
-        UserDocument userDocument = new UserDocument()
-                .setUserProperties(properties);
+        UserDocument userDocument = fromModel(user);
+        userDocument.getUserProperties()
+                    .setSalt(salt)
+                    .setHashedPassword(passwordService.hash(user.getPassword().toCharArray(), salt));
+        salt = null;
 
         UserDocument persistedUserDocument = userRepository.save(userDocument);
         return fromDocument(persistedUserDocument);
+    }
+
+    public UserModel update(UserModel user) {
+        String userId = user.getId();
+        UserDocument dbUser = userRepository.findOne(userId);
+
+        UserProperties userProps = dbUser.getUserProperties();
+        if (!StringUtils.equals(userProps.getUsername(), user.getUsername())) {
+            userProps.setUsername(user.getUsername());
+        }
+        if (!StringUtils.equals(userProps.getEmail(), user.getEmail())) {
+            userProps.setEmail(user.getEmail());
+        }
+        if (!String.valueOf(userProps.getFirstLogin()).equals(String.valueOf(user.getFirstLogin()))) {
+            userProps.setFirstLogin(user.getFirstLogin());
+        }
+        if (!String.valueOf(userProps.getLastLogin()).equals(String.valueOf(user.getLastLogin()))) {
+            userProps.setLastLogin(user.getLastLogin());
+        }
+        if (!userProps.getUserSettings().isAdmin() == user.isAdmin()) {
+            userProps.getUserSettings().setAdmin(user.isAdmin());
+        }
+
+        dbUser = userRepository.save(dbUser);
+        return fromDocument(dbUser);
     }
 
     UserModel fromDocument(UserDocument document) {
@@ -81,5 +102,18 @@ public class UserDao {
                 .setFirstLogin(document.getUserProperties().getFirstLogin())
                 .setLastLogin(document.getUserProperties().getLastLogin())
                 .setAdmin(document.getUserProperties().getUserSettings().isAdmin());
+    }
+
+    UserDocument fromModel(UserModel user) {
+        UserProperties properties = new UserProperties()
+                .setUsername(user.getUsername())
+                .setEmail(user.getEmail())
+                .setRegistration(user.getRegistration())
+                .setUserSettings(new UserSettings()
+                        .setAdmin(user.isAdmin()));
+
+        return new UserDocument()
+                .setId(user.getId())
+                .setUserProperties(properties);
     }
 }

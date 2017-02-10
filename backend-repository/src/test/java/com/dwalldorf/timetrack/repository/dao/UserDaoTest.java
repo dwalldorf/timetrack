@@ -8,7 +8,7 @@ import static org.mockito.Mockito.*;
 import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.stub.UserStub;
 import com.dwalldorf.timetrack.model.util.RandomUtil;
-import com.dwalldorf.timetrack.repository.UserRepository;
+import com.dwalldorf.timetrack.repository.repository.UserRepository;
 import com.dwalldorf.timetrack.repository.document.UserDocument;
 import com.dwalldorf.timetrack.repository.document.UserProperties;
 import com.dwalldorf.timetrack.repository.document.UserSettings;

@@ -1,4 +1,4 @@
-package com.dwalldorf.timetrack.config;
+package com.dwalldorf.timetrack.backend.config;
 
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +13,7 @@ import org.springframework.web.filter.DelegatingFilterProxy;
 
 @Configuration
 @EnableRedisHttpSession
-public class SessionRepositoryConfiguration {
+public class SessionRepositoryConfig {
 
     @Value("${redis.host}")
     private String host;

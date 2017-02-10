@@ -1,4 +1,4 @@
-package com.dwalldorf.timetrack.repository;
+package com.dwalldorf.timetrack.repository.repository;
 
 import com.dwalldorf.timetrack.repository.document.UserDocument;
 import org.springframework.data.mongodb.repository.MongoRepository;
