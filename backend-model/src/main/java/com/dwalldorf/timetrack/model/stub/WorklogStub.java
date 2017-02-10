@@ -1,7 +1,7 @@
 package com.dwalldorf.timetrack.model.stub;
 
-import com.dwalldorf.timetrack.model.util.RandomUtil;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
+import com.dwalldorf.timetrack.model.util.RandomUtil;
 import javax.inject.Inject;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
@@ -16,11 +16,7 @@ public class WorklogStub {
         this.randomUtil = randomUtil;
     }
 
-    public WorklogEntryModel createWorklogEntry(String customer, String project) {
-        return createWorklogEntry(customer, project, null);
-    }
-
-    public WorklogEntryModel createWorklogEntry(String customer, String project, String id) {
+    public WorklogEntryModel createWorklogEntry(String id, String customer, String project) {
         final int startDayMinus = randomUtil.randomInt(31);
         final int minutes = randomUtil.randomInt((7 * 60), (9 * 60));
 

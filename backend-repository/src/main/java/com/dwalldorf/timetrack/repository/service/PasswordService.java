@@ -22,7 +22,6 @@ public class PasswordService {
         keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
     }
 
-
     public byte[] createSalt() {
         final Random r = new SecureRandom();
         byte[] salt = new byte[32];

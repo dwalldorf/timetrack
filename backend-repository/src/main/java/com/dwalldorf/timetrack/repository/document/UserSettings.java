@@ -9,13 +9,13 @@ import org.mongodb.morphia.annotations.Embedded;
 @Embedded
 public class UserSettings implements Serializable {
 
-    private boolean admin = false;
+    private Boolean admin = false;
 
-    public boolean isAdmin() {
+    public Boolean isAdmin() {
         return admin;
     }
 
-    public UserSettings setAdmin(boolean admin) {
+    public UserSettings setAdmin(Boolean admin) {
         this.admin = admin;
         return this;
     }

@@ -1,6 +1,7 @@
 package com.dwalldorf.timetrack.model;
 
 import java.io.Serializable;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
 public class WorklogEntryModel implements Serializable {
@@ -13,8 +14,10 @@ public class WorklogEntryModel implements Serializable {
 
     private String task;
 
+    @NotEmpty
     private DateTime start;
 
+    @NotEmpty
     private DateTime stop;
 
     private Integer duration;

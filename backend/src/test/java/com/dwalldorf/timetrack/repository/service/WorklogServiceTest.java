@@ -39,9 +39,9 @@ public class WorklogServiceTest extends BaseTest {
         final String customer = "testCustomer";
         final String project = "testProject";
 
-        final WorklogEntryModel dbEntry1 = worklogStub.createWorklogEntry(customer, project, "abc001");
-        final WorklogEntryModel dbEntry2 = worklogStub.createWorklogEntry(customer, project, "abc002");
-        final WorklogEntryModel dbEntry3 = worklogStub.createWorklogEntry(customer, project, "abc003");
+        final WorklogEntryModel dbEntry1 = worklogStub.createWorklogEntry("abc001", customer, project);
+        final WorklogEntryModel dbEntry2 = worklogStub.createWorklogEntry("abc002", customer, project);
+        final WorklogEntryModel dbEntry3 = worklogStub.createWorklogEntry("abc0023", customer, project);
 
         // duplicate entry
         final WorklogEntryModel newEntry1_Duplicate = new WorklogEntryModel(dbEntry1)

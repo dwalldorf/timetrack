@@ -1,7 +1,7 @@
 package com.dwalldorf.timetrack.repository.dao;
 
-import com.dwalldorf.timetrack.repository.document.WorklogEntryDocument;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
+import com.dwalldorf.timetrack.repository.document.WorklogEntryDocument;
 import com.dwalldorf.timetrack.repository.repository.WorklogRepository;
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +30,7 @@ public class WorklogEntryDao {
         return toModelList(worklogRepository.findAll());
     }
 
-    private WorklogEntryDocument toDocument(WorklogEntryModel model) {
+    WorklogEntryDocument toDocument(WorklogEntryModel model) {
         return new WorklogEntryDocument()
                 .setId(model.getId())
                 .setCustomer(model.getCustomer())
@@ -41,14 +41,14 @@ public class WorklogEntryDao {
                 .setComment(model.getComment());
     }
 
-    private List<WorklogEntryDocument> toDocumentList(List<WorklogEntryModel> models) {
+    List<WorklogEntryDocument> toDocumentList(List<WorklogEntryModel> models) {
         return models.stream()
                      .filter(Objects::nonNull)
                      .map(this::toDocument)
                      .collect(Collectors.toList());
     }
 
-    private WorklogEntryModel toModel(WorklogEntryDocument document) {
+    WorklogEntryModel toModel(WorklogEntryDocument document) {
         return new WorklogEntryModel()
                 .setId(document.getId())
                 .setCustomer(document.getCustomer())
@@ -59,7 +59,7 @@ public class WorklogEntryDao {
                 .setComment(document.getComment());
     }
 
-    private List<WorklogEntryModel> toModelList(List<WorklogEntryDocument> documents) {
+    List<WorklogEntryModel> toModelList(List<WorklogEntryDocument> documents) {
         return documents.stream()
                         .filter(Objects::nonNull)
                         .map(this::toModel)
