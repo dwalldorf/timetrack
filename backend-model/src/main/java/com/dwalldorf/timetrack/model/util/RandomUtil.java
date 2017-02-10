@@ -22,7 +22,7 @@ public class RandomUtil {
         return random.nextBoolean();
     }
 
-    public String randomString(int length) {
+    public String randomString(final int length) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             char c = chars[random.nextInt(chars.length)];

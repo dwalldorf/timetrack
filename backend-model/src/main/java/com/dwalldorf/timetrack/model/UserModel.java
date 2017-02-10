@@ -29,7 +29,7 @@ public class UserModel implements Serializable {
 
     private DateTime lastLogin;
 
-    private boolean admin;
+    private Boolean admin;
 
     public String getId() {
         return id;
@@ -103,11 +103,11 @@ public class UserModel implements Serializable {
         return this;
     }
 
-    public boolean isAdmin() {
+    public Boolean isAdmin() {
         return admin;
     }
 
-    public UserModel setAdmin(boolean admin) {
+    public UserModel setAdmin(Boolean admin) {
         this.admin = admin;
         return this;
     }

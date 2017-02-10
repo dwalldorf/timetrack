@@ -1,11 +1,12 @@
 package com.dwalldorf.timetrack.backend.rest.controller;
 
-import com.dwalldorf.timetrack.model.WorklogEntryModel;
+import static org.springframework.http.HttpStatus.CREATED;
+
 import com.dwalldorf.timetrack.backend.service.CsvImportService;
 import com.dwalldorf.timetrack.backend.service.WorklogService;
+import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import java.util.List;
 import javax.inject.Inject;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,6 @@ public class CsvUploadController {
         worklogEntries = worklogService.diffWithDatabase(worklogEntries);
         worklogEntries = worklogService.save(worklogEntries);
 
-        return new ResponseEntity<>(worklogEntries, HttpStatus.CREATED);
+        return new ResponseEntity<>(worklogEntries, CREATED);
     }
 }

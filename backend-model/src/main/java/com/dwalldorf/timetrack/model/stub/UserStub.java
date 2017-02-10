@@ -22,18 +22,6 @@ public class UserStub {
         return createUser(null, null, null, null, null, null);
     }
 
-    public UserModel createUser(String userId) {
-        return createUser(userId, null, null, null, null, null);
-    }
-
-    public UserModel createUser(boolean admin) {
-        return createUser(null, null, null, null, null, admin);
-    }
-
-    public UserModel createUser(String userId, String username, String email, DateTime registration) {
-        return createUser(userId, username, email, null, registration, null);
-    }
-
     public UserModel createUser(String userId, String username, String email, String password, DateTime registration, Boolean admin) {
         // user
         if (userId == null) {
@@ -68,7 +56,6 @@ public class UserStub {
             user.setFirstLogin(registration.plusMinutes(randomUtil.randomInt(10, 600)))
                 .setLastLogin(lastLogin);
         }
-        password = null;
 
         // userSettings
         if (admin == null) {

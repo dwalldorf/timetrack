@@ -27,44 +27,44 @@ public class UserAuthenticationEventHandler {
 
     @Async
     @EventListener(UserAuthenticationEvent.class)
-    public void onUserAuthenticationEvent(final UserAuthenticationEvent authenticationEvent) {
-        switch (authenticationEvent.getAction()) {
+    public void onUserAuthenticationEvent(final UserAuthenticationEvent event) {
+        switch (event.getAction()) {
             case REGISTER:
-                handleRegistrationEvent(authenticationEvent);
+                handleRegistrationEvent(event);
                 break;
             case LOGIN:
-                handleLoginEvent(authenticationEvent);
+                handleLoginEvent(event);
                 break;
             case LOGOUT:
-                handleLogoutEvent(authenticationEvent);
+                handleLogoutEvent(event);
                 break;
         }
     }
 
-    private void handleRegistrationEvent(final UserAuthenticationEvent authenticationEvent) {
-        switch (authenticationEvent.getResult()) {
+    private void handleRegistrationEvent(final UserAuthenticationEvent event) {
+        switch (event.getResult()) {
             case SUCCESS:
-                logAuthenticationInfo("Successful registration: '{}'", authenticationEvent.getUsername());
+                logAuthenticationInfo("Successful registration: '{}'", event.getUsername());
                 break;
             case FAILURE:
                 logAuthenticationInfo("Failure during registration with username: {}, message: {}",
-                        authenticationEvent.getUsername(),
-                        authenticationEvent.getMessage()
+                        event.getUsername(),
+                        event.getMessage()
                 );
         }
     }
 
-    private void handleLoginEvent(final UserAuthenticationEvent authenticationEvent) {
-        switch (authenticationEvent.getResult()) {
+    private void handleLoginEvent(final UserAuthenticationEvent event) {
+        switch (event.getResult()) {
             case SUCCESS:
-                logAuthenticationInfo("Successful login: '{}'", authenticationEvent.getUsername());
+                logAuthenticationInfo("Successful login: '{}'", event.getUsername());
 
-                setLoginDate(authenticationEvent.getActor());
+                setLoginDate(event.getActor());
                 break;
             case FAILURE:
                 logAuthenticationInfo("Failure during login with name: '{}', message: {}",
-                        authenticationEvent.getUsername(),
-                        authenticationEvent.getMessage());
+                        event.getUsername(),
+                        event.getMessage());
                 break;
         }
     }
@@ -81,11 +81,12 @@ public class UserAuthenticationEventHandler {
         userDao.update(actor);
     }
 
-    private void handleLogoutEvent(final UserAuthenticationEvent authenticationEvent) {
-        if (authenticationEvent.getResult() == ActionEvent.Result.SUCCESS) {
-            logAuthenticationInfo("Logout: '{}'", authenticationEvent.getUsername());
+    private void handleLogoutEvent(final UserAuthenticationEvent event) {
+        if (event.getResult() == ActionEvent.Result.SUCCESS) {
+            logAuthenticationInfo("Logout: '{}'", event.getUsername());
         }
     }
+
 
     private void logAuthenticationInfo(final String format, final Object... arguments) {
         logger.info(marker, format, arguments);

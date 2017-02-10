@@ -35,7 +35,6 @@ public class SessionRepositoryConfig {
         JedisConnectionFactory factory = new JedisConnectionFactory();
         factory.setHostName(host);
         factory.setPort(port);
-
         return factory;
     }
 }

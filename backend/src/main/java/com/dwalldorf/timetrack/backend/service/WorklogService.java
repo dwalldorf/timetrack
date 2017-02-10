@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class WorklogService {
 
-
     private final WorklogEntryDao worklogEntryDao;
 
     @Inject

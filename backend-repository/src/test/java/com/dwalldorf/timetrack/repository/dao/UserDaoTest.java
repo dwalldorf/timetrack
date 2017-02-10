@@ -75,7 +75,7 @@ public class UserDaoTest {
 
     @Test
     public void testFromDocument_WithNull() throws Exception {
-        UserModel userModel = userDao.fromDocument(null);
+        UserModel userModel = userDao.toModel(null);
         assertNull(userModel);
     }
 
@@ -104,7 +104,7 @@ public class UserDaoTest {
                                         new UserSettings().setAdmin(admin)
                                 )
                 );
-        UserModel userModel = userDao.fromDocument(userDocument);
+        UserModel userModel = userDao.toModel(userDocument);
 
         assertEquals(userId, userModel.getId());
         assertEquals(username, userModel.getUsername());

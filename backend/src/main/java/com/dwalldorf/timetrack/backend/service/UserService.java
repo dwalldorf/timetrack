@@ -50,14 +50,16 @@ public class UserService {
         return user;
     }
 
+    @Transactional
     public UserModel login(final String username, final String password) {
         final UserModel currentUser = getCurrentUser();
+
         if (currentUser != null) {
             final String currentUserUsername = currentUser.getUsername();
             if (!currentUserUsername.equals(username)) {
                 eventPublisher.publishEvent(UserAuthenticationEvent.loginFailedEvent(
                         currentUserUsername,
-                        String.format("user already logged in but tried to login as: '%s'", username))
+                        String.format("user already logged in but tried to login as another user: '%s'", username))
                 );
             } else {
                 eventPublisher.publishEvent(UserAuthenticationEvent
@@ -73,16 +75,15 @@ public class UserService {
             return loginUser;
         } catch (UserNotFoundException ex) {
             eventPublisher.publishEvent(UserAuthenticationEvent.loginFailedEvent(username, "username not found"));
-            return null;
         } catch (BadPasswordException ex) {
             eventPublisher.publishEvent(UserAuthenticationEvent.loginFailedEvent(username, "wrong password"));
-            return null;
         }
+        return null;
     }
 
     public void logout() {
-        eventPublisher.publishEvent(UserAuthenticationEvent.logoutEvent(getCurrentUser()));
         httpSession.invalidate();
+        eventPublisher.publishEvent(UserAuthenticationEvent.logoutEvent(getCurrentUser()));
     }
 
     private void initializeUserSession(UserModel user) {
