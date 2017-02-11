@@ -2,6 +2,8 @@
 *.iml
 .DS_STORE
 
+**/pom.xml.versionsBackup
+
 **/target/
 **/node_modules
 **/dist
