@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.repository.dao;
 
+import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import com.dwalldorf.timetrack.repository.document.WorklogEntryDocument;
 import com.dwalldorf.timetrack.repository.repository.WorklogRepository;
@@ -28,6 +29,15 @@ public class WorklogEntryDao {
 
     public List<WorklogEntryModel> findAll() {
         return toModelList(worklogRepository.findAll());
+    }
+
+    public List<WorklogEntryModel> findByUser(UserModel user) {
+        return toModelList(worklogRepository.findByUserId(user.getId()));
+    }
+
+    public void delete(List<WorklogEntryModel> entries) {
+        List<WorklogEntryDocument> documents = toDocumentList(entries);
+        worklogRepository.delete(documents);
     }
 
     WorklogEntryDocument toDocument(WorklogEntryModel model) {

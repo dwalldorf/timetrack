@@ -8,6 +8,9 @@ import com.dwalldorf.timetrack.repository.exception.BadPasswordException;
 import com.dwalldorf.timetrack.repository.exception.UserNotFoundException;
 import com.dwalldorf.timetrack.repository.repository.UserRepository;
 import com.dwalldorf.timetrack.repository.service.PasswordService;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -111,6 +114,22 @@ public class UserDao {
 
         dbUser = userRepository.save(dbUser);
         return toModel(dbUser);
+    }
+
+    public List<UserModel> findTestUsers() {
+        List<UserDocument> users = userRepository.findByUserProperties_UsernameLike("test_");
+        return toModelList(users);
+    }
+
+    public void delete(UserModel user) {
+        userRepository.delete(toDocument(user));
+    }
+
+    List<UserModel> toModelList(List<UserDocument> models) {
+        return models.stream()
+                     .filter(Objects::nonNull)
+                     .map(this::toModel)
+                     .collect(Collectors.toList());
     }
 
     UserModel toModel(UserDocument document) {

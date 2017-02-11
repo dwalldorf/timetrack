@@ -18,7 +18,10 @@ public abstract class AbstractCommand implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         CommandLine cmd = getCmd(args);
-        this.run(cmd);
+
+        if (invoked(getCmdName())) {
+            this.run(cmd);
+        }
     }
 
     private CommandLine getCmd(String... args) throws ParseException {
@@ -41,4 +44,6 @@ public abstract class AbstractCommand implements CommandLineRunner {
     }
 
     protected abstract void run(CommandLine cmd);
+
+    protected abstract String getCmdName();
 }

@@ -48,10 +48,6 @@ public class CreateTestDataCommand extends AbstractCommand {
 
     @Override
     public void run(CommandLine cmd) {
-        if (!invoked(CMD_NAME)) {
-            return;
-        }
-
         final Integer userCount = getOptionValueInt(CMD_USER_COUNT_OPT_NAME, CMD_USER_COUNT_OPT_DEFAULT);
         final Integer worklogCount = getOptionValueInt(CMD_WORKLOG_COUNT_OPT_NAME, CMD_WORKLOG_COUNT_OPT_DEFAULT);
 
@@ -80,5 +76,10 @@ public class CreateTestDataCommand extends AbstractCommand {
             List<WorklogEntryModel> entries = worklogStub.createWorklogEntrySeries(user, entriesToCreate);
             worklogDao.save(entries);
         }
+    }
+
+    @Override
+    protected String getCmdName() {
+        return CMD_NAME;
     }
 }
