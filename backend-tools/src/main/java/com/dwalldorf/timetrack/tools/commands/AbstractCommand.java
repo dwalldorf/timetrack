@@ -26,7 +26,9 @@ public abstract class AbstractCommand implements CommandLineRunner {
 
     private CommandLine getCmd(String... args) throws ParseException {
         args = Arrays.stream(args)
-                     .filter(str -> !str.startsWith("--spring"))
+                     .filter(str -> (!str.startsWith("--spring") &&
+                             !str.startsWith("--debug"))
+                     )
                      .collect(Collectors.toList())
                      .toArray(new String[0]);
 

@@ -63,7 +63,7 @@ public class CreateTestDataCommand extends AbstractCommand {
             user = userDao.register(user);
 
             if (logger.isDebugEnabled()) {
-                logger.debug("Created user {}", user);
+                logger.debug("Created user {}", user.getId());
             }
             users.add(user);
         }
