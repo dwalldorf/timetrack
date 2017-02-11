@@ -2,9 +2,6 @@
 
 ## Components
 - [backend](backend)
-- [backend-model](backend-model)
-- [backend-repository](backend-repository)
-- [backend-tools](backend-tools)
 - [frontend](frontend)
 - [docker](docker)
   - [elasticsearch](docker/containers/elasticsearch)
