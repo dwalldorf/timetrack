@@ -41,6 +41,10 @@ public class WorklogEntryDao {
     }
 
     WorklogEntryDocument toDocument(WorklogEntryModel model) {
+        if (model == null) {
+            return null;
+        }
+
         return new WorklogEntryDocument()
                 .setId(model.getId())
                 .setUserId(model.getUserId())
@@ -60,6 +64,10 @@ public class WorklogEntryDao {
     }
 
     WorklogEntryModel toModel(WorklogEntryDocument document) {
+        if (document == null) {
+            return null;
+        }
+
         return new WorklogEntryModel()
                 .setId(document.getId())
                 .setUserId(document.getUserId())
