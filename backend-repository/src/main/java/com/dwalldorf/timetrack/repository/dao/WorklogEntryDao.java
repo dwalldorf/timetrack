@@ -33,6 +33,7 @@ public class WorklogEntryDao {
     WorklogEntryDocument toDocument(WorklogEntryModel model) {
         return new WorklogEntryDocument()
                 .setId(model.getId())
+                .setUserId(model.getUserId())
                 .setCustomer(model.getCustomer())
                 .setProject(model.getProject())
                 .setStart(model.getStart())
@@ -51,6 +52,7 @@ public class WorklogEntryDao {
     WorklogEntryModel toModel(WorklogEntryDocument document) {
         return new WorklogEntryModel()
                 .setId(document.getId())
+                .setUserId(document.getUserId())
                 .setCustomer(document.getCustomer())
                 .setProject(document.getProject())
                 .setStart(document.getStart())
