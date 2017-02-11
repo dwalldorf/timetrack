@@ -74,13 +74,13 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testToModel_WithNull() throws Exception {
+    public void testToModel_WithNull() {
         UserModel userModel = userDao.toModel(null);
         assertNull(userModel);
     }
 
     @Test
-    public void testToModel() throws Exception {
+    public void testToModel() {
         final String userId = "someId";
         final String username = "testUser";
         final String email = "name@host.tld";
@@ -117,7 +117,13 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testToDocument() throws Exception {
+    public void testToDocument_WithNull() {
+        UserDocument document = userDao.toDocument(null);
+        assertNull(document);
+    }
+
+    @Test
+    public void testToDocument() {
         final String userId = "someId";
         final String username = "testUser";
         final String email = "name@host.tld";
