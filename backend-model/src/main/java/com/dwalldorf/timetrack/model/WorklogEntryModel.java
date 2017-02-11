@@ -8,6 +8,8 @@ public class WorklogEntryModel implements Serializable {
 
     private String id;
 
+    private String userId;
+
     private String customer;
 
     private String project;
@@ -29,6 +31,7 @@ public class WorklogEntryModel implements Serializable {
 
     public WorklogEntryModel(WorklogEntryModel worklogEntry) {
         this.id = worklogEntry.getId();
+        this.userId = worklogEntry.userId;
         this.customer = worklogEntry.getCustomer();
         this.project = worklogEntry.getProject();
         this.task = worklogEntry.getTask();
@@ -53,6 +56,15 @@ public class WorklogEntryModel implements Serializable {
 
     public WorklogEntryModel setId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public WorklogEntryModel setUserId(String userId) {
+        this.userId = userId;
         return this;
     }
 
