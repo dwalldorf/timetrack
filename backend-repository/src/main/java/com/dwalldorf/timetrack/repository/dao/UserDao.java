@@ -150,9 +150,14 @@ public class UserDao {
     }
 
     UserDocument toDocument(UserModel user) {
+        if (user == null) {
+            return null;
+        }
+
         UserProperties properties = new UserProperties()
                 .setUsername(user.getUsername())
                 .setEmail(user.getEmail())
+                .setConfirmedEmail(user.isConfirmedEmail())
                 .setRegistration(user.getRegistration())
                 .setFirstLogin(user.getFirstLogin())
                 .setLastLogin(user.getLastLogin())
