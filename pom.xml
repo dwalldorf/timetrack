@@ -16,11 +16,7 @@
     </parent>
 
     <modules>
-        <module>backend-model</module>
-        <module>backend-repository</module>
         <module>backend</module>
-        <module>backend-tools</module>
-
         <module>frontend</module>
         <module>docker</module>
     </modules>
@@ -77,7 +73,7 @@
             </dependency>
             <dependency>
                 <groupId>com.dwalldorf</groupId>
-                <artifactId>backend</artifactId>
+                <artifactId>backend-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- own modules -->
