@@ -125,13 +125,6 @@ public class UserDao {
         userRepository.delete(toDocument(user));
     }
 
-    List<UserModel> toModelList(List<UserDocument> models) {
-        return models.stream()
-                     .filter(Objects::nonNull)
-                     .map(this::toModel)
-                     .collect(Collectors.toList());
-    }
-
     UserModel toModel(UserDocument document) {
         if (document == null) {
             return null;
@@ -147,6 +140,13 @@ public class UserDao {
                 .setFirstLogin(document.getUserProperties().getFirstLogin())
                 .setLastLogin(document.getUserProperties().getLastLogin())
                 .setAdmin(document.getUserProperties().getUserSettings().isAdmin());
+    }
+
+    List<UserModel> toModelList(List<UserDocument> models) {
+        return models.stream()
+                     .filter(Objects::nonNull)
+                     .map(this::toModel)
+                     .collect(Collectors.toList());
     }
 
     UserDocument toDocument(UserModel user) {
