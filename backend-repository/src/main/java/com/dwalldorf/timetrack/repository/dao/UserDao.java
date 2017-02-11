@@ -8,6 +8,9 @@ import com.dwalldorf.timetrack.repository.exception.BadPasswordException;
 import com.dwalldorf.timetrack.repository.exception.UserNotFoundException;
 import com.dwalldorf.timetrack.repository.repository.UserRepository;
 import com.dwalldorf.timetrack.repository.service.PasswordService;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import javax.inject.Inject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -113,6 +116,15 @@ public class UserDao {
         return toModel(dbUser);
     }
 
+    public List<UserModel> findTestUsers() {
+        List<UserDocument> users = userRepository.findByUserProperties_UsernameLike("test_");
+        return toModelList(users);
+    }
+
+    public void delete(UserModel user) {
+        userRepository.delete(toDocument(user));
+    }
+
     UserModel toModel(UserDocument document) {
         if (document == null) {
             return null;
@@ -130,10 +142,22 @@ public class UserDao {
                 .setAdmin(document.getUserProperties().getUserSettings().isAdmin());
     }
 
+    List<UserModel> toModelList(List<UserDocument> models) {
+        return models.stream()
+                     .filter(Objects::nonNull)
+                     .map(this::toModel)
+                     .collect(Collectors.toList());
+    }
+
     UserDocument toDocument(UserModel user) {
+        if (user == null) {
+            return null;
+        }
+
         UserProperties properties = new UserProperties()
                 .setUsername(user.getUsername())
                 .setEmail(user.getEmail())
+                .setConfirmedEmail(user.isConfirmedEmail())
                 .setRegistration(user.getRegistration())
                 .setFirstLogin(user.getFirstLogin())
                 .setLastLogin(user.getLastLogin())

@@ -13,6 +13,8 @@ public class WorklogEntryDocument {
     @Id
     private String id;
 
+    private String userId;
+
     private String customer;
 
     private String project;
@@ -33,6 +35,15 @@ public class WorklogEntryDocument {
 
     public WorklogEntryDocument setId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public WorklogEntryDocument setUserId(String userId) {
+        this.userId = userId;
         return this;
     }
 
