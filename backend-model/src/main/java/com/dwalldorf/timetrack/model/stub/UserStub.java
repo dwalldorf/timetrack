@@ -1,7 +1,7 @@
 package com.dwalldorf.timetrack.model.stub;
 
-import com.dwalldorf.timetrack.model.util.RandomUtil;
 import com.dwalldorf.timetrack.model.UserModel;
+import com.dwalldorf.timetrack.model.util.RandomUtil;
 import javax.inject.Inject;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
@@ -39,18 +39,25 @@ public class UserStub {
             password = randomUtil.randomString(20);
         }
         if (email == null) {
-            email = randomUtil.randomString(8) + "@" + randomUtil.randomString(8) + ".com";
+            email = USERNAME_PREFIX +
+                    randomUtil.randomString(8) +
+                    "@" +
+                    randomUtil.randomString(8) +
+                    ".tld";
         }
         if (registration == null) {
-            registration = new DateTime().minusDays(randomUtil.randomInt(2, 30));
+            registration = new DateTime().minusDays(randomUtil.randomInt(5, 120));
         }
-        DateTime lastLogin = new DateTime().minusMinutes(randomUtil.randomInt(10, 600));
+        DateTime firstLogin = registration.plusMinutes(randomUtil.randomInt(10, 600));
+        DateTime lastLogin = new DateTime().minusMinutes(randomUtil.randomInt(10, (24 * 60 * 2)));
 
         user.setUsername(username)
             .setEmail(email)
             .setConfirmedEmail(randomUtil.randomBoolean())
             .setPassword(password)
-            .setRegistration(registration);
+            .setRegistration(registration)
+            .setFirstLogin(firstLogin)
+            .setLastLogin(lastLogin);
 
         if (user.isConfirmedEmail()) {
             user.setFirstLogin(registration.plusMinutes(randomUtil.randomInt(10, 600)))
