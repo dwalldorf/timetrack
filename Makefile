@@ -15,8 +15,9 @@ run-frontend:
 fe-dev:
 	docker-compose up frontend
 
-down:
+stop:
 	docker-compose stop -t 3
+down: stop
 	docker-compose down
 
 mongo-connect:
