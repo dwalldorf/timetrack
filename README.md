@@ -7,6 +7,7 @@
   - [elasticsearch](docker/containers/elasticsearch)
   - [kibana](docker/containers/kibana)
   - [mongo](docker/containers/mongo)
+  - [redis](docker/containers/redis)
 
 ## Run it
 In the root of the project, type `make build && make up` to build the project and run all components in docker containers.
