@@ -8,10 +8,10 @@ import static org.mockito.Mockito.*;
 import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.stub.UserStub;
 import com.dwalldorf.timetrack.model.util.RandomUtil;
-import com.dwalldorf.timetrack.repository.repository.UserRepository;
 import com.dwalldorf.timetrack.repository.document.UserDocument;
 import com.dwalldorf.timetrack.repository.document.UserProperties;
 import com.dwalldorf.timetrack.repository.document.UserSettings;
+import com.dwalldorf.timetrack.repository.repository.UserRepository;
 import com.dwalldorf.timetrack.repository.service.PasswordService;
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -74,13 +74,13 @@ public class UserDaoTest {
     }
 
     @Test
-    public void testFromDocument_WithNull() throws Exception {
+    public void testToModel_WithNull() throws Exception {
         UserModel userModel = userDao.toModel(null);
         assertNull(userModel);
     }
 
     @Test
-    public void testFromDocument() throws Exception {
+    public void testToModel() throws Exception {
         final String userId = "someId";
         final String username = "testUser";
         final String email = "name@host.tld";
@@ -114,5 +114,39 @@ public class UserDaoTest {
         assertEquals(firstLoginDate, userModel.getFirstLogin());
         assertEquals(lastLoginDate, userModel.getLastLogin());
         assertEquals(admin, userModel.isAdmin());
+    }
+
+    @Test
+    public void testToDocument() throws Exception {
+        final String userId = "someId";
+        final String username = "testUser";
+        final String email = "name@host.tld";
+        final boolean confirmedEmail = true;
+        final DateTime registrationDate = new DateTime().minusDays(5);
+        final DateTime firstLoginDate = registrationDate.plusMinutes(30);
+        final DateTime lastLoginDate = new DateTime().minusHours(1);
+        final boolean admin = true;
+
+        UserModel model = new UserModel()
+                .setId(userId)
+                .setUsername(username)
+                .setEmail(email)
+                .setConfirmedEmail(confirmedEmail)
+                .setRegistration(registrationDate)
+                .setFirstLogin(firstLoginDate)
+                .setLastLogin(lastLoginDate)
+                .setAdmin(admin);
+
+        UserDocument document = userDao.toDocument(model);
+        UserProperties userProps = document.getUserProperties();
+
+        assertEquals(userId, document.getId());
+        assertEquals(username, userProps.getUsername());
+        assertEquals(email, userProps.getEmail());
+        assertEquals(confirmedEmail, userProps.isConfirmedEmail());
+        assertEquals(registrationDate, userProps.getRegistration());
+        assertEquals(firstLoginDate, userProps.getFirstLogin());
+        assertEquals(lastLoginDate, userProps.getLastLogin());
+        assertEquals(admin, userProps.getUserSettings().isAdmin());
     }
 }
