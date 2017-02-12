@@ -11,11 +11,16 @@ export class RouterService {
         this.router = router;
     }
 
-    public goToHome() {
+    public goToHome(): void {
         this.router.navigateByUrl(AppConfig.ROUTE_HOME);
     }
 
-    public goToLogin() {
+    public goToLogin(): void {
         this.router.navigateByUrl(AppConfig.ROUTE_LOGIN);
+    }
+
+    public getCurrentRoute(): string {
+        // console.log(this.router.routerState.root.firstChild.routeConfig.data["requireLogin"]);
+        return this.router.url;
     }
 }

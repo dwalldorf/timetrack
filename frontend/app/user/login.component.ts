@@ -12,32 +12,28 @@ export class LoginComponent {
 
     private userService: UserService;
 
-    private user: LoginUser;
+    private loginUser: LoginUser;
 
     loginError: string = null;
 
     constructor(routerService: RouterService, userService: UserService) {
         this.routerService = routerService;
         this.userService = userService;
-        this.user = new LoginUser();
+        this.loginUser = new LoginUser();
     }
 
     ngOnInit() {
-        this.userService.userEventEmitter
+        this.userService.fetchCurrentUser()
             .subscribe(
                 () => this.routerService.goToHome()
             );
     }
 
     login() {
-        this.userService.login(this.user)
+        this.userService
+            .login(this.loginUser)
             .subscribe(
-                () => this.routerService.goToHome(),
-                err => console.log(err)
+                () => this.routerService.goToHome()
             );
-    }
-
-    private getQueryStringValue(key: string) {
-        return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
     }
 }

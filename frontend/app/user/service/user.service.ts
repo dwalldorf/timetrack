@@ -20,12 +20,9 @@ export class UserService {
         this.http = httpService;
         this.cookieService = cookieService;
         this.userEventEmitter = new EventEmitter<User>();
-
-        this.fetchCurrentUser()
-            .subscribe();
     }
 
-    private fetchCurrentUser(): Observable<User> {
+    public fetchCurrentUser(): Observable<User> {
         let obs: Observable<User> = this.http.get('http://localhost:8080/users/me');
         obs.subscribe(
             (user: User) => {

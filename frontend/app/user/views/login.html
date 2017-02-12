@@ -20,7 +20,7 @@
                                name="username"
                                placeholder="Username or email"
                                class="form-control"
-                               [(ngModel)]="user.username"
+                               [(ngModel)]="loginUser.username"
                                required="true"/>
                     </div>
 
@@ -34,7 +34,7 @@
                                name="password"
                                placeholder="********"
                                class="form-control"
-                               [(ngModel)]="user.password"
+                               [(ngModel)]="loginUser.password"
                                required="true"/>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                         Login
                     </button>
                     <button type="button"
-                            routerLink="/register"
+                            routerLink="/åregister"
                             class="btn btn-default">
                         Go to registration
                     </button>

@@ -1,10 +1,12 @@
-import {Component} from "@angular/core";
+import {Component, Output} from "@angular/core";
 import {UserService} from "./user/service/user.service";
 import {RouterService} from "./core/service/router.service";
+import {AppConfig} from "./core/config/app.config";
+import {User} from "./user/model/user";
 
 @Component({
     selector: 'timetrack-app',
-    templateUrl: '/app/views/layout.html'
+    templateUrl: '/app/views/layout.html',
 })
 export class AppComponent {
 
@@ -12,7 +14,9 @@ export class AppComponent {
 
     private routerService: RouterService;
 
-    isLoggedIn: boolean = true;
+    isLoggedIn: boolean = false;
+
+    user: User = null;
 
     constructor(userService: UserService, routerService: RouterService) {
         this.routerService = routerService;
@@ -20,9 +24,9 @@ export class AppComponent {
     }
 
     ngOnInit() {
-        this.userService.userEventEmitter
+        this.userService.fetchCurrentUser()
             .subscribe(
-                () => this.isLoggedIn = true,
+                (user: User) => this.handleLoggedIn(user),
                 () => this.handleNotLoggedIn()
             );
     }
@@ -34,9 +38,22 @@ export class AppComponent {
             );
     }
 
+    private handleLoggedIn(user: User) {
+        console.log('handleLoggedIn');
+
+        this.user = user;
+        this.isLoggedIn = true;
+    }
+
     private handleNotLoggedIn() {
-        console.log('not logged in');
+        console.log('handleNotLoggedIn');
+
         this.isLoggedIn = false;
-        this.routerService.goToLogin();
+        this.user = null;
+
+        let currentRoute = this.routerService.getCurrentRoute();
+        if (currentRoute !== AppConfig.ROUTE_LOGIN && currentRoute !== AppConfig.ROUTE_REGISTER) {
+            this.routerService.goToLogin();
+        }
     }
 }

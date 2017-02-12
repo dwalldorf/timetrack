@@ -10,6 +10,7 @@ import {DashboardModule} from "./dashboard/dashboard.module";
 import {HttpService} from "./core/service/http.service";
 import {CoreModule} from "./core/core.module";
 import {CookieService} from "angular2-cookie/services/cookies.service";
+import {CacheService} from "./core/service/cache.service";
 
 @NgModule({
     imports: [
@@ -25,9 +26,9 @@ import {CookieService} from "angular2-cookie/services/cookies.service";
     ],
     providers: [
         {
-            provide: HttpService,
-            useFactory: (backend: XHRBackend, options: RequestOptions) => {
-                return new HttpService(backend, options);
+            provide: [HttpService],
+            useFactory: (backend: XHRBackend, options: RequestOptions, cacheService: CacheService) => {
+                return new HttpService(backend, options, cacheService);
             },
             deps: [XHRBackend, RequestOptions]
         },
