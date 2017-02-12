@@ -1,11 +1,9 @@
 package com.dwalldorf.timetrack.backend;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.SpringBootConfiguration;
 
-@Configuration
-@ComponentScan(basePackages = "com.dwalldorf.timetrack")
+@SpringBootConfiguration
 public class WebApplication {
 
     public static void main(String args[]) {
