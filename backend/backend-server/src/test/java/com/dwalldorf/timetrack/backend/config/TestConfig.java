@@ -1,4 +1,4 @@
-package com.dwalldorf.timetrack.repository.backend.config;
+package com.dwalldorf.timetrack.backend.config;
 
 import com.dwalldorf.timetrack.repository.repository.UserRepository;
 import com.mongodb.Mongo;

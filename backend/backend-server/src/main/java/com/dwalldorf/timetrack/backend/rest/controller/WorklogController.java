@@ -1,12 +1,15 @@
 package com.dwalldorf.timetrack.backend.rest.controller;
 
-import com.dwalldorf.timetrack.model.WorklogEntryModel;
+import com.dwalldorf.timetrack.backend.model.GraphConfig;
 import com.dwalldorf.timetrack.backend.rest.dto.ListDto;
+import com.dwalldorf.timetrack.backend.service.GraphService;
 import com.dwalldorf.timetrack.backend.service.WorklogService;
+import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import java.util.List;
 import javax.inject.Inject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,10 +18,13 @@ public class WorklogController {
 
     public static final String BASE_URI = "/worklog";
 
+    private final GraphService graphService;
+
     private final WorklogService worklogService;
 
     @Inject
-    public WorklogController(WorklogService worklogService) {
+    public WorklogController(GraphService graphService, WorklogService worklogService) {
+        this.graphService = graphService;
         this.worklogService = worklogService;
     }
 
@@ -26,5 +32,15 @@ public class WorklogController {
     public ListDto<WorklogEntryModel> getWorklog() {
         List<WorklogEntryModel> worklogEntries = worklogService.findAll();
         return new ListDto<>(worklogEntries);
+    }
+
+    @GetMapping("/graph_data")
+    public List<String> getGraphData(
+            @RequestParam(value = "from") String from,
+            @RequestParam(value = "to") String to,
+            @RequestParam(value = "scale", required = false, defaultValue = "day") String scale) {
+
+        GraphConfig graphConfig = graphService.fromParameters(from, to);
+        return null;
     }
 }

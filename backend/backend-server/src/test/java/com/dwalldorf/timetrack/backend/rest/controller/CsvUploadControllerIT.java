@@ -1,4 +1,4 @@
-package com.dwalldorf.timetrack.repository.backend.rest.controller;
+package com.dwalldorf.timetrack.backend.rest.controller;
 
 import org.junit.Test;
 

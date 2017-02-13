@@ -1,9 +1,9 @@
-package com.dwalldorf.timetrack.repository.backend;
+package com.dwalldorf.timetrack.backend;
 
-import com.dwalldorf.timetrack.repository.backend.rest.controller.CsvUploadControllerIT;
-import com.dwalldorf.timetrack.repository.backend.rest.controller.UserControllerIT;
-import com.dwalldorf.timetrack.repository.backend.rest.controller.VersionControllerIT;
-import com.dwalldorf.timetrack.repository.backend.rest.controller.WorklogControllerIT;
+import com.dwalldorf.timetrack.backend.rest.controller.CsvUploadControllerIT;
+import com.dwalldorf.timetrack.backend.rest.controller.UserControllerIT;
+import com.dwalldorf.timetrack.backend.rest.controller.VersionControllerIT;
+import com.dwalldorf.timetrack.backend.rest.controller.WorklogControllerIT;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

@@ -1,4 +1,4 @@
-package com.dwalldorf.timetrack.repository.service;
+package com.dwalldorf.timetrack.backend.service;
 
 import static com.dwalldorf.timetrack.backend.event.ActionEvent.Action.LOGIN;
 import static com.dwalldorf.timetrack.backend.event.ActionEvent.Action.LOGOUT;
@@ -14,12 +14,11 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
 import com.dwalldorf.timetrack.model.UserModel;
-import com.dwalldorf.timetrack.repository.backend.BaseTest;
+import com.dwalldorf.timetrack.backend.BaseTest;
 import com.dwalldorf.timetrack.backend.event.UserAuthenticationEvent;
 import com.dwalldorf.timetrack.repository.dao.UserDao;
 import com.dwalldorf.timetrack.repository.exception.BadPasswordException;
 import com.dwalldorf.timetrack.backend.exception.InvalidInputException;
-import com.dwalldorf.timetrack.backend.service.UserService;
 import javax.servlet.http.HttpSession;
 import org.joda.time.DateTime;
 import org.junit.Test;

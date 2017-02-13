@@ -1,12 +1,11 @@
-package com.dwalldorf.timetrack.repository.service;
+package com.dwalldorf.timetrack.backend.service;
 
 import static org.junit.Assert.assertEquals;
 
-import com.dwalldorf.timetrack.backend.service.WorklogService;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import com.dwalldorf.timetrack.model.stub.WorklogStub;
 import com.dwalldorf.timetrack.model.util.RandomUtil;
-import com.dwalldorf.timetrack.repository.backend.BaseTest;
+import com.dwalldorf.timetrack.backend.BaseTest;
 import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
 import java.util.Arrays;
 import java.util.List;

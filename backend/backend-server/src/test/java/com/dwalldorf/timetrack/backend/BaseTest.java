@@ -1,4 +1,4 @@
-package com.dwalldorf.timetrack.repository.backend;
+package com.dwalldorf.timetrack.backend;
 
 import static org.mockito.Mockito.*;
 

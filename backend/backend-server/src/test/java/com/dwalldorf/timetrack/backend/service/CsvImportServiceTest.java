@@ -1,6 +1,6 @@
-package com.dwalldorf.timetrack.repository.service;
+package com.dwalldorf.timetrack.backend.service;
 
-import com.dwalldorf.timetrack.repository.backend.BaseTest;
+import com.dwalldorf.timetrack.backend.BaseTest;
 import org.junit.Test;
 
 public class CsvImportServiceTest extends BaseTest {

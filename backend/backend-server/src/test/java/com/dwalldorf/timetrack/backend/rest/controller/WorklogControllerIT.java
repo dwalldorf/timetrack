@@ -1,13 +1,12 @@
-package com.dwalldorf.timetrack.repository.backend.rest.controller;
+package com.dwalldorf.timetrack.backend.rest.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.dwalldorf.timetrack.backend.rest.controller.WorklogController;
-import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import com.dwalldorf.timetrack.backend.service.WorklogService;
+import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import java.util.Collections;
 import org.joda.time.DateTime;
 import org.junit.Test;
