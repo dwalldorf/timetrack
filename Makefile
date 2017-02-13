@@ -12,9 +12,6 @@ run-env: up
 run-frontend:
 	docker-compose up -d frontend
 
-fe-dev:
-	docker-compose up frontend
-
 stop:
 	docker-compose stop -t 3
 down: stop
