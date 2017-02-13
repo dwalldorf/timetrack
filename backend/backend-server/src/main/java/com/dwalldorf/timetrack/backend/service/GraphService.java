@@ -12,7 +12,7 @@ public class GraphService {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd");
 
-    public GraphConfig fromParameters(String fromStr, String toStr) throws InvalidInputException {
+    public GraphConfig fromParameters(String fromStr, String toStr, String scaleStr) throws InvalidInputException {
         if (fromStr == null) {
             throw new InvalidInputException("fromStr must not be null");
         }
@@ -37,8 +37,17 @@ public class GraphService {
             throw new InvalidInputException("'from' must be before 'to'");
         }
 
+        scaleStr = scaleStr.trim().toUpperCase();
+        GraphConfig.Scale scale;
+        try {
+            scale = GraphConfig.Scale.valueOf(scaleStr);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidInputException("invalid scale: " + scaleStr);
+        }
+
         return new GraphConfig()
                 .setFrom(from)
-                .setTo(to);
+                .setTo(to)
+                .setScale(scale);
     }
 }
