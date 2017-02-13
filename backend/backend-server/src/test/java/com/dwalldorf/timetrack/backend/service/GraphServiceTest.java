@@ -82,6 +82,7 @@ public class GraphServiceTest extends BaseTest {
         graphService.fromParameters(STR_TODAY, STR_DATE_TO);
     }
 
+    @Test
     public void testFromParameters_To_TodayString() {
         final DateTime expectedFrom = DATE_FORMATTER.parseDateTime(STR_DATE_FROM);
         final DateTime expectedTo = DATE_FORMATTER.parseDateTime(DATE_FORMATTER.print(new DateTime()));
