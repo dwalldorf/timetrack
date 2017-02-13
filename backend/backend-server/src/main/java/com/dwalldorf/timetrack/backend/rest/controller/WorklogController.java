@@ -40,7 +40,7 @@ public class WorklogController {
             @RequestParam(value = "to") String to,
             @RequestParam(value = "scale", required = false, defaultValue = "day") String scale) {
 
-        GraphConfig graphConfig = graphService.fromParameters(from, to);
+        GraphConfig graphConfig = graphService.fromParameters(from, to, scale);
         return null;
     }
 }
