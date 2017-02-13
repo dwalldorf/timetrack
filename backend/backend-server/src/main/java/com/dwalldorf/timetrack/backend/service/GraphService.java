@@ -21,17 +21,14 @@ public class GraphService {
         }
 
         DateTime from;
-        DateTime to = null;
+        DateTime to;
 
         if (toStr.equals("today")) {
             toStr = DATE_FORMATTER.print(new DateTime());
         }
         try {
             from = DATE_FORMATTER.parseDateTime(fromStr);
-
-            if (to == null) {
-                to = DATE_FORMATTER.parseDateTime(toStr);
-            }
+            to = DATE_FORMATTER.parseDateTime(toStr);
         } catch (IllegalArgumentException e) {
             throw new InvalidInputException(e.getMessage(), e);
         }
