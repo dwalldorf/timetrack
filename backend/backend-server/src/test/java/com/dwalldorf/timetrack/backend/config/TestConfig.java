@@ -1,6 +1,9 @@
 package com.dwalldorf.timetrack.backend.config;
 
+import static org.mockito.Mockito.*;
+
 import com.dwalldorf.timetrack.repository.repository.UserRepository;
+import com.dwalldorf.timetrack.repository.repository.WorklogRepository;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import javax.servlet.http.HttpSession;
@@ -18,22 +21,33 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.redis.connection.jedis.JedisConnection;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.mock.web.MockHttpSession;
 
 @Configuration
 @SpringBootApplication(exclude = {
+        AppConfig.class,
+        SessionRepositoryConfig.class,
+
         MongoAutoConfiguration.class,
         MongoDataAutoConfiguration.class,
         MongoRepositoriesAutoConfiguration.class,
         SessionAutoConfiguration.class,
         RedisAutoConfiguration.class,
-        RedisRepositoriesAutoConfiguration.class,
-}, scanBasePackages = {"com.dwalldorf.timetrack"})
+        RedisRepositoriesAutoConfiguration.class
+}, scanBasePackages = {
+        "com.dwalldorf.timetrack.backend",
+        "com.dwalldorf.timetrack.repository"
+})
 @PropertySource("classpath:application.properties")
 public class TestConfig {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private WorklogRepository worklogRepository;
 
     @Bean
     @Primary
@@ -44,7 +58,7 @@ public class TestConfig {
     @Bean
     @Primary
     public Mongo mongo() throws Exception {
-        return Mockito.mock(MongoClient.class);
+        return mock(MongoClient.class);
     }
 
     @Bean
@@ -56,6 +70,16 @@ public class TestConfig {
     @Bean
     @Primary
     public Datastore datastore() throws Exception {
-        return Mockito.mock(Datastore.class);
+        return mock(Datastore.class);
+    }
+
+    @Bean
+    @Primary
+    public JedisConnectionFactory jedisConnectionFactory() {
+        JedisConnectionFactory factoryMock = Mockito.mock(JedisConnectionFactory.class);
+        JedisConnection connection = Mockito.mock(JedisConnection.class);
+        Mockito.when(factoryMock.getConnection()).thenReturn(connection);
+
+        return factoryMock;
     }
 }

@@ -9,9 +9,9 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.backend.rest.dto.LoginDto;
 import com.dwalldorf.timetrack.backend.service.UserService;
+import com.dwalldorf.timetrack.model.UserModel;
 import org.junit.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -111,7 +111,7 @@ public class UserControllerIT extends BaseControllerIT {
 
     @Test
     public void testLogout_NotLoggedIn() throws Exception {
-        doDelete(BASE_URI + URI_LOGOUT)
+        doPost(BASE_URI + URI_LOGOUT)
                 .andExpect(status().isNotFound());
     }
 
@@ -119,7 +119,7 @@ public class UserControllerIT extends BaseControllerIT {
     public void testLogout_Success() throws Exception {
         when(userService.getCurrentUser()).thenReturn(new UserModel());
 
-        doDelete(BASE_URI + URI_LOGOUT)
+        doPost(BASE_URI + URI_LOGOUT)
                 .andExpect(status().isOk());
     }
 }
