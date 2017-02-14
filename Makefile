@@ -5,9 +5,8 @@ build:
 up:
 	docker-compose up -d
 
-run-env: up
-	docker-compose stop -t 1 backend
-	docker-compose stop -t 1 frontend
+run-env:
+	docker-compose up -d elasticsearch mongo redis
 
 run-frontend:
 	docker-compose up -d frontend
