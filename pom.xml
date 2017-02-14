@@ -28,7 +28,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <spring-profile>default</spring-profile>
-        <integration-tests.skip>true</integration-tests.skip>
 
         <hibernate-validator.version>4.3.1.Final</hibernate-validator.version>
         <aspectj.version>1.8.10</aspectj.version>
@@ -200,9 +199,6 @@
             </plugin>
             <plugin>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <configuration>
-                    <skipTests>${integration-tests.skip}</skipTests>
-                </configuration>
                 <executions>
                     <execution>
                         <id>integration-test</id>
