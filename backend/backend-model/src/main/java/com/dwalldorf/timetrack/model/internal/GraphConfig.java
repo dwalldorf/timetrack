@@ -1,4 +1,4 @@
-package com.dwalldorf.timetrack.backend.model;
+package com.dwalldorf.timetrack.model.internal;
 
 import java.io.Serializable;
 import org.joda.time.DateTime;
