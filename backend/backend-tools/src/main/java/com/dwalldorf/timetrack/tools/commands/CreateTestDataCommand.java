@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
 public class CreateTestDataCommand extends AbstractCommand {
 
     public static final String CMD_NAME = "testData";
+    public static final String CMD_USER_ID_OR_NAME_OPT_NAME = "userId";
     public static final String CMD_USER_COUNT_OPT_NAME = "userCount";
     public static final Integer CMD_USER_COUNT_OPT_DEFAULT = 10;
 
@@ -73,7 +74,7 @@ public class CreateTestDataCommand extends AbstractCommand {
             int entriesToCreate = randomUtil.randomInt(worklogCount);
             logger.info("Creating {} worklog entries for user {}", entriesToCreate, user.getId());
 
-            List<WorklogEntryModel> entries = worklogStub.createWorklogEntrySeries(user, entriesToCreate);
+            List<WorklogEntryModel> entries = worklogStub.createWorklogEntrySeries(user.getId(), user.getFirstLogin(), entriesToCreate);
             worklogDao.save(entries);
         }
     }

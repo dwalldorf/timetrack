@@ -41,13 +41,13 @@ public class Application {
                                  .build());
 
         OPTIONS.addOptionGroup(optionGroup)
-               .addOption(Option.builder("u")
+               .addOption(Option.builder("uc")
                                 .desc("Amount of test users to create. Default: " + CMD_USER_COUNT_OPT_DEFAULT)
                                 .longOpt(CMD_USER_COUNT_OPT_NAME)
                                 .hasArg()
                                 .type(Integer.class)
                                 .build())
-               .addOption(Option.builder("w")
+               .addOption(Option.builder("wc")
                                 .desc("Amount of worklog entries to create max per user. Default: " + CMD_WORKLOG_COUNT_OPT_DEFAULT)
                                 .longOpt(CreateTestDataCommand.CMD_WORKLOG_COUNT_OPT_NAME)
                                 .hasArg()
@@ -57,7 +57,7 @@ public class Application {
 
     public static void main(String[] args) throws ParseException {
         List<String> argList = Arrays.asList(args);
-        if (argList.size() == 0 || argList.contains("help") || argList.contains("-h")) {
+        if (argList.size() == 0 || argList.contains("--help") || argList.contains("-h")) {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("sample", OPTIONS);
             return;
