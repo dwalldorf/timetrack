@@ -1,16 +1,21 @@
 package com.dwalldorf.timetrack.backend.service;
 
 import com.dwalldorf.timetrack.backend.exception.InvalidInputException;
-import com.dwalldorf.timetrack.backend.model.GraphConfig;
+import com.dwalldorf.timetrack.model.internal.GraphConfig;
+import javax.inject.Inject;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GraphService {
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd");
+    private final DateTimeFormatter dateTimeFormatter;
+
+    @Inject
+    public GraphService(DateTimeFormatter formatter) {
+        this.dateTimeFormatter = formatter;
+    }
 
     public GraphConfig fromParameters(String fromStr, String toStr, String scaleStr) throws InvalidInputException {
         if (fromStr == null) {
@@ -24,11 +29,11 @@ public class GraphService {
         DateTime to;
 
         if (toStr.equals("today")) {
-            toStr = DATE_FORMATTER.print(new DateTime());
+            toStr = dateTimeFormatter.print(new DateTime());
         }
         try {
-            from = DATE_FORMATTER.parseDateTime(fromStr);
-            to = DATE_FORMATTER.parseDateTime(toStr);
+            from = dateTimeFormatter.parseDateTime(fromStr);
+            to = dateTimeFormatter.parseDateTime(toStr);
         } catch (IllegalArgumentException e) {
             throw new InvalidInputException(e.getMessage(), e);
         }

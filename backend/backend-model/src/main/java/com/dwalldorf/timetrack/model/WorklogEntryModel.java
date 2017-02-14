@@ -1,10 +1,9 @@
 package com.dwalldorf.timetrack.model;
 
-import java.io.Serializable;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
-public class WorklogEntryModel implements Serializable {
+public class WorklogEntryModel extends AbstractModel {
 
     private String id;
 
@@ -42,7 +41,8 @@ public class WorklogEntryModel implements Serializable {
     }
 
     public boolean equalsLogically(WorklogEntryModel entry) {
-        return (String.valueOf(this.getCustomer()).equals(String.valueOf(entry.getCustomer())) &&
+        return (String.valueOf(this.getUserId()).equals(String.valueOf(entry.getUserId())) &&
+                String.valueOf(this.getCustomer()).equals(String.valueOf(entry.getCustomer())) &&
                 String.valueOf(this.getProject()).equals(String.valueOf(entry.getProject())) &&
                 String.valueOf(this.getStart()).equals(String.valueOf(entry.getStart())) &&
                 String.valueOf(this.getStop()).equals(String.valueOf(entry.getStop())) &&

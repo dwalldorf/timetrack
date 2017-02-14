@@ -1,6 +1,9 @@
 package com.dwalldorf.timetrack.backend.service;
 
+import com.dwalldorf.timetrack.model.GraphData;
+import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
+import com.dwalldorf.timetrack.model.internal.GraphConfig;
 import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,5 +46,9 @@ public class WorklogService {
 
     public List<WorklogEntryModel> findAll() {
         return worklogEntryDao.findAll();
+    }
+
+    public GraphData getGraphData(UserModel user, GraphConfig graphConfig) {
+        return worklogEntryDao.getGraphData(user, graphConfig);
     }
 }

@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import com.dwalldorf.timetrack.backend.BaseTest;
 import com.dwalldorf.timetrack.backend.exception.InvalidInputException;
-import com.dwalldorf.timetrack.backend.model.GraphConfig;
+import com.dwalldorf.timetrack.model.internal.GraphConfig;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -29,7 +29,7 @@ public class GraphServiceTest extends BaseTest {
 
     @Override
     protected void setUp() {
-        this.graphService = new GraphService();
+        this.graphService = new GraphService(DateTimeFormat.forPattern("yyyy-MM-dd"));
     }
 
     @Test(expected = InvalidInputException.class)

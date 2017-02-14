@@ -116,6 +116,15 @@ public class UserDao {
         return toModel(dbUser);
     }
 
+    public UserDocument findByIdOrUsername(String idOrUsername) {
+        UserDocument byId = userRepository.findOne(idOrUsername);
+
+        if (byId != null) {
+            return byId;
+        }
+        return userRepository.findByUserProperties_Username(idOrUsername);
+    }
+
     public List<UserModel> findTestUsers() {
         List<UserDocument> users = userRepository.findByUserProperties_UsernameLike("test_");
         return toModelList(users);

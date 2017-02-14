@@ -1,6 +1,7 @@
 package com.dwalldorf.timetrack.backend.service;
 
 import com.dwalldorf.timetrack.backend.exception.CsvParsingException;
+import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,24 +21,24 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class CsvImportService {
 
-    private static final Logger logger= LoggerFactory.getLogger(CsvImportService.class);
+    private static final Logger logger = LoggerFactory.getLogger(CsvImportService.class);
 
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
     private static final String SEPARATOR = ",";
 
-    public List<WorklogEntryModel> getWorklogEntriesFromCsv(MultipartFile file) {
+    public List<WorklogEntryModel> getWorklogEntriesFromCsv(MultipartFile file, UserModel user) {
         List<WorklogEntryModel> retVal = new ArrayList<>();
 
         try {
             List<List<String>> csvList = readFile(file);
-            retVal = getWorklogEntries(csvList);
+            retVal = getWorklogEntries(csvList, user);
         } catch (CsvParsingException e) {
             logger.error(e.getMessage(), e);
         }
         return retVal;
     }
 
-    private List<WorklogEntryModel> getWorklogEntries(List<List<String>> csvList) {
+    private List<WorklogEntryModel> getWorklogEntries(List<List<String>> csvList, UserModel user) {
         List<WorklogEntryModel> retVal = new ArrayList<>();
         csvList.forEach(entry -> {
             DateTime start = null;
@@ -61,6 +62,7 @@ public class CsvImportService {
 
             if (customer != null && start != null && stop != null) {
                 WorklogEntryModel worklogEntry = new WorklogEntryModel()
+                        .setUserId(user.getId())
                         .setCustomer(customer)
                         .setProject(project)
                         .setTask(task)
