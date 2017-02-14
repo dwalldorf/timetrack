@@ -21,7 +21,6 @@ public class UserProperties implements Serializable {
     private String username;
 
     @Email
-    @Indexed
     private String email;
 
     @NotEmpty
