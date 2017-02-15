@@ -4,9 +4,9 @@ import static org.springframework.http.HttpStatus.OK;
 
 import com.dwalldorf.timetrack.backend.annotation.RequireLogin;
 import com.dwalldorf.timetrack.backend.exception.InvalidInputException;
-import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.backend.rest.dto.LoginDto;
 import com.dwalldorf.timetrack.backend.service.UserService;
+import com.dwalldorf.timetrack.model.UserModel;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;

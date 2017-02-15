@@ -1,6 +1,7 @@
 package com.dwalldorf.timetrack.backend.rest.controller;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.dwalldorf.timetrack.backend.event.PermissionFailureEvent;
 import com.dwalldorf.timetrack.backend.exception.AdminRequiredException;
@@ -27,7 +28,7 @@ public class ErrorController {
     }
 
     @ExceptionHandler(LoginRequiredException.class)
-    @ResponseStatus(NOT_FOUND)
+    @ResponseStatus(UNAUTHORIZED)
     public void handleLoginRequireException(LoginRequiredException e) {
         eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(e.getMessage()));
     }
