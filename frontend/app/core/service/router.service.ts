@@ -21,6 +21,7 @@ export class RouterService {
 
     public getCurrentRoute(): string {
         // console.log(this.router.routerState.root.firstChild.routeConfig.data["requireLogin"]);
+
         return this.router.url;
     }
 }

@@ -1,29 +1,47 @@
 <div id="main-wrapper"
      class="container-fluid full-height">
 
-    <header>
-        <div *ngIf="isLoggedIn"
-             id="logged-in-header"
-             class="row">
-            <div class="col-xs-offset-3">
-            </div>
-            <div class="col-xs-6">
-            </div>
-            <div class="col-xs-3">
-                <button (click)="logout()"
-                        class="pull-right btn btn-default">
-                    <span>Logout</span>
-                </button>
-            </div>
-        </div>
+    <div id="header" class="row">
+        <div class="col-xs-12">
+            <header>
+                <div id="logged-in-header" *ngIf="isLoggedIn">
+                    <div class="col-xs-offset-3"></div>
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-3">
+                        <div class="dropdown">
+                            <button class="btn btn-default dropdown-toggle"
+                                    type="button"
+                                    id="userButton"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                {{currentUser.username}}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="userButton">
+                                <li>
+                                    <a href="#">Settings</a>
+                                </li>
+                                <li>
+                                    <a (click)="logout()" href="#">Logout</a>
+                                </li>
+                            </ul>
+                        </div>
 
-        <div *ngIf="!isLoggedIn"
-             id="logged-out-header">
-        </div>
-    </header>
+                        <!--<button (click)="logout()"-->
+                        <!--class="pull-right btn btn-default">-->
+                        <!--<span>Logout</span>-->
+                        <!--</button>-->
+                    </div>
+                </div>
 
-    <div id="content"
-         class="row">
+                <div id="logged-out-header" *ngIf="!isLoggedIn">
+                </div>
+            </header>
+        </div>
+    </div>
+
+    <div id="content" class="row">
         <div class="col-xs-3">
             Left
         </div>
@@ -34,10 +52,13 @@
             Right
         </div>
     </div>
+
     <div id="footer"
          class="row">
-        <div class="col-xs-offset-3 col-xs-6">
-            Footer
-        </div>
+        <footer>
+            <div class="col-xs-offset-3 col-xs-6">
+                Footer
+            </div>
+        </footer>
     </div>
 </div>

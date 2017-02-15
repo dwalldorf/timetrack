@@ -31,7 +31,6 @@ export class CacheService {
      * @returns {any}
      */
     public get(identifier: string): any {
-
         if (!this.storage.hasOwnProperty(identifier)) {
             return null;
         }

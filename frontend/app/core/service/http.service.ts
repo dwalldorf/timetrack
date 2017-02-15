@@ -1,4 +1,4 @@
-import {Http, XHRBackend, RequestOptions, Response, Headers} from "@angular/http";
+import {Http, XHRBackend, RequestOptions, Headers, Response} from "@angular/http";
 import {Injectable, EventEmitter} from "@angular/core";
 import {Observable} from "rxjs/Rx";
 import {CacheService} from "./cache.service";
@@ -44,52 +44,48 @@ export class HttpService extends Http {
         this.requestsInProgress = {};
     }
 
-    get(url: string) {
-        return this.makeReq(HttpService.METHOD_GET, url);
+    get(url: string): Observable<any> {
+        return this.makeReq(HttpService.METHOD_GET, url, null);
     }
 
-    private makeReq(method: string, url: string): Observable<any> {
+    post(url: string, body: any): Observable<any> {
+        return this.makeReq(HttpService.METHOD_POST, url, body);
+    }
+
+    private makeReq(method: string, url: string, body: any): Observable<any> {
         let requestHash = HttpService.getRequestHash(method, url);
 
         if (this.hasRequestInProgress(requestHash)) {
-            console.log(requestHash + ' already in progress');
-
             return this.getRequestInProgress(requestHash);
         }
 
         let cacheHit = this.cacheService.get(requestHash);
         if (cacheHit != null) {
             console.log(requestHash + ' found cache');
+            // return new Observable().from(cacheHit);
             return cacheHit;
         }
 
-        console.log(requestHash + ' not yet in progress');
-        let observable = super.get(url)
-            .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error));
-
+        let observable: Observable<any>;
+        switch (method) {
+            case HttpService.METHOD_GET:
+                observable = super.get(url);
+                break;
+            case HttpService.METHOD_POST:
+                observable = super.post(url, body);
+        }
         this.requestsInProgress[requestHash] = observable;
 
-        observable.subscribe((res) => this.cacheService.cache(requestHash, res, 1));
+        observable.map((res: Response) => res.json());
+        observable.subscribe(
+            (data) => {
+                this.finishRequest(requestHash);
+                this.cacheService.cache(requestHash, data, 1)
+            },
+            (error) => this.finishRequest(requestHash),
+            () => this.finishRequest(requestHash)
+        );
         return observable;
-    }
-
-    post(url: string, body: any) {
-        return super.post(url, body)
-            .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error));
-    }
-
-    put(url: string, body: any) {
-        return super.put(url, body)
-            .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error));
-    }
-
-    delete(url: string) {
-        return super.delete(url)
-            .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error));
     }
 
     // makeRequest(method: string, url: string, payload: any = null): EventEmitter<any> {

@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {UserService} from "./service/user.service";
 import {User} from "./model/user";
 import {Router} from "@angular/router";
@@ -6,13 +6,13 @@ import {Router} from "@angular/router";
 @Component({
     templateUrl: '/app/user/views/register.html'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
 
     private router: Router;
 
     private userService: UserService;
 
-    user: User;
+    user: User = new User();
 
     constructor(router: Router, userService: UserService) {
         this.router = router;

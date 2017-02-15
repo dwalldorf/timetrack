@@ -1,4 +1,4 @@
-import {Component, Output} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {UserService} from "./user/service/user.service";
 import {RouterService} from "./core/service/router.service";
 import {AppConfig} from "./core/config/app.config";
@@ -8,52 +8,58 @@ import {User} from "./user/model/user";
     selector: 'timetrack-app',
     templateUrl: '/app/views/layout.html',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-    private userService: UserService;
+    private _userService: UserService;
 
-    private routerService: RouterService;
+    private _routerService: RouterService;
 
     isLoggedIn: boolean = false;
 
-    user: User = null;
+    currentUser: User = null;
 
     constructor(userService: UserService, routerService: RouterService) {
-        this.routerService = routerService;
-        this.userService = userService;
+        this._routerService = routerService;
+        this._userService = userService;
     }
 
     ngOnInit() {
-        this.userService.fetchCurrentUser()
-            .subscribe(
-                (user: User) => this.handleLoggedIn(user),
-                () => this.handleNotLoggedIn()
-            );
+        // register to userChange so we can redirect to login
+        this._userService.userChange$.subscribe(
+            (user: User) => {
+                if (user) {
+                    this.handleLoggedIn(user)
+                } else {
+                    this.handleNotLoggedIn();
+                }
+            },
+            () => this.handleNotLoggedIn()
+        );
     }
 
     logout() {
-        this.userService.logout()
-            .subscribe(
-                () => this.routerService.goToLogin()
-            );
+        this._userService.logout();
     }
 
     private handleLoggedIn(user: User) {
-        console.log('handleLoggedIn');
+        console.log(this._userService.getCurrentUser());
+        console.log(user);
 
-        this.user = user;
         this.isLoggedIn = true;
+        this.currentUser = user;
     }
 
     private handleNotLoggedIn() {
         console.log('handleNotLoggedIn');
 
         this.isLoggedIn = false;
-        this.user = null;
+        this.currentUser = null;
 
-        let currentRoute = this.routerService.getCurrentRoute();
+        let currentRoute = this._routerService.getCurrentRoute();
+        console.log(currentRoute);
         if (currentRoute !== AppConfig.ROUTE_LOGIN && currentRoute !== AppConfig.ROUTE_REGISTER) {
-            this.routerService.goToLogin();
+            console.log('redirecting to login');
+            this._routerService.goToLogin();
         }
     }
 }

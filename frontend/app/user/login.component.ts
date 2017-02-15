@@ -1,12 +1,13 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {UserService} from "./service/user.service";
 import {LoginUser} from "./model/login.user";
 import {RouterService} from "../core/service/router.service";
+import {User} from "./model/user";
 
 @Component({
     templateUrl: '/app/user/views/login.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
     private routerService: RouterService;
 
@@ -23,17 +24,16 @@ export class LoginComponent {
     }
 
     ngOnInit() {
-        this.userService.fetchCurrentUser()
-            .subscribe(
-                () => this.routerService.goToHome()
-            );
+        this.userService.userChange$.subscribe(
+            (user: User) => {
+                if (user) {
+                    this.routerService.goToHome()
+                }
+            }
+        );
     }
 
     login() {
-        this.userService
-            .login(this.loginUser)
-            .subscribe(
-                () => this.routerService.goToHome()
-            );
+        this.userService.login(this.loginUser)
     }
 }

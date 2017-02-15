@@ -11,6 +11,7 @@ import {HttpService} from "./core/service/http.service";
 import {CoreModule} from "./core/core.module";
 import {CookieService} from "angular2-cookie/services/cookies.service";
 import {CacheService} from "./core/service/cache.service";
+import {StatsModule} from "./stats/stats.module";
 
 @NgModule({
     imports: [
@@ -21,6 +22,7 @@ import {CacheService} from "./core/service/cache.service";
         AppRoutingModule,
 
         CoreModule,
+        StatsModule,
         DashboardModule,
         UserModule
     ],
