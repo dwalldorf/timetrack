@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     ngOnInit() {
         this.userService.userChange$.subscribe(
             (user: User) => {
-                if (user) {
+                if (user && user.id) {
                     this.routerService.goToHome()
                 }
             }

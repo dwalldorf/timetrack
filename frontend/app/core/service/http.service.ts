@@ -18,7 +18,7 @@ export class HttpService extends Http {
         HttpService.METHOD_PUT
     ];
 
-    private static isValidMethod(method: string) {
+    private  isValidMethod(method: string) {
         return (HttpService.ALLOWED_METHODS.indexOf(method) >= 0);
     }
 
@@ -26,9 +26,7 @@ export class HttpService extends Http {
         return method + ':' + url;
     }
 
-    private cacheService: CacheService;
-
-    private requestsInProgress: {[key: string]: Observable<any>};
+    private _cacheService: CacheService;
 
     constructor(backend: XHRBackend, options: RequestOptions, cacheService: CacheService) {
         let headers: Headers = options.headers;
@@ -40,30 +38,32 @@ export class HttpService extends Http {
 
         super(backend, options);
 
-        this.cacheService = cacheService;
-        this.requestsInProgress = {};
+        this._cacheService = cacheService;
     }
 
-    get(url: string): Observable<any> {
+    public get(url: string): Observable<any> {
         return this.makeReq(HttpService.METHOD_GET, url, null);
     }
 
-    post(url: string, body: any): Observable<any> {
+    public post(url: string, body: any): Observable<any> {
         return this.makeReq(HttpService.METHOD_POST, url, body);
     }
 
     private makeReq(method: string, url: string, body: any): Observable<any> {
-        let requestHash = HttpService.getRequestHash(method, url);
-
-        if (this.hasRequestInProgress(requestHash)) {
-            return this.getRequestInProgress(requestHash);
+        if (!this.isValidMethod(method)) {
+            console.error("Invalid method: " + method);
+            return;
         }
 
-        let cacheHit = this.cacheService.get(requestHash);
-        if (cacheHit != null) {
-            console.log(requestHash + ' found cache');
-            // return new Observable().from(cacheHit);
-            return cacheHit;
+        let requestHash = HttpService.getRequestHash(method, url);
+        let retVal = new EventEmitter<any>();
+
+        let cacheHit = this._cacheService.get(requestHash);
+        if (cacheHit) {
+            setTimeout(function () {
+                retVal.emit(cacheHit);
+            }, 10);
+            return retVal;
         }
 
         let observable: Observable<any>;
@@ -73,93 +73,17 @@ export class HttpService extends Http {
                 break;
             case HttpService.METHOD_POST:
                 observable = super.post(url, body);
+                break;
         }
-        this.requestsInProgress[requestHash] = observable;
 
         observable.map((res: Response) => res.json());
         observable.subscribe(
             (data) => {
-                this.finishRequest(requestHash);
-                this.cacheService.cache(requestHash, data, 1)
+                retVal.emit(data);
+                this._cacheService.cache(requestHash, data, 1)
             },
-            (error) => this.finishRequest(requestHash),
-            () => this.finishRequest(requestHash)
+            (error) => retVal.error(error)
         );
-        return observable;
-    }
-
-    // makeRequest(method: string, url: string, payload: any = null): EventEmitter<any> {
-    //     if (!HttpService.isValidMethod(method)) {
-    //         throw new Error('invalid http method: ' + method);
-    //     }
-    //
-    //     // url = AppConfig.API_PREFIX + url;
-    //     let requestEventEmitter = new EventEmitter<any>(),
-    //         requestHash = HttpService.getRequestHash(method, url);
-    //
-    //     if (this.hasRequestInProgress(requestHash)) {
-    //         return this.getRequestInProgress(requestHash);
-    //     }
-    //
-    //     // payload = JSON.stringify(payload);
-    //     let observable: Observable<Response>;
-    //
-    //     switch (method) {
-    //         case HttpService.METHOD_GET:
-    //             observable = super.get(url);
-    //             break;
-    //         case HttpService.METHOD_POST:
-    //             observable = super.post(url, payload);
-    //             break;
-    //         case HttpService.METHOD_PUT:
-    //             observable = super.put(url, payload);
-    //             break;
-    //         case HttpService.METHOD_DELETE:
-    //             observable = super.delete(url);
-    //             break;
-    //     }
-    //
-    //     this.requestsInProgress[requestHash] = requestEventEmitter;
-    //
-    //     observable.subscribe(
-    //         res => {
-    //             let emitVal = true;
-    //             try {
-    //                 emitVal = res.json();
-    //             } catch (error) {
-    //             }
-    //
-    //             requestEventEmitter.emit(emitVal);
-    //             this.finishRequest(requestHash);
-    //         },
-    //         err => {
-    //             requestEventEmitter.error(err);
-    //             this.finishRequest(requestHash);
-    //         },
-    //         () => {
-    //             this.finishRequest(requestHash);
-    //         }
-    //     );
-    //     return requestEventEmitter;
-    // }
-
-    private finishRequest(requestHash: string) {
-        delete this.requestsInProgress[requestHash];
-    }
-
-    private hasRequestInProgress(requestHash: string) {
-        return this.requestsInProgress.hasOwnProperty(requestHash);
-    }
-
-    /**
-     * @param requestHash string
-     * @returns EventEmitter
-     */
-    private getRequestInProgress(requestHash: string) {
-        if (!this.hasRequestInProgress(requestHash)) {
-            throw new Error('no such request in progress: ' + requestHash);
-        }
-
-        return this.requestsInProgress[requestHash];
+        return retVal;
     }
 }

@@ -1,4 +1,4 @@
-import {Injectable, EventEmitter} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {LoginUser} from "../model/login.user";
 import {User} from "../model/user";
 import {Observable, BehaviorSubject} from "rxjs/Rx";
@@ -11,49 +11,45 @@ export class UserService {
 
     private readonly KEY_CURRENT_USER = 'cu';
 
-    private httpService: HttpService;
+    private _httpService: HttpService;
 
-    private cookieService: CookieService;
+    private _cookieService: CookieService;
 
-    private userChange = new BehaviorSubject<User>(null);
-    public userChange$ = this.userChange.asObservable();
+    private _userChange: BehaviorSubject<User>;
+
+    public userChange$: Observable<User>;
 
     constructor(httpService: HttpService, cookieService: CookieService) {
-        this.httpService = httpService;
-        this.cookieService = cookieService;
+        this._httpService = httpService;
+        this._cookieService = cookieService;
+
+        this._userChange = new BehaviorSubject<User>(null);
+        this.userChange$ = this._userChange.asObservable();
 
         this.fetchCurrentUser();
     }
 
-    public fetchCurrentUser(): EventEmitter<User> {
-        let emitter = new EventEmitter<User>();
-
-        this.httpService
+    public fetchCurrentUser(): void {
+        this._httpService
             .get('http://localhost:8080/users/me')
             .subscribe(
                 (res: Response) => {
                     if (res.status !== 200) {
-                        this.handleLogout()
+                        this.doLogout()
                     } else {
                         let user = res.json();
                         localStorage.setItem(this.KEY_CURRENT_USER, JSON.stringify(user));
-
-                        emitter.next(user);
-                        this.userChange.next(user);
+                        this._userChange.next(user);
                     }
                 },
-                () => this.handleLogout()
+                () => this.doLogout()
             );
-        return emitter;
     }
 
     public login(user: LoginUser): Observable<any> {
-        let observable: Observable<any> = this.httpService.post('http://localhost:8080/users/login', user);
-        observable.subscribe(
-            (user: User) => {
-                this.fetchCurrentUser();
-            }
-        );
+        let observable: Observable<any> = this._httpService.post('http://localhost:8080/users/login', user);
+
+        observable.subscribe(() => this.fetchCurrentUser());
         return observable;
     }
 
@@ -67,10 +63,10 @@ export class UserService {
     }
 
     public logout(): Observable<Response> {
-        let observable: Observable<Response> = this.httpService.post('http://localhost:8080/users/logout', null);
+        let observable: Observable<Response> = this._httpService.post('http://localhost:8080/users/logout', null);
         observable.subscribe(
             () => {
-                this.handleLogout();
+                this.doLogout();
             }
         );
 
@@ -78,12 +74,13 @@ export class UserService {
     }
 
     public register(user: User): Observable<any> {
-        return this.httpService.post('http://localhost:8080/users', user);
+        return this._httpService.post('http://localhost:8080/users', user);
     }
 
-    private handleLogout(){
-        this.cookieService.remove('TIMETRACK');
+    private doLogout() {
+        this._cookieService.remove('TIMETRACK');
         localStorage.removeItem(this.KEY_CURRENT_USER);
-        this.userChange.next(null);
+
+        this._userChange.next(new User());
     }
 }

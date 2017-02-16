@@ -28,12 +28,9 @@ export class AppComponent implements OnInit {
         this._userService.userChange$.subscribe(
             (user: User) => {
                 if (user) {
-                    this.handleLoggedIn(user)
-                } else {
-                    this.handleNotLoggedIn();
+                    this.handleUserChange(user);
                 }
-            },
-            () => this.handleNotLoggedIn()
+            }
         );
     }
 
@@ -41,22 +38,26 @@ export class AppComponent implements OnInit {
         this._userService.logout();
     }
 
-    private handleLoggedIn(user: User) {
-        console.log(this._userService.getCurrentUser());
-        console.log(user);
+    private handleUserChange(user: User): void {
+        if (user) {
+            if (user.id) {
+                this.handleLoggedIn(user);
+            } else {
+                this.handleNotLoggedIn();
+            }
+        }
+    }
 
+    private handleLoggedIn(user: User) {
         this.isLoggedIn = true;
         this.currentUser = user;
     }
 
     private handleNotLoggedIn() {
-        console.log('handleNotLoggedIn');
-
         this.isLoggedIn = false;
         this.currentUser = null;
 
         let currentRoute = this._routerService.getCurrentRoute();
-        console.log(currentRoute);
         if (currentRoute !== AppConfig.ROUTE_LOGIN && currentRoute !== AppConfig.ROUTE_REGISTER) {
             console.log('redirecting to login');
             this._routerService.goToLogin();
