@@ -19,12 +19,12 @@ public class WorklogEntryDao {
 
     private final WorklogRepository worklogRepository;
 
-    private final DateTimeFormatter dateTimeFormatter;
+    private final DateTimeFormatter graphDateTimeFormatter;
 
     @Inject
-    public WorklogEntryDao(WorklogRepository worklogRepository, DateTimeFormatter dateTimeFormatter) {
+    public WorklogEntryDao(WorklogRepository worklogRepository, DateTimeFormatter graphDateTimeFormatter) {
         this.worklogRepository = worklogRepository;
-        this.dateTimeFormatter = dateTimeFormatter;
+        this.graphDateTimeFormatter = graphDateTimeFormatter;
     }
 
     public List<WorklogEntryModel> save(List<WorklogEntryModel> worklogEntries) {
@@ -58,7 +58,7 @@ public class WorklogEntryDao {
         entries.forEach(entry ->
                 retVal.add(
                         new GraphMap()
-                                .set("date", dateTimeFormatter.print(entry.getStart()))
+                                .set("date", graphDateTimeFormatter.print(entry.getStart()))
                                 .set("customer", entry.getCustomer())
                                 .set("project", entry.getProject())
                                 .set("start", entry.getStart().toString())

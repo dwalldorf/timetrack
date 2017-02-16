@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GraphDateTimeFormatterConfig {
 
-    @Bean
+    @Bean("graphDateTimeFormatter")
     public DateTimeFormatter dateTimeFormatter() {
         return DateTimeFormat.forPattern("yyyy-MM-dd");
     }

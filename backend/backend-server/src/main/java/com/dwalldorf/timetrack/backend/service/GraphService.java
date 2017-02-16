@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class GraphService {
 
-    private final DateTimeFormatter dateTimeFormatter;
+    private final DateTimeFormatter graphDateTimeFormatter;
 
     @Inject
-    public GraphService(DateTimeFormatter formatter) {
-        this.dateTimeFormatter = formatter;
+    public GraphService(DateTimeFormatter graphDateTimeFormatter) {
+        this.graphDateTimeFormatter = graphDateTimeFormatter;
     }
 
     public GraphConfig fromParameters(String fromStr, String toStr, String scaleStr) throws InvalidInputException {
@@ -29,11 +29,11 @@ public class GraphService {
         DateTime to;
 
         if (toStr.equals("today")) {
-            toStr = dateTimeFormatter.print(new DateTime());
+            toStr = graphDateTimeFormatter.print(new DateTime());
         }
         try {
-            from = dateTimeFormatter.parseDateTime(fromStr);
-            to = dateTimeFormatter.parseDateTime(toStr);
+            from = graphDateTimeFormatter.parseDateTime(fromStr);
+            to = graphDateTimeFormatter.parseDateTime(toStr);
         } catch (IllegalArgumentException e) {
             throw new InvalidInputException(e.getMessage(), e);
         }
