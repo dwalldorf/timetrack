@@ -29,9 +29,38 @@ export class UserService {
         this.fetchCurrentUser();
     }
 
-    public fetchCurrentUser(): void {
+    public login(user: LoginUser): Observable<any> {
+        let observable: Observable<any> = this._httpService.post('/users/login', user);
+
+        observable.subscribe(() => this.fetchCurrentUser());
+        return observable;
+    }
+
+    public getCurrentUser(): User {
+        let userStr = localStorage.getItem(this.KEY_CURRENT_USER);
+        if (!userStr) {
+            return null;
+        }
+        return JSON.parse(userStr);
+    }
+
+    public logout(): Observable<Response> {
+        let observable: Observable<Response> = this._httpService.post('/users/logout', null);
+        observable.subscribe(
+            () => {
+                this.doLogout();
+            }
+        );
+        return observable;
+    }
+
+    public register(user: User): Observable<any> {
+        return this._httpService.post('/users', user);
+    }
+
+    private fetchCurrentUser(): void {
         this._httpService
-            .get('http://localhost:8080/users/me')
+            .get('/users/me')
             .subscribe(
                 (res: Response) => {
                     if (res.status !== 200) {
@@ -44,37 +73,6 @@ export class UserService {
                 },
                 () => this.doLogout()
             );
-    }
-
-    public login(user: LoginUser): Observable<any> {
-        let observable: Observable<any> = this._httpService.post('http://localhost:8080/users/login', user);
-
-        observable.subscribe(() => this.fetchCurrentUser());
-        return observable;
-    }
-
-    public getCurrentUser(): User {
-        let userStr = localStorage.getItem(this.KEY_CURRENT_USER);
-        if (!userStr) {
-            return null;
-        }
-
-        return JSON.parse(userStr);
-    }
-
-    public logout(): Observable<Response> {
-        let observable: Observable<Response> = this._httpService.post('http://localhost:8080/users/logout', null);
-        observable.subscribe(
-            () => {
-                this.doLogout();
-            }
-        );
-
-        return observable;
-    }
-
-    public register(user: User): Observable<any> {
-        return this._httpService.post('http://localhost:8080/users', user);
     }
 
     private doLogout() {

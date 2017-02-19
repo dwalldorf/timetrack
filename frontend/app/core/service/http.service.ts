@@ -22,12 +22,6 @@ export class HttpService extends Http {
         return (HttpService.ALLOWED_METHODS.indexOf(method) >= 0);
     }
 
-    private static getRequestHash(method: string, url: string) {
-        return method + ':' + url;
-    }
-
-    private _cacheService: CacheService;
-
     constructor(backend: XHRBackend, options: RequestOptions, cacheService: CacheService) {
         let headers: Headers = options.headers;
         headers.set("Content-Type", "application/json");
@@ -37,8 +31,6 @@ export class HttpService extends Http {
         options.withCredentials = true;
 
         super(backend, options);
-
-        this._cacheService = cacheService;
     }
 
     public get(url: string): Observable<any> {
@@ -50,20 +42,10 @@ export class HttpService extends Http {
     }
 
     private makeReq(method: string, url: string, body: any): Observable<any> {
+        url = 'http://localhost:8080' + url;
         if (!this.isValidMethod(method)) {
             console.error("Invalid method: " + method);
             return;
-        }
-
-        let requestHash = HttpService.getRequestHash(method, url);
-        let retVal = new EventEmitter<any>();
-
-        let cacheHit = this._cacheService.get(requestHash);
-        if (cacheHit) {
-            setTimeout(function () {
-                retVal.emit(cacheHit);
-            }, 10);
-            return retVal;
         }
 
         let observable: Observable<any>;
@@ -77,13 +59,6 @@ export class HttpService extends Http {
         }
 
         observable.map((res: Response) => res.json());
-        observable.subscribe(
-            (data) => {
-                retVal.emit(data);
-                this._cacheService.cache(requestHash, data, 1)
-            },
-            (error) => retVal.error(error)
-        );
-        return retVal;
+        return observable;
     }
 }
