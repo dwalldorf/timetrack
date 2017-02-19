@@ -28,7 +28,6 @@
         "@angular/platform-browser-dynamic": "2.4.6",
         "@angular/router": "3.4.6",
         "@angular/upgrade": "2.4.6",
-        "@types/d3": "4.5.0",
         "angular-in-memory-web-api": "0.2.4",
         "angular2-cookie": "1.2.6",
         "bootstrap": "3.3.7",
@@ -43,6 +42,7 @@
         "zone.js": "0.7.6"
     },
     "devDependencies": {
+        "@types/d3": "4.5.0",
         "@types/jasmine": "2.5.36",
         "@types/node": "6.0.46",
         "canonical-path": "0.0.2",
