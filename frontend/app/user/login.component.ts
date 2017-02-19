@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild, ElementRef} from "@angular/core";
 import {UserService} from "./service/user.service";
 import {LoginUser} from "./model/login.user";
 import {RouterService} from "../core/service/router.service";
@@ -8,6 +8,9 @@ import {User} from "./model/user";
     templateUrl: '/app/user/views/login.html'
 })
 export class LoginComponent implements OnInit {
+
+    @ViewChild('usernameInput')
+    private usernameInput: ElementRef;
 
     private routerService: RouterService;
 
@@ -24,6 +27,8 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.usernameInput.nativeElement.focus();
+
         this.userService.userChange$.subscribe(
             (user: User) => {
                 if (user && user.id) {
