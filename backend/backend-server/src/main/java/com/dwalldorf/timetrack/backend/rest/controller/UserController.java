@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(UserController.BASE_URI)
-public class UserController {
+public class UserController extends BaseController {
 
     public static final String BASE_URI = "/users";
     public static final String URI_ME = "/me";
@@ -53,7 +53,7 @@ public class UserController {
     @GetMapping(URI_ME)
     @RequireLogin
     public UserModel getMe() {
-        return userService.getCurrentUser();
+        return this.getCurrentUser();
     }
 
     @CrossOrigin

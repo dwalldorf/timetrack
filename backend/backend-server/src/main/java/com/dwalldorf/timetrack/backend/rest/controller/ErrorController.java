@@ -6,7 +6,6 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import com.dwalldorf.timetrack.backend.event.PermissionFailureEvent;
 import com.dwalldorf.timetrack.backend.exception.AdminRequiredException;
 import com.dwalldorf.timetrack.backend.exception.LoginRequiredException;
-import com.dwalldorf.timetrack.backend.service.UserService;
 import com.dwalldorf.timetrack.model.UserModel;
 import javax.inject.Inject;
 import org.springframework.context.ApplicationEventPublisher;
@@ -15,16 +14,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class ErrorController {
+public class ErrorController extends BaseController {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    private final UserService userService;
 
     @Inject
-    public ErrorController(ApplicationEventPublisher eventPublisher, UserService userService) {
+    public ErrorController(ApplicationEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;
-        this.userService = userService;
     }
 
     @ExceptionHandler(LoginRequiredException.class)
@@ -37,7 +34,7 @@ public class ErrorController {
     @ResponseStatus(NOT_FOUND)
     public void handleAdminRequiredException(AdminRequiredException e) {
         final String errorMessage = e.getMessage();
-        final UserModel currentUser = userService.getCurrentUser();
+        final UserModel currentUser = this.getCurrentUser();
 
         if (currentUser != null) {
             eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(currentUser, errorMessage));

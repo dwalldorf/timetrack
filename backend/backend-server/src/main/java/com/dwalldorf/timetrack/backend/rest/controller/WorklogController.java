@@ -3,7 +3,6 @@ package com.dwalldorf.timetrack.backend.rest.controller;
 import com.dwalldorf.timetrack.backend.annotation.RequireLogin;
 import com.dwalldorf.timetrack.backend.rest.dto.ListDto;
 import com.dwalldorf.timetrack.backend.service.GraphService;
-import com.dwalldorf.timetrack.backend.service.UserService;
 import com.dwalldorf.timetrack.backend.service.WorklogService;
 import com.dwalldorf.timetrack.model.GraphData;
 import com.dwalldorf.timetrack.model.UserModel;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(WorklogController.BASE_URI)
-public class WorklogController {
+public class WorklogController extends BaseController {
 
     public static final String BASE_URI = "/worklog";
 
@@ -26,13 +25,10 @@ public class WorklogController {
 
     private final WorklogService worklogService;
 
-    private final UserService userService;
-
     @Inject
-    public WorklogController(GraphService graphService, WorklogService worklogService, UserService userService) {
+    public WorklogController(GraphService graphService, WorklogService worklogService) {
         this.graphService = graphService;
         this.worklogService = worklogService;
-        this.userService = userService;
     }
 
     @RequireLogin
@@ -49,7 +45,7 @@ public class WorklogController {
             @RequestParam(value = "to") String to,
             @RequestParam(value = "scale", required = false, defaultValue = "day") String scale) {
 
-        UserModel currentUser = userService.getCurrentUser();
+        UserModel currentUser = this.getCurrentUser();
         GraphConfig graphConfig = graphService.fromParameters(from, to, scale);
 
         return worklogService.getGraphData(currentUser, graphConfig);
