@@ -35,6 +35,7 @@ public class WorklogController {
         this.userService = userService;
     }
 
+    @RequireLogin
     @GetMapping
     public ListDto<WorklogEntryModel> getWorklog() {
         List<WorklogEntryModel> worklogEntries = worklogService.findAll();

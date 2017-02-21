@@ -22,13 +22,11 @@ public class WorklogEntryDaoTest {
     private static final String customer = "customer";
     private static final String project = "project";
 
-    private WorklogRepository worklogRepository;
-
     private WorklogEntryDao worklogEntryDao;
 
     @Before
     public void setUp() throws Exception {
-        this.worklogRepository = mock(WorklogRepository.class);
+        WorklogRepository worklogRepository = mock(WorklogRepository.class);
         this.worklogEntryDao = new WorklogEntryDao(worklogRepository);
     }
 

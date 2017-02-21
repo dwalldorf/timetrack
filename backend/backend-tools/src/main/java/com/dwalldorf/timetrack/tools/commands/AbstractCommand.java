@@ -36,7 +36,7 @@ public abstract class AbstractCommand implements CommandLineRunner {
         return this.cmd;
     }
 
-    final boolean invoked(String cmdName) {
+    private boolean invoked(String cmdName) {
         return cmd.hasOption(cmdName);
     }
 

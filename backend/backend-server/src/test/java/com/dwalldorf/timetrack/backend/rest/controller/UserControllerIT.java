@@ -90,7 +90,7 @@ public class UserControllerIT extends BaseControllerIT {
         when(userService.getCurrentUser()).thenReturn(null);
 
         doGet(BASE_URI + URI_ME)
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
@@ -112,7 +112,7 @@ public class UserControllerIT extends BaseControllerIT {
     @Test
     public void testLogout_NotLoggedIn() throws Exception {
         doPost(BASE_URI + URI_LOGOUT)
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

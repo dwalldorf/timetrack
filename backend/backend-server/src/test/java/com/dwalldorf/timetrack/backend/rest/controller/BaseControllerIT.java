@@ -44,26 +44,26 @@ public abstract class BaseControllerIT {
         afterSetup();
     }
 
-    protected void afterSetup() {
+    void afterSetup() {
     }
 
-    protected ResultActions doGet(final String uri) throws Exception {
+    ResultActions doGet(final String uri) throws Exception {
         return prepareRequest(get(uri));
     }
 
-    protected ResultActions doPost(final String uri, final Object body) throws Exception {
+    ResultActions doPost(final String uri, final Object body) throws Exception {
         return prepareRequest(post(uri), body);
     }
 
-    protected ResultActions doPost(final String uri) throws Exception {
+    ResultActions doPost(final String uri) throws Exception {
         return doPost(uri, null);
     }
 
-    protected ResultActions doPut(final String uri, final Object body) throws Exception {
+    ResultActions doPut(final String uri, final Object body) throws Exception {
         return prepareRequest(put(uri), body);
     }
 
-    protected ResultActions doDelete(final String uri) throws Exception {
+    ResultActions doDelete(final String uri) throws Exception {
         return prepareRequest(delete(uri));
     }
 
