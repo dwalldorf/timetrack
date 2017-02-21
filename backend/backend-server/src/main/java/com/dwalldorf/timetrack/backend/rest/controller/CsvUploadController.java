@@ -20,11 +20,11 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping(CsvUploadController.BASE_URI)
 public class CsvUploadController extends BaseController {
 
+    static final String BASE_URI = "/csv";
+
     private final CsvImportService csvImportService;
 
     private final WorklogService worklogService;
-
-    public static final String BASE_URI = "/csv";
 
     @Inject
     public CsvUploadController(CsvImportService csvImportService, WorklogService worklogService) {

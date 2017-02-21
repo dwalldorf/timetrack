@@ -18,7 +18,6 @@ public class ErrorController extends BaseController {
 
     private final ApplicationEventPublisher eventPublisher;
 
-
     @Inject
     public ErrorController(ApplicationEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;

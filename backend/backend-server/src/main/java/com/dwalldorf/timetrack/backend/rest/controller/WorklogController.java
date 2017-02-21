@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(WorklogController.BASE_URI)
 public class WorklogController extends BaseController {
 
-    public static final String BASE_URI = "/worklog";
+    static final String BASE_URI = "/worklog";
 
     private final GraphService graphService;
 
