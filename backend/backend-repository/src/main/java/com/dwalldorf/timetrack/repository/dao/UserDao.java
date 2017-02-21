@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -77,34 +76,28 @@ public class UserDao {
         UserDocument dbUser = userRepository.findOne(userId);
         UserProperties userProps = dbUser.getUserProperties();
 
-        // username
-        if (user.getUsername() != null &&
-                !StringUtils.equals(userProps.getUsername(), user.getUsername())) {
+        if (user.getUsername() != null) {
             userProps.setUsername(user.getUsername());
         }
 
-        // email
-        if (user.getEmail() != null &&
-                !StringUtils.equals(userProps.getEmail(), user.getEmail())) {
+        if (user.getEmail() != null) {
             userProps.setEmail(user.getEmail());
         }
 
-        // registration
-        if (user.getRegistration() != null &&
-                !String.valueOf(userProps.getRegistration()).equals(String.valueOf(user.getRegistration()))) {
+        if (user.getRegistration() != null) {
             userProps.setRegistration(user.getRegistration());
         }
 
-        // firstLogin
-        if (user.getFirstLogin() != null &&
-                !String.valueOf(userProps.getFirstLogin()).equals(String.valueOf(user.getFirstLogin()))) {
+        if (user.getFirstLogin() != null) {
             userProps.setFirstLogin(user.getFirstLogin());
         }
 
-        // lastLogin
-        if (user.getLastLogin() != null &&
-                !String.valueOf(userProps.getLastLogin()).equals(String.valueOf(user.getLastLogin()))) {
+        if (user.getLastLogin() != null) {
             userProps.setLastLogin(user.getLastLogin());
+        }
+
+        if (user.getWorkingHoursWeek() != null) {
+            userProps.setWorkingHoursWeek(user.getWorkingHoursWeek());
         }
 
         dbUser = userRepository.save(dbUser);
