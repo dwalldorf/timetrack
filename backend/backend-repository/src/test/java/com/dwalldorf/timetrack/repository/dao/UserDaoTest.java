@@ -10,7 +10,6 @@ import com.dwalldorf.timetrack.model.stub.UserStub;
 import com.dwalldorf.timetrack.model.util.RandomUtil;
 import com.dwalldorf.timetrack.repository.document.UserDocument;
 import com.dwalldorf.timetrack.repository.document.UserProperties;
-import com.dwalldorf.timetrack.repository.document.UserSettings;
 import com.dwalldorf.timetrack.repository.repository.UserRepository;
 import com.dwalldorf.timetrack.repository.service.PasswordService;
 import org.joda.time.DateTime;
@@ -45,10 +44,7 @@ public class UserDaoTest {
     public void testRegister_HashesCorrectly() {
         UserModel user = userStub.createUser();
         UserDocument userDocument = new UserDocument()
-                .setUserProperties(
-                        new UserProperties()
-                                .setUserSettings(new UserSettings())
-                );
+                .setUserProperties(new UserProperties());
         when(userRepository.save(any(UserDocument.class))).thenReturn(userDocument);
 
         userDao.register(user);
@@ -61,10 +57,7 @@ public class UserDaoTest {
     public void testRegister_ReturnSecureUserCopy() {
         UserModel user = userStub.createUser();
         UserDocument userDocument = new UserDocument()
-                .setUserProperties(
-                        new UserProperties()
-                                .setUserSettings(new UserSettings())
-                );
+                .setUserProperties(new UserProperties());
         when(userRepository.save(any(UserDocument.class))).thenReturn(userDocument);
         when(passwordServiceMock.createSalt()).thenReturn(SALT);
 
@@ -100,7 +93,6 @@ public class UserDaoTest {
                                 .setRegistration(registrationDate)
                                 .setFirstLogin(firstLoginDate)
                                 .setLastLogin(lastLoginDate)
-                                .setUserSettings(new UserSettings())
                 );
         UserModel userModel = userDao.toModel(userDocument);
 

@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 import org.mongodb.morphia.annotations.Embedded;
-import org.mongodb.morphia.annotations.Reference;
 import org.springframework.data.mongodb.core.index.Indexed;
 
 /**
@@ -37,9 +36,6 @@ public class UserProperties implements Serializable {
     private DateTime lastLogin;
 
     private boolean confirmedEmail = false;
-
-    @Reference
-    private UserSettings userSettings;
 
     public String getUsername() {
         return username;
@@ -110,15 +106,6 @@ public class UserProperties implements Serializable {
 
     public UserProperties setConfirmedEmail(boolean confirmedEmail) {
         this.confirmedEmail = confirmedEmail;
-        return this;
-    }
-
-    public UserSettings getUserSettings() {
-        return userSettings;
-    }
-
-    public UserProperties setUserSettings(UserSettings userSettings) {
-        this.userSettings = userSettings;
         return this;
     }
 }

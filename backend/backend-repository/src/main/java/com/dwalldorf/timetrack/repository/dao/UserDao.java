@@ -3,7 +3,6 @@ package com.dwalldorf.timetrack.repository.dao;
 import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.repository.document.UserDocument;
 import com.dwalldorf.timetrack.repository.document.UserProperties;
-import com.dwalldorf.timetrack.repository.document.UserSettings;
 import com.dwalldorf.timetrack.repository.exception.BadPasswordException;
 import com.dwalldorf.timetrack.repository.exception.UserNotFoundException;
 import com.dwalldorf.timetrack.repository.repository.UserRepository;
@@ -156,8 +155,7 @@ public class UserDao {
                 .setConfirmedEmail(user.isConfirmedEmail())
                 .setRegistration(user.getRegistration())
                 .setFirstLogin(user.getFirstLogin())
-                .setLastLogin(user.getLastLogin())
-                .setUserSettings(new UserSettings());
+                .setLastLogin(user.getLastLogin());
 
         return new UserDocument()
                 .setId(user.getId())
