@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(UserController.BASE_URI)
-public class UserController {
+public class UserController extends BaseController {
 
-    public static final String BASE_URI = "/users";
-    public static final String URI_ME = "/me";
-    public static final String URI_LOGIN = "/login";
-    public static final String URI_LOGOUT = "/logout";
+    static final String BASE_URI = "/users";
+    static final String URI_ME = "/me";
+    static final String URI_LOGIN = "/login";
+    static final String URI_LOGOUT = "/logout";
 
     private final UserService userService;
 
@@ -53,7 +53,7 @@ public class UserController {
     @GetMapping(URI_ME)
     @RequireLogin
     public UserModel getMe() {
-        return userService.getCurrentUser();
+        return this.getCurrentUser();
     }
 
     @CrossOrigin

@@ -14,6 +14,7 @@
         "test-once": "tsc && karma start karma.conf.js --single-run",
         "tsc": "tsc --outDir dist",
         "tsc:w": "tsc -w --outDir dist --sourceRoot app",
+        "build": "npm run tsc && npm run build-css",
         "build-css": "node-sass --include-path scss static/css/main.scss dist/static/css/main.css",
         "watch-css": "nodemon -e scss -x \"npm run build-css\""
     },
