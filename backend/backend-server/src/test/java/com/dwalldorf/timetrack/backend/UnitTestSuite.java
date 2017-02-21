@@ -1,6 +1,5 @@
 package com.dwalldorf.timetrack.backend;
 
-import com.dwalldorf.timetrack.backend.annotation.RequireAdminTest;
 import com.dwalldorf.timetrack.backend.annotation.RequireLoginTest;
 import com.dwalldorf.timetrack.backend.rest.controller.UserControllerTest;
 import com.dwalldorf.timetrack.backend.service.CsvImportServiceTest;
@@ -12,7 +11,6 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        RequireAdminTest.class,
         RequireLoginTest.class,
 
         UserControllerTest.class,

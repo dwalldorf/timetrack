@@ -1,8 +1,6 @@
 package com.dwalldorf.timetrack.backend.annotation;
 
-import com.dwalldorf.timetrack.backend.exception.AdminRequiredException;
 import com.dwalldorf.timetrack.backend.exception.LoginRequiredException;
-import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.backend.service.UserService;
 import javax.inject.Inject;
 import org.aspectj.lang.JoinPoint;
@@ -26,19 +24,6 @@ public class RequireRoleInvocationHandler {
         if (userService.getCurrentUser() == null) {
             String signature = joinPoint.getSignature().toShortString();
             throw new LoginRequiredException(signature + " called without login");
-        }
-    }
-
-    @Before("execution(* *(..)) && @annotation(com.dwalldorf.timetrack.backend.annotation.RequireAdmin)")
-    public void checkAdminBefore(JoinPoint joinPoint) throws Exception {
-        String signature = joinPoint.getSignature().toShortString();
-        UserModel user = userService.getCurrentUser();
-
-        if (user == null) {
-            throw new LoginRequiredException(signature + " called without login");
-        }
-        if (!user.isAdmin()) {
-            throw new AdminRequiredException(signature + " called without admin rights");
         }
     }
 }
