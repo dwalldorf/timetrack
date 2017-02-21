@@ -59,7 +59,8 @@ public class CreateTestDataCommand extends AbstractCommand {
         List<UserModel> users = new ArrayList<>();
         for (int i = 0; i < userCount; i++) {
             UserModel user = userStub.createUser()
-                                     .setId(null);
+                                     .setId(null)
+                                     .setPassword("test");
 
             user = userDao.register(user);
 
@@ -72,7 +73,7 @@ public class CreateTestDataCommand extends AbstractCommand {
         // create worklog entries
         for (UserModel user : users) {
             int entriesToCreate = randomUtil.randomInt(worklogCount);
-            logger.info("Creating {} worklog entries for user {}", entriesToCreate, user.getId());
+            logger.info("Creating {} worklog entries for user {}", entriesToCreate, user.getUsername());
 
             List<WorklogEntryModel> entries = worklogStub.createWorklogEntrySeries(user.getId(), user.getFirstLogin(), entriesToCreate);
             worklogDao.save(entries);

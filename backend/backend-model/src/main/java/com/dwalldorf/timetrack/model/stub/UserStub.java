@@ -46,7 +46,7 @@ public class UserStub {
                     ".tld";
         }
         if (registration == null) {
-            registration = new DateTime().minusDays(randomUtil.randomInt(5, 120));
+            registration = new DateTime().minusDays(randomUtil.randomInt(60, 730));
         }
         DateTime firstLogin = registration.plusMinutes(randomUtil.randomInt(10, 600));
         DateTime lastLogin = new DateTime().minusMinutes(randomUtil.randomInt(10, (24 * 60 * 2)));

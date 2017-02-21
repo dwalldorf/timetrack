@@ -9,7 +9,6 @@ import com.dwalldorf.timetrack.repository.document.WorklogEntryDocument;
 import com.dwalldorf.timetrack.repository.repository.WorklogRepository;
 import java.util.Arrays;
 import java.util.List;
-import org.joda.time.format.DateTimeFormat;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +29,7 @@ public class WorklogEntryDaoTest {
     @Before
     public void setUp() throws Exception {
         this.worklogRepository = mock(WorklogRepository.class);
-        this.worklogEntryDao = new WorklogEntryDao(worklogRepository, DateTimeFormat.forPattern("yyyy-MM-dd"));
+        this.worklogEntryDao = new WorklogEntryDao(worklogRepository);
     }
 
     @Test

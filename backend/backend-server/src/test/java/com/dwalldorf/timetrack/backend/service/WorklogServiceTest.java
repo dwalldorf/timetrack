@@ -2,14 +2,15 @@ package com.dwalldorf.timetrack.backend.service;
 
 import static org.junit.Assert.assertEquals;
 
+import com.dwalldorf.timetrack.backend.BaseTest;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import com.dwalldorf.timetrack.model.stub.WorklogStub;
 import com.dwalldorf.timetrack.model.util.RandomUtil;
-import com.dwalldorf.timetrack.backend.BaseTest;
 import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
 import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -29,7 +30,7 @@ public class WorklogServiceTest extends BaseTest {
 
     @Override
     protected void setUp() {
-        this.service = new WorklogService(worklogEntryDao);
+        this.service = new WorklogService(worklogEntryDao, DateTimeFormat.forPattern("yyyy-MM-dd"));
     }
 
     @Test

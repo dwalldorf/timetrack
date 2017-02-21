@@ -50,6 +50,7 @@ public class WorklogController {
 
         UserModel currentUser = userService.getCurrentUser();
         GraphConfig graphConfig = graphService.fromParameters(from, to, scale);
+
         return worklogService.getGraphData(currentUser, graphConfig);
     }
 }

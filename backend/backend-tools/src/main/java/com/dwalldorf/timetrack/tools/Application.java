@@ -23,11 +23,9 @@ public class Application {
 
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
-    public static final Options OPTIONS;
+    public static final Options OPTIONS = new Options();
 
     static {
-        OPTIONS = new Options();
-
         OptionGroup optionGroup = new OptionGroup();
 
         optionGroup
@@ -41,13 +39,13 @@ public class Application {
                                  .build());
 
         OPTIONS.addOptionGroup(optionGroup)
-               .addOption(Option.builder("uc")
+               .addOption(Option.builder("u")
                                 .desc("Amount of test users to create. Default: " + CMD_USER_COUNT_OPT_DEFAULT)
                                 .longOpt(CMD_USER_COUNT_OPT_NAME)
                                 .hasArg()
                                 .type(Integer.class)
                                 .build())
-               .addOption(Option.builder("wc")
+               .addOption(Option.builder("w")
                                 .desc("Amount of worklog entries to create max per user. Default: " + CMD_WORKLOG_COUNT_OPT_DEFAULT)
                                 .longOpt(CreateTestDataCommand.CMD_WORKLOG_COUNT_OPT_NAME)
                                 .hasArg()

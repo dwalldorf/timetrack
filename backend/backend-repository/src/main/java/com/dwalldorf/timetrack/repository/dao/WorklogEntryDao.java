@@ -1,7 +1,5 @@
 package com.dwalldorf.timetrack.repository.dao;
 
-import com.dwalldorf.timetrack.model.GraphData;
-import com.dwalldorf.timetrack.model.GraphMap;
 import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import com.dwalldorf.timetrack.model.internal.GraphConfig;
@@ -11,7 +9,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
-import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,12 +16,9 @@ public class WorklogEntryDao {
 
     private final WorklogRepository worklogRepository;
 
-    private final DateTimeFormatter graphDateTimeFormatter;
-
     @Inject
-    public WorklogEntryDao(WorklogRepository worklogRepository, DateTimeFormatter graphDateTimeFormatter) {
+    public WorklogEntryDao(WorklogRepository worklogRepository) {
         this.worklogRepository = worklogRepository;
-        this.graphDateTimeFormatter = graphDateTimeFormatter;
     }
 
     public List<WorklogEntryModel> save(List<WorklogEntryModel> worklogEntries) {
@@ -47,26 +41,13 @@ public class WorklogEntryDao {
         worklogRepository.delete(documents);
     }
 
-    public GraphData getGraphData(UserModel user, GraphConfig graphConf) {
-        List<WorklogEntryDocument> entries = worklogRepository.findByUserIdAndStartBetween(
+    public List<WorklogEntryModel> findByGraphConfig(UserModel user, GraphConfig graphConf) {
+        List<WorklogEntryDocument> documents = worklogRepository.findByUserIdAndStartBetween(
                 user.getId(),
                 graphConf.getFrom(),
                 graphConf.getTo()
         );
-
-        GraphData retVal = new GraphData();
-        entries.forEach(entry ->
-                retVal.add(
-                        new GraphMap()
-                                .set("date", graphDateTimeFormatter.print(entry.getStart()))
-                                .set("customer", entry.getCustomer())
-                                .set("project", entry.getProject())
-                                .set("start", entry.getStart().toString())
-                                .set("stop", entry.getStop().toString())
-                                .set("duration", entry.getDuration())
-                )
-        );
-        return retVal;
+        return toModelList(documents);
     }
 
     WorklogEntryDocument toDocument(WorklogEntryModel model) {

@@ -1,23 +1,34 @@
 package com.dwalldorf.timetrack.backend.service;
 
 import com.dwalldorf.timetrack.model.GraphData;
+import com.dwalldorf.timetrack.model.GraphMap;
 import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import com.dwalldorf.timetrack.model.internal.GraphConfig;
 import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.function.Function;
 import javax.inject.Inject;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WorklogService {
 
+    private final static DecimalFormat DOUBLE_DIGIT_FORMAT = new DecimalFormat("00");
+
     private final WorklogEntryDao worklogEntryDao;
 
+    private final DateTimeFormatter graphDateTimeFormatter;
+
     @Inject
-    public WorklogService(WorklogEntryDao worklogEntryDao) {
+    public WorklogService(WorklogEntryDao worklogEntryDao, DateTimeFormatter graphDateTimeFormatter) {
         this.worklogEntryDao = worklogEntryDao;
+        this.graphDateTimeFormatter = graphDateTimeFormatter;
     }
 
     public List<WorklogEntryModel> diffWithDatabase(List<WorklogEntryModel> worklogEntries) {
@@ -49,6 +60,58 @@ public class WorklogService {
     }
 
     public GraphData getGraphData(UserModel user, GraphConfig graphConfig) {
-        return worklogEntryDao.getGraphData(user, graphConfig);
+        List<WorklogEntryModel> entries = worklogEntryDao.findByGraphConfig(user, graphConfig);
+        Function<WorklogEntryModel, String> labelFunction;
+
+        switch (graphConfig.getScale()) {
+            case DAY:
+                labelFunction = model -> graphDateTimeFormatter.print(model.getStart());
+                break;
+            case WEEK:
+                labelFunction = model -> String.format(
+                        "%s-%s",
+                        model.getStart().getWeekyear(),
+                        DOUBLE_DIGIT_FORMAT.format(model.getStart().getWeekOfWeekyear())
+                );
+                break;
+            case MONTH:
+                labelFunction = model -> String.format(
+                        "%s-%s",
+                        model.getStart().getYear(),
+                        DOUBLE_DIGIT_FORMAT.format(model.getStart().getMonthOfYear())
+                );
+                break;
+            default:
+                return null;
+        }
+        return getGroupedGraphData(labelFunction, entries);
+    }
+
+    private GraphData getGroupedGraphData(
+            Function<WorklogEntryModel, String> dateLabelFunction,
+            List<WorklogEntryModel> entries) {
+
+        Map<String, Integer> groupedDuration = new TreeMap<>();
+        entries.forEach(e -> {
+            String currentWeekYear = dateLabelFunction.apply(e);
+
+            Integer currentDuration = groupedDuration.get(currentWeekYear);
+            if (currentDuration == null) {
+                currentDuration = 0;
+            }
+            currentDuration += e.getDuration();
+            groupedDuration.put(currentWeekYear, currentDuration);
+        });
+
+        GraphData result = new GraphData();
+        groupedDuration.forEach((k, v) -> result.add(getGraphMap(k, v)));
+
+        return result;
+    }
+
+    private GraphMap getGraphMap(String dateLabel, Integer value) {
+        return new GraphMap()
+                .set("date", dateLabel)
+                .set("duration", value);
     }
 }
