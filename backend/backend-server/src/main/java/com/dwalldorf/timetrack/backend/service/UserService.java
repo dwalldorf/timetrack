@@ -71,7 +71,8 @@ public class UserService {
 
         try {
             UserModel loginUser = userDao.login(username, password);
-            initializeUserSession(loginUser);
+            updateUserSession(loginUser);
+            eventPublisher.publishEvent(UserAuthenticationEvent.loginSuccessEvent(loginUser));
             return loginUser;
         } catch (UserNotFoundException ex) {
             eventPublisher.publishEvent(UserAuthenticationEvent.loginFailedEvent(username, "username not found"));
@@ -86,12 +87,18 @@ public class UserService {
         eventPublisher.publishEvent(UserAuthenticationEvent.logoutEvent(getCurrentUser()));
     }
 
-    private void initializeUserSession(UserModel user) {
-        httpSession.setAttribute(SESSION_USER_ATTRIBUTE, user);
-        eventPublisher.publishEvent(UserAuthenticationEvent.loginSuccessEvent(user));
-    }
-
     public UserModel getCurrentUser() {
         return (UserModel) httpSession.getAttribute(SESSION_USER_ATTRIBUTE);
+    }
+
+    public UserModel update(UserModel user) {
+        user = userDao.update(user);
+        updateUserSession(user);
+
+        return user;
+    }
+
+    private void updateUserSession(final UserModel user) {
+        httpSession.setAttribute(SESSION_USER_ATTRIBUTE, user);
     }
 }
