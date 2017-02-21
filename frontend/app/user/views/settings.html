@@ -1,0 +1,30 @@
+<div id="settings-container" class="row">
+    <div class="panel panel-default">
+        <form (ngSubmit)="save()">
+            <div class="panel-heading">
+                <h2>User Settings</h2>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-inline">
+                    <div class="input-group">
+                        <div class="input-group-addon">Working hours</div>
+                        <input type="number"
+                               step="0.01"
+                               id="hours"
+                               name="hours"
+                               placeholder="per week"
+                               class="form-control"
+                               [(ngModel)]="user.workingHoursWeek"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -6,11 +6,13 @@ import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {RegisterComponent} from "./register.component";
 import {AppRoutingModule} from "../app.routing.module";
+import {SettingsComponent} from "./settings.component";
 
 @NgModule({
     declarations: [
         LoginComponent,
-        RegisterComponent
+        RegisterComponent,
+        SettingsComponent
     ],
     imports: [
         AppRoutingModule,
