@@ -29,10 +29,9 @@ services:
   frontend:
     image: timetrack/frontend:latest
     ports:
-      - 3000:3000
-      - 3001:3001
+      - 80:80
     volumes:
-      - ./frontend:/html
+      - ./frontend:/usr/local/apache2/htdocs/
 
   # infra
   elasticsearch:
