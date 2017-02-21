@@ -134,7 +134,8 @@ public class UserDao {
                 .setConfirmedEmail(userProperties.isConfirmedEmail())
                 .setRegistration(userProperties.getRegistration())
                 .setFirstLogin(userProperties.getFirstLogin())
-                .setLastLogin(userProperties.getLastLogin());
+                .setLastLogin(userProperties.getLastLogin())
+                .setWorkingHoursWeek(userProperties.getWorkingHoursWeek());
     }
 
     List<UserModel> toModelList(List<UserDocument> models) {
@@ -155,7 +156,8 @@ public class UserDao {
                 .setConfirmedEmail(user.isConfirmedEmail())
                 .setRegistration(user.getRegistration())
                 .setFirstLogin(user.getFirstLogin())
-                .setLastLogin(user.getLastLogin());
+                .setLastLogin(user.getLastLogin())
+                .setWorkingHoursWeek(user.getWorkingHoursWeek());
 
         return new UserDocument()
                 .setId(user.getId())

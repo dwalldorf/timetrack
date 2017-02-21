@@ -81,7 +81,7 @@ public class UserDaoTest {
         final DateTime registrationDate = new DateTime().minusDays(5);
         final DateTime firstLoginDate = registrationDate.plusMinutes(30);
         final DateTime lastLoginDate = new DateTime().minusHours(1);
-
+        final Float workingHoursWeek = 37.2F;
 
         UserDocument userDocument = new UserDocument()
                 .setId(userId)
@@ -93,6 +93,7 @@ public class UserDaoTest {
                                 .setRegistration(registrationDate)
                                 .setFirstLogin(firstLoginDate)
                                 .setLastLogin(lastLoginDate)
+                                .setWorkingHoursWeek(workingHoursWeek)
                 );
         UserModel userModel = userDao.toModel(userDocument);
 
@@ -103,6 +104,7 @@ public class UserDaoTest {
         assertEquals(registrationDate, userModel.getRegistration());
         assertEquals(firstLoginDate, userModel.getFirstLogin());
         assertEquals(lastLoginDate, userModel.getLastLogin());
+        assertEquals(workingHoursWeek, userModel.getWorkingHoursWeek());
     }
 
     @Test
@@ -120,6 +122,7 @@ public class UserDaoTest {
         final DateTime registrationDate = new DateTime().minusDays(5);
         final DateTime firstLoginDate = registrationDate.plusMinutes(30);
         final DateTime lastLoginDate = new DateTime().minusHours(1);
+        final Float workingHoursWeek = 40F;
 
         UserModel model = new UserModel()
                 .setId(userId)
@@ -128,7 +131,8 @@ public class UserDaoTest {
                 .setConfirmedEmail(confirmedEmail)
                 .setRegistration(registrationDate)
                 .setFirstLogin(firstLoginDate)
-                .setLastLogin(lastLoginDate);
+                .setLastLogin(lastLoginDate)
+                .setWorkingHoursWeek(workingHoursWeek);
 
         UserDocument document = userDao.toDocument(model);
         UserProperties userProps = document.getUserProperties();
@@ -140,5 +144,6 @@ public class UserDaoTest {
         assertEquals(registrationDate, userProps.getRegistration());
         assertEquals(firstLoginDate, userProps.getFirstLogin());
         assertEquals(lastLoginDate, userProps.getLastLogin());
+        assertEquals(workingHoursWeek, userProps.getWorkingHoursWeek());
     }
 }

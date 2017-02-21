@@ -28,6 +28,8 @@ public class UserModel extends AbstractModel {
 
     private DateTime lastLogin;
 
+    private Float workingHoursWeek;
+
     public String getId() {
         return id;
     }
@@ -97,6 +99,15 @@ public class UserModel extends AbstractModel {
 
     public UserModel setLastLogin(DateTime lastLogin) {
         this.lastLogin = lastLogin;
+        return this;
+    }
+
+    public Float getWorkingHoursWeek() {
+        return workingHoursWeek;
+    }
+
+    public UserModel setWorkingHoursWeek(Float workingHoursWeek) {
+        this.workingHoursWeek = workingHoursWeek;
         return this;
     }
 }

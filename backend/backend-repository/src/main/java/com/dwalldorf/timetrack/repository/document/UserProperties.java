@@ -1,6 +1,7 @@
 package com.dwalldorf.timetrack.repository.document;
 
 import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -35,7 +36,9 @@ public class UserProperties implements Serializable {
 
     private DateTime lastLogin;
 
-    private boolean confirmedEmail = false;
+    private Boolean confirmedEmail = false;
+
+    private Float workingHoursWeek;
 
     public String getUsername() {
         return username;
@@ -100,12 +103,21 @@ public class UserProperties implements Serializable {
         return this;
     }
 
-    public boolean isConfirmedEmail() {
+    public Boolean isConfirmedEmail() {
         return confirmedEmail;
     }
 
-    public UserProperties setConfirmedEmail(boolean confirmedEmail) {
+    public UserProperties setConfirmedEmail(@NotNull boolean confirmedEmail) {
         this.confirmedEmail = confirmedEmail;
+        return this;
+    }
+
+    public Float getWorkingHoursWeek() {
+        return workingHoursWeek;
+    }
+
+    public UserProperties setWorkingHoursWeek(Float workingHoursWeek) {
+        this.workingHoursWeek = workingHoursWeek;
         return this;
     }
 }
