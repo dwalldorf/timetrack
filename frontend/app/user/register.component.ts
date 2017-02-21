@@ -9,27 +9,27 @@ import {Router} from "@angular/router";
 export class RegisterComponent implements OnInit {
 
     @ViewChild('usernameInput')
-    private usernameInput: ElementRef;
+    private _usernameInput: ElementRef;
 
-    private router: Router;
+    private _router: Router;
 
-    private userService: UserService;
+    private _userService: UserService;
 
-    user: User = new User();
+    private user: User = new User();
 
     constructor(router: Router, userService: UserService) {
-        this.router = router;
-        this.userService = userService;
+        this._router = router;
+        this._userService = userService;
     }
 
     ngOnInit() {
-        this.usernameInput.nativeElement.focus();
+        this._usernameInput.nativeElement.focus();
 
         this.user = new User();
     }
 
     register() {
-        this.userService.register(this.user)
-            .subscribe(() => this.router.navigateByUrl("/login"));
+        this._userService.register(this.user)
+            .subscribe(() => this._router.navigateByUrl("/login"));
     }
 }

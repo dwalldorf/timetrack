@@ -1,3 +1,47 @@
-<h1>Dashboard</h1>
+<div id="dashboard-container">
+    <div id="dashboard-top" class="row">
+        <div class="col-xs-12">
+            <h1>Dashboard</h1>
+        </div>
 
-<line-chart></line-chart>
+    </div>
+
+    <div id="dashboard-form" class="row">
+        <div class="col-xs-12 form-inline">
+            <div class="input-group">
+                <div class="input-group-addon">From</div>
+                <input id="from-date"
+                       type="date"
+                       [(ngModel)]="fromDate"
+                       (change)="changeFromDate()"
+                       class="form-control">
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-addon">To</div>
+                <input id="to-date"
+                       type="date"
+                       [(ngModel)]="toDate"
+                       (change)="changeToDate()"
+                       class="form-control">
+            </div>
+
+            <div class="input-group">
+                <select id="scale"
+                        class="form-control"
+                        [(ngModel)]="scale"
+                        (change)="changeScale()">
+                    <option value="day">Daily</option>
+                    <option value="week">Weekly</option>
+                    <option value="month">Monthly</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-content" class="row">
+        <div class="col-xs-12">
+            <line-chart [data]="data"></line-chart>
+        </div>
+    </div>
+</div>

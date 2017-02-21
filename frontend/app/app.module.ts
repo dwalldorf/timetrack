@@ -1,13 +1,13 @@
 import {NgModule} from "@angular/core";
-import {AppComponent} from "./app.component";
 import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
-import {AppRoutingModule} from "./app.routing.module";
-import {UserModule} from "./user/user.module";
 import {XHRBackend, RequestOptions} from "@angular/http";
 import {CommonModule} from "@angular/common";
-import {DashboardModule} from "./dashboard/dashboard.module";
+import {AppComponent} from "./app.component";
+import {AppRoutingModule} from "./app.routing.module";
 import {HttpService} from "./core/service/http.service";
+import {UserModule} from "./user/user.module";
+import {DashboardModule} from "./dashboard/dashboard.module";
 import {CoreModule} from "./core/core.module";
 import {CookieService} from "angular2-cookie/services/cookies.service";
 import {CacheService} from "./core/service/cache.service";

@@ -10,35 +10,35 @@ import {User} from "./model/user";
 export class LoginComponent implements OnInit {
 
     @ViewChild('usernameInput')
-    private usernameInput: ElementRef;
+    private _usernameInput: ElementRef;
 
-    private routerService: RouterService;
+    private _routerService: RouterService;
 
-    private userService: UserService;
+    private _userService: UserService;
 
     private loginUser: LoginUser;
 
     loginError: string = null;
 
     constructor(routerService: RouterService, userService: UserService) {
-        this.routerService = routerService;
-        this.userService = userService;
+        this._routerService = routerService;
+        this._userService = userService;
         this.loginUser = new LoginUser();
     }
 
     ngOnInit() {
-        this.usernameInput.nativeElement.focus();
+        this._usernameInput.nativeElement.focus();
 
-        this.userService.userChange$.subscribe(
+        this._userService.userChange$.subscribe(
             (user: User) => {
                 if (user && user.id) {
-                    this.routerService.goToHome()
+                    this._routerService.goToHome()
                 }
             }
         );
     }
 
     login() {
-        this.userService.login(this.loginUser)
+        this._userService.login(this.loginUser)
     }
 }

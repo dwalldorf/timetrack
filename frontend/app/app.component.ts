@@ -14,9 +14,7 @@ export class AppComponent implements OnInit {
 
     private _routerService: RouterService;
 
-    isLoggedIn: boolean = false;
-
-    currentUser: User = null;
+    private currentUser: User = null;
 
     constructor(userService: UserService, routerService: RouterService) {
         this._routerService = routerService;
@@ -49,12 +47,10 @@ export class AppComponent implements OnInit {
     }
 
     private handleLoggedIn(user: User) {
-        this.isLoggedIn = true;
         this.currentUser = user;
     }
 
     private handleNotLoggedIn() {
-        this.isLoggedIn = false;
         this.currentUser = null;
 
         let currentRoute = this._routerService.getCurrentRoute();
