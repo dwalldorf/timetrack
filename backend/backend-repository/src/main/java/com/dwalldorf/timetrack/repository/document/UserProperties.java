@@ -1,7 +1,6 @@
 package com.dwalldorf.timetrack.repository.document;
 
 import java.io.Serializable;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -107,7 +106,7 @@ public class UserProperties implements Serializable {
         return confirmedEmail;
     }
 
-    public UserProperties setConfirmedEmail(@NotNull boolean confirmedEmail) {
+    public UserProperties setConfirmedEmail(Boolean confirmedEmail) {
         this.confirmedEmail = confirmedEmail;
         return this;
     }

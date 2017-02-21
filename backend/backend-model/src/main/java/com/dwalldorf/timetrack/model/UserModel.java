@@ -61,7 +61,7 @@ public class UserModel extends AbstractModel {
         return confirmedEmail;
     }
 
-    public UserModel setConfirmedEmail(boolean confirmedEmail) {
+    public UserModel setConfirmedEmail(Boolean confirmedEmail) {
         this.confirmedEmail = confirmedEmail;
         return this;
     }
