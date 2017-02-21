@@ -1,5 +1,3 @@
-import {UserSettings} from "./user.settings";
-
 export class User {
 
     public id: string;
@@ -7,6 +5,5 @@ export class User {
     public email: string;
     public password: string;
     public registered: number;
-    public userSettings: UserSettings;
 
 }
