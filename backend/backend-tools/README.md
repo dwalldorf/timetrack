@@ -6,14 +6,15 @@ Tools for dealing with the application.
 **Options**
 
 * `-t` - createTestData - create test data 
-  * `-u` - userCount - amount of users to create
-  * `-w` - worklogCount - max amount of worklog entries per user
+  * `-u` - user id - create test data for this user
+  * `-uc` - userCount - amount of users to create
+  * `-wc` - worklogCount - max amount of worklog entries per user
 * `-r` - wipe test data
 
 
 **Create test data**
 
-Run the jar `java -jar backend-tools-{version}.jar -t -u={userCount} -w={worklogCount} --spring.profiles.active={profile}`
+Run the jar `java -jar backend-tools-{version}.jar -t -uc={userCount} -wc={worklogCount} --spring.profiles.active={profile}`
 
 
 **Wipe test data**

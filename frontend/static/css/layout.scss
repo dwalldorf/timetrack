@@ -1,0 +1,23 @@
+@import "mixins/colors";
+
+* {
+  letter-spacing: 0.08em
+}
+
+body {
+  background-color: $background-body;
+  color: $text-color;
+}
+
+#main-wrapper {
+  #header {
+    background-color: $background-header;
+    height: 80px;
+  }
+
+  #content {
+    h1,h2,h3 {
+      font-weight: 200;
+    }
+  }
+}

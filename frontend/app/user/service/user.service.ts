@@ -1,75 +1,84 @@
-import {Injectable, EventEmitter} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {LoginUser} from "../model/login.user";
 import {User} from "../model/user";
-import {Observable} from "rxjs/Rx";
+import {Observable, BehaviorSubject} from "rxjs/Rx";
 import {HttpService} from "../../core/service/http.service";
 import {CookieService} from "angular2-cookie/services/cookies.service";
+import {Response} from "@angular/http";
 
 @Injectable()
 export class UserService {
 
-    private http: HttpService;
+    private readonly KEY_CURRENT_USER = 'cu';
 
-    private cookieService: CookieService;
+    private _httpService: HttpService;
 
-    private currentUser: User;
+    private _cookieService: CookieService;
 
-    public userEventEmitter: EventEmitter<User>;
+    private _userChange: BehaviorSubject<User>;
+
+    public userChange$: Observable<User>;
 
     constructor(httpService: HttpService, cookieService: CookieService) {
-        this.http = httpService;
-        this.cookieService = cookieService;
-        this.userEventEmitter = new EventEmitter<User>();
+        this._httpService = httpService;
+        this._cookieService = cookieService;
 
-        this.fetchCurrentUser()
-            .subscribe();
+        this._userChange = new BehaviorSubject<User>(null);
+        this.userChange$ = this._userChange.asObservable();
+
+        this.fetchCurrentUser();
     }
 
-    private fetchCurrentUser(): Observable<User> {
-        let obs: Observable<User> = this.http.get('http://localhost:8080/users/me');
-        obs.subscribe(
-            (user: User) => {
-                this.currentUser = user;
-                this.userEventEmitter.emit(this.currentUser);
-            },
-            () => {
-                this.currentUser = undefined;
-                this.userEventEmitter.error(null);
-            });
+    public login(user: LoginUser): Observable<any> {
+        let observable: Observable<any> = this._httpService.post('/users/login', user);
 
-        return obs;
-    }
-
-    login(user: LoginUser): Observable<User> {
-        let observable: Observable<User> = this.http.post('http://localhost:8080/users/login', user);
-        observable.subscribe(
-            () => this.fetchCurrentUser()
-        );
+        observable.subscribe(() => this.fetchCurrentUser());
         return observable;
     }
 
-    logout(): Observable<any> {
-        let observable = this.http.delete('http://localhost:8080/users/logout');
+    public getCurrentUser(): User {
+        let userStr = localStorage.getItem(this.KEY_CURRENT_USER);
+        if (!userStr) {
+            return null;
+        }
+        return JSON.parse(userStr);
+    }
+
+    public logout(): Observable<Response> {
+        let observable: Observable<Response> = this._httpService.post('/users/logout', null);
         observable.subscribe(
             () => {
-                this.currentUser = undefined;
-                this.cookieService.remove('TIMETRACK');
-                this.userEventEmitter.error(null);
+                this.doLogout();
             }
         );
-
         return observable;
     }
 
-    register(user: User): Observable<any> {
-        return this.http.post('http://localhost:8080/users', user);
+    public register(user: User): Observable<any> {
+        return this._httpService.post('/users', user);
     }
 
-    public isLoggedIn() {
-        if (this.currentUser) {
-            this.userEventEmitter.emit(this.currentUser);
-        } else {
-            this.userEventEmitter.error(null)
-        }
+    private fetchCurrentUser(): void {
+        this._httpService
+            .get('/users/me')
+            .subscribe(
+                (res: Response) => {
+                    if (res.status !== 200) {
+                        this.doLogout()
+                    } else {
+                        let user = res.json();
+                        localStorage.setItem(this.KEY_CURRENT_USER, JSON.stringify(user));
+                        this._userChange.next(user);
+                    }
+                },
+                () => this.doLogout()
+            );
+    }
+
+    private doLogout() {
+        this._cookieService.remove('TIMETRACK');
+        localStorage.removeItem(this.KEY_CURRENT_USER);
+
+        this._userChange.next(new User());
     }
 }

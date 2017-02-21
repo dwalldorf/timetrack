@@ -3,7 +3,6 @@ package com.dwalldorf.timetrack.model.stub;
 import static org.joda.time.DateTimeConstants.SATURDAY;
 import static org.joda.time.DateTimeConstants.SUNDAY;
 
-import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import com.dwalldorf.timetrack.model.util.RandomUtil;
 import java.util.ArrayList;
@@ -48,9 +47,9 @@ public class WorklogStub {
                 .setDuration(minutes);
     }
 
-    public List<WorklogEntryModel> createWorklogEntrySeries(UserModel user, int entries) {
+    public List<WorklogEntryModel> createWorklogEntrySeries(String userId, DateTime after, int entries) {
         ArrayList<WorklogEntryModel> retVal = new ArrayList<>();
-        int days = Days.daysBetween(user.getFirstLogin(), new DateTime()).getDays();
+        int days = Days.daysBetween(after, new DateTime()).getDays();
 
         String customer = "test_" + randomUtil.randomString(10);
         String project = randomUtil.randomString(20);
@@ -76,7 +75,7 @@ public class WorklogStub {
                 break;
             }
 
-            WorklogEntryModel entry = createWorklogEntry(user.getId())
+            WorklogEntryModel entry = createWorklogEntry(userId)
                     .setCustomer(customer)
                     .setProject(project)
                     .setStart(start)

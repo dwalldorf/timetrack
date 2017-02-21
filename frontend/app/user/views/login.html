@@ -14,13 +14,14 @@
 
                     <div class="form-group">
                         <label for="loginUsername"
-                               class="control-label">Username or e-mail:</label>
+                               class="control-label">Username:</label>
                         <input type="text"
                                id="loginUsername"
                                name="username"
-                               placeholder="Username or email"
+                               placeholder="Username"
                                class="form-control"
-                               [(ngModel)]="user.username"
+                               [(ngModel)]="loginUser.username"
+                               #usernameInput
                                required="true"/>
                     </div>
 
@@ -34,7 +35,7 @@
                                name="password"
                                placeholder="********"
                                class="form-control"
-                               [(ngModel)]="user.password"
+                               [(ngModel)]="loginUser.password"
                                required="true"/>
                     </div>
                 </div>

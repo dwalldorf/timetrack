@@ -1,6 +1,7 @@
-import {Http, XHRBackend, RequestOptions, Response, Headers} from "@angular/http";
+import {Http, XHRBackend, RequestOptions, Headers, Response} from "@angular/http";
 import {Injectable, EventEmitter} from "@angular/core";
 import {Observable} from "rxjs/Rx";
+import {CacheService} from "./cache.service";
 
 @Injectable()
 export class HttpService extends Http {
@@ -17,18 +18,11 @@ export class HttpService extends Http {
         HttpService.METHOD_PUT
     ];
 
-    private static isValidMethod(method: string) {
+    private  isValidMethod(method: string) {
         return (HttpService.ALLOWED_METHODS.indexOf(method) >= 0);
     }
 
-    private static getRequestHash(method: string, url: string) {
-        return method + ':' + url;
-    }
-
-
-    private requestsInProgress: {[key: string]: EventEmitter<any>};
-
-    constructor(backend: XHRBackend, options: RequestOptions) {
+    constructor(backend: XHRBackend, options: RequestOptions, cacheService: CacheService) {
         let headers: Headers = options.headers;
         headers.set("Content-Type", "application/json");
         headers.set("Accept", "application/json");
@@ -37,106 +31,34 @@ export class HttpService extends Http {
         options.withCredentials = true;
 
         super(backend, options);
-
-        this.requestsInProgress = {};
     }
 
-    get(url: string) {
-        return super.get(url)
-            .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error));
+    public get(url: string): Observable<any> {
+        return this.makeReq(HttpService.METHOD_GET, url, null);
     }
 
-    post(url: string, body: any) {
-        return super.post(url, body)
-            .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error));
+    public post(url: string, body: any): Observable<any> {
+        return this.makeReq(HttpService.METHOD_POST, url, body);
     }
 
-    put(url: string, body: any) {
-        return super.put(url, body)
-            .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error));
-    }
-
-    delete(url: string) {
-        return super.delete(url)
-            .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error));
-    }
-
-    makeRequest(method: string, url: string, payload: any = null): EventEmitter<any> {
-        if (!HttpService.isValidMethod(method)) {
-            throw new Error('invalid http method: ' + method);
+    private makeReq(method: string, url: string, body: any): Observable<any> {
+        url = 'http://localhost:8080' + url;
+        if (!this.isValidMethod(method)) {
+            console.error("Invalid method: " + method);
+            return;
         }
 
-        // url = AppConfig.API_PREFIX + url;
-        let requestEventEmitter = new EventEmitter<any>(),
-            requestHash = HttpService.getRequestHash(method, url);
-
-        if (this.hasRequestInProgress(requestHash)) {
-            return this.getRequestInProgress(requestHash);
-        }
-
-        // payload = JSON.stringify(payload);
-        let observable: Observable<Response>;
-
+        let observable: Observable<any>;
         switch (method) {
             case HttpService.METHOD_GET:
                 observable = super.get(url);
                 break;
             case HttpService.METHOD_POST:
-                observable = super.post(url, payload);
-                break;
-            case HttpService.METHOD_PUT:
-                observable = super.put(url, payload);
-                break;
-            case HttpService.METHOD_DELETE:
-                observable = super.delete(url);
+                observable = super.post(url, body);
                 break;
         }
 
-        this.requestsInProgress[requestHash] = requestEventEmitter;
-
-        observable.subscribe(
-            res => {
-                let emitVal = true;
-                try {
-                    emitVal = res.json();
-                } catch (error) {
-                }
-
-                requestEventEmitter.emit(emitVal);
-                this.finishRequest(requestHash);
-            },
-            err => {
-                requestEventEmitter.error(err);
-                this.finishRequest(requestHash);
-            },
-            () => {
-                this.finishRequest(requestHash);
-            }
-        );
-        return requestEventEmitter;
-    }
-
-    private finishRequest(requestHash: string) {
-        delete this.requestsInProgress[requestHash];
-    }
-
-    private hasRequestInProgress(requestHash: string) {
-        return this.requestsInProgress.hasOwnProperty(requestHash);
-    }
-
-    /**
-     * @param requestHash string
-     * @returns EventEmitter
-     */
-    private getRequestInProgress(requestHash: string) {
-        if (!this.hasRequestInProgress(requestHash)) {
-            throw new Error('no such request in progress: ' + requestHash);
-        }
-
-        return this.requestsInProgress[requestHash];
+        observable.map((res: Response) => res.json());
+        return observable;
     }
 }

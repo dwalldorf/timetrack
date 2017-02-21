@@ -2,6 +2,7 @@ package com.dwalldorf.timetrack.repository.document;
 
 import org.joda.time.DateTime;
 import org.mongodb.morphia.annotations.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -13,6 +14,7 @@ public class WorklogEntryDocument {
     @Id
     private String id;
 
+    @Indexed
     private String userId;
 
     private String customer;
@@ -21,6 +23,7 @@ public class WorklogEntryDocument {
 
     private String task;
 
+    @Indexed
     private DateTime start;
 
     private DateTime stop;

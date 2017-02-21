@@ -6,9 +6,21 @@ import {RegisterComponent} from "./user/register.component";
 import {AppConfig} from "./core/config/app.config";
 
 const appRoutes: Routes = [
-    {path: AppConfig.getRouterLink(AppConfig.ROUTE_HOME), component: DashboardComponent},
-    {path: AppConfig.getRouterLink(AppConfig.ROUTE_LOGIN), component: LoginComponent},
-    {path: AppConfig.getRouterLink(AppConfig.ROUTE_REGISTER), component: RegisterComponent},
+    {
+        path: AppConfig.getRouterLink(AppConfig.ROUTE_HOME),
+        component: DashboardComponent,
+        data: {requireLogin: true}
+    },
+    {
+        path: AppConfig.getRouterLink(AppConfig.ROUTE_LOGIN),
+        component: LoginComponent,
+        data: {requireLogin: false}
+    },
+    {
+        path: AppConfig.getRouterLink(AppConfig.ROUTE_REGISTER),
+        component: RegisterComponent,
+        data: {requireLogin: false}
+    },
 ];
 
 @NgModule({

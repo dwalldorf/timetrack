@@ -21,10 +21,11 @@
                                name="username"
                                placeholder="Choose a username"
                                class="form-control"
-                               [(ngModel)]="user.username"/>
+                               [(ngModel)]="user.username"
+                               #usernameInput/>
                         <!--<span class="error"-->
-                              <!--*ngIf="formErrors.username">-->
-                            <!--{{formErrors.username}}-->
+                        <!--*ngIf="formErrors.username">-->
+                        <!--{{formErrors.username}}-->
                         <!--</span>-->
                     </div>
 
@@ -56,8 +57,8 @@
                                [(ngModel)]="user.password"/>
 
                         <!--<span class="error"-->
-                              <!--*ngIf="formErrors.password">-->
-                            <!--{{formErrors.password}}-->
+                        <!--*ngIf="formErrors.password">-->
+                        <!--{{formErrors.password}}-->
                         <!--</span>-->
                     </div>
                 </div>

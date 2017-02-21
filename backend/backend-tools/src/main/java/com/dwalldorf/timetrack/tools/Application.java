@@ -23,11 +23,9 @@ public class Application {
 
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
-    public static final Options OPTIONS;
+    public static final Options OPTIONS = new Options();
 
     static {
-        OPTIONS = new Options();
-
         OptionGroup optionGroup = new OptionGroup();
 
         optionGroup
@@ -57,7 +55,7 @@ public class Application {
 
     public static void main(String[] args) throws ParseException {
         List<String> argList = Arrays.asList(args);
-        if (argList.size() == 0 || argList.contains("help") || argList.contains("-h")) {
+        if (argList.size() == 0 || argList.contains("--help") || argList.contains("-h")) {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("sample", OPTIONS);
             return;

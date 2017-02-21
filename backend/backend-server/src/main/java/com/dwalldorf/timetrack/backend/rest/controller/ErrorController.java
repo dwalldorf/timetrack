@@ -1,6 +1,7 @@
 package com.dwalldorf.timetrack.backend.rest.controller;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 import com.dwalldorf.timetrack.backend.event.PermissionFailureEvent;
 import com.dwalldorf.timetrack.backend.exception.AdminRequiredException;
@@ -16,8 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ErrorController {
 
-    private final static String NOT_FOUND_MESSAGE = "NOT FOUND";
-
     private final ApplicationEventPublisher eventPublisher;
 
     private final UserService userService;
@@ -29,15 +28,14 @@ public class ErrorController {
     }
 
     @ExceptionHandler(LoginRequiredException.class)
-    @ResponseStatus(NOT_FOUND)
-    public String handleLoginRequireException(LoginRequiredException e) {
+    @ResponseStatus(UNAUTHORIZED)
+    public void handleLoginRequireException(LoginRequiredException e) {
         eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(e.getMessage()));
-        return NOT_FOUND_MESSAGE;
     }
 
     @ExceptionHandler(AdminRequiredException.class)
     @ResponseStatus(NOT_FOUND)
-    public String handleAdminRequiredException(AdminRequiredException e) {
+    public void handleAdminRequiredException(AdminRequiredException e) {
         final String errorMessage = e.getMessage();
         final UserModel currentUser = userService.getCurrentUser();
 
@@ -46,6 +44,5 @@ public class ErrorController {
         } else {
             eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(errorMessage));
         }
-        return NOT_FOUND_MESSAGE;
     }
 }

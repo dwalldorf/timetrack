@@ -1,7 +1,3 @@
-/**
- * System configuration for Angular samples
- * Adjust as necessary for your application needs.
- */
 (function (global) {
     System.config({
         paths: {
@@ -23,7 +19,9 @@
             // other libraries
             'rxjs': 'npm:rxjs',
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
-            'angular2-cookie': 'npm:angular2-cookie'
+            'angular2-cookie': 'npm:angular2-cookie',
+            'chart-js': 'npm:chart.js/Chart.bundle.js',
+            'ng2-charts': 'npm:ng2-charts/bundles/ng2-charts.umd.min.js'
         },
         packages: {
             'app': {
@@ -34,6 +32,12 @@
                 defaultExtension: 'js'
             },
             'angular2-cookie': {
+                defaultExtension: 'js'
+            },
+            'chart-js': {
+                defaultExtension: 'js'
+            },
+            'ng2-charts': {
                 defaultExtension: 'js'
             }
         }

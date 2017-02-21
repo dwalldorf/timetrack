@@ -2,6 +2,7 @@ package com.dwalldorf.timetrack.repository.dao;
 
 import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
+import com.dwalldorf.timetrack.model.internal.GraphConfig;
 import com.dwalldorf.timetrack.repository.document.WorklogEntryDocument;
 import com.dwalldorf.timetrack.repository.repository.WorklogRepository;
 import java.util.List;
@@ -38,6 +39,15 @@ public class WorklogEntryDao {
     public void delete(List<WorklogEntryModel> entries) {
         List<WorklogEntryDocument> documents = toDocumentList(entries);
         worklogRepository.delete(documents);
+    }
+
+    public List<WorklogEntryModel> findByGraphConfig(UserModel user, GraphConfig graphConf) {
+        List<WorklogEntryDocument> documents = worklogRepository.findByUserIdAndStartBetween(
+                user.getId(),
+                graphConf.getFrom(),
+                graphConf.getTo()
+        );
+        return toModelList(documents);
     }
 
     WorklogEntryDocument toDocument(WorklogEntryModel model) {

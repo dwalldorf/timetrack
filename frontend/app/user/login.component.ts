@@ -1,43 +1,44 @@
-import {Component} from "@angular/core";
+import {Component, OnInit, ViewChild, ElementRef} from "@angular/core";
 import {UserService} from "./service/user.service";
 import {LoginUser} from "./model/login.user";
 import {RouterService} from "../core/service/router.service";
+import {User} from "./model/user";
 
 @Component({
     templateUrl: '/app/user/views/login.html'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
-    private routerService: RouterService;
+    @ViewChild('usernameInput')
+    private _usernameInput: ElementRef;
 
-    private userService: UserService;
+    private _routerService: RouterService;
 
-    private user: LoginUser;
+    private _userService: UserService;
+
+    private loginUser: LoginUser;
 
     loginError: string = null;
 
     constructor(routerService: RouterService, userService: UserService) {
-        this.routerService = routerService;
-        this.userService = userService;
-        this.user = new LoginUser();
+        this._routerService = routerService;
+        this._userService = userService;
+        this.loginUser = new LoginUser();
     }
 
     ngOnInit() {
-        this.userService.userEventEmitter
-            .subscribe(
-                () => this.routerService.goToHome()
-            );
+        this._usernameInput.nativeElement.focus();
+
+        this._userService.userChange$.subscribe(
+            (user: User) => {
+                if (user && user.id) {
+                    this._routerService.goToHome()
+                }
+            }
+        );
     }
 
     login() {
-        this.userService.login(this.user)
-            .subscribe(
-                () => this.routerService.goToHome(),
-                err => console.log(err)
-            );
-    }
-
-    private getQueryStringValue(key: string) {
-        return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+        this._userService.login(this.loginUser)
     }
 }

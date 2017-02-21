@@ -1,17 +1,16 @@
 package com.dwalldorf.timetrack.model;
 
-import java.io.Serializable;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
-public class UserModel implements Serializable {
+public class UserModel extends AbstractModel {
 
     private String id;
 
     @NotEmpty(message = "username must not be empty")
-    @Size(min = 3, max = 100,message = "username must be between 3 and 100 characters")
+    @Size(min = 3, max = 100, message = "username must be between 3 and 100 characters")
     private String username;
 
     @NotEmpty(message = "email must not be empty")

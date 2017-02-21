@@ -5,6 +5,7 @@ import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {RegisterComponent} from "./register.component";
+import {AppRoutingModule} from "../app.routing.module";
 
 @NgModule({
     declarations: [
@@ -12,6 +13,7 @@ import {RegisterComponent} from "./register.component";
         RegisterComponent
     ],
     imports: [
+        AppRoutingModule,
         CommonModule,
         FormsModule,
         HttpModule
