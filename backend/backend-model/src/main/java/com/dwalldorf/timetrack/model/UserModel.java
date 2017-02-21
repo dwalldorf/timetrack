@@ -28,8 +28,6 @@ public class UserModel extends AbstractModel {
 
     private DateTime lastLogin;
 
-    private Boolean admin;
-
     public String getId() {
         return id;
     }
@@ -99,15 +97,6 @@ public class UserModel extends AbstractModel {
 
     public UserModel setLastLogin(DateTime lastLogin) {
         this.lastLogin = lastLogin;
-        return this;
-    }
-
-    public Boolean isAdmin() {
-        return admin;
-    }
-
-    public UserModel setAdmin(Boolean admin) {
-        this.admin = admin;
         return this;
     }
 }

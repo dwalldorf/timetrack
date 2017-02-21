@@ -107,10 +107,6 @@ public class UserDao {
                 !String.valueOf(userProps.getLastLogin()).equals(String.valueOf(user.getLastLogin()))) {
             userProps.setLastLogin(user.getLastLogin());
         }
-        if (user.isAdmin() != null &&
-                !userProps.getUserSettings().isAdmin() == user.isAdmin()) {
-            userProps.getUserSettings().setAdmin(user.isAdmin());
-        }
 
         dbUser = userRepository.save(dbUser);
         return toModel(dbUser);
@@ -130,16 +126,16 @@ public class UserDao {
             return null;
         }
 
+        UserProperties userProperties = document.getUserProperties();
         return new UserModel()
                 .setId(document.getId())
-                .setUsername(document.getUserProperties().getUsername())
-                .setEmail(document.getUserProperties().getEmail())
+                .setUsername(userProperties.getUsername())
+                .setEmail(userProperties.getEmail())
                 .setPassword(null) // nobody needs to know
-                .setConfirmedEmail(document.getUserProperties().isConfirmedEmail())
-                .setRegistration(document.getUserProperties().getRegistration())
-                .setFirstLogin(document.getUserProperties().getFirstLogin())
-                .setLastLogin(document.getUserProperties().getLastLogin())
-                .setAdmin(document.getUserProperties().getUserSettings().isAdmin());
+                .setConfirmedEmail(userProperties.isConfirmedEmail())
+                .setRegistration(userProperties.getRegistration())
+                .setFirstLogin(userProperties.getFirstLogin())
+                .setLastLogin(userProperties.getLastLogin());
     }
 
     List<UserModel> toModelList(List<UserDocument> models) {
@@ -161,8 +157,7 @@ public class UserDao {
                 .setRegistration(user.getRegistration())
                 .setFirstLogin(user.getFirstLogin())
                 .setLastLogin(user.getLastLogin())
-                .setUserSettings(new UserSettings()
-                        .setAdmin(user.isAdmin()));
+                .setUserSettings(new UserSettings());
 
         return new UserDocument()
                 .setId(user.getId())

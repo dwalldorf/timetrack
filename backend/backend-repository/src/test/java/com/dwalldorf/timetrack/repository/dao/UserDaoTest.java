@@ -88,7 +88,7 @@ public class UserDaoTest {
         final DateTime registrationDate = new DateTime().minusDays(5);
         final DateTime firstLoginDate = registrationDate.plusMinutes(30);
         final DateTime lastLoginDate = new DateTime().minusHours(1);
-        final boolean admin = true;
+
 
         UserDocument userDocument = new UserDocument()
                 .setId(userId)
@@ -100,9 +100,7 @@ public class UserDaoTest {
                                 .setRegistration(registrationDate)
                                 .setFirstLogin(firstLoginDate)
                                 .setLastLogin(lastLoginDate)
-                                .setUserSettings(
-                                        new UserSettings().setAdmin(admin)
-                                )
+                                .setUserSettings(new UserSettings())
                 );
         UserModel userModel = userDao.toModel(userDocument);
 
@@ -113,7 +111,6 @@ public class UserDaoTest {
         assertEquals(registrationDate, userModel.getRegistration());
         assertEquals(firstLoginDate, userModel.getFirstLogin());
         assertEquals(lastLoginDate, userModel.getLastLogin());
-        assertEquals(admin, userModel.isAdmin());
     }
 
     @Test
@@ -131,7 +128,6 @@ public class UserDaoTest {
         final DateTime registrationDate = new DateTime().minusDays(5);
         final DateTime firstLoginDate = registrationDate.plusMinutes(30);
         final DateTime lastLoginDate = new DateTime().minusHours(1);
-        final boolean admin = true;
 
         UserModel model = new UserModel()
                 .setId(userId)
@@ -140,8 +136,7 @@ public class UserDaoTest {
                 .setConfirmedEmail(confirmedEmail)
                 .setRegistration(registrationDate)
                 .setFirstLogin(firstLoginDate)
-                .setLastLogin(lastLoginDate)
-                .setAdmin(admin);
+                .setLastLogin(lastLoginDate);
 
         UserDocument document = userDao.toDocument(model);
         UserProperties userProps = document.getUserProperties();
@@ -153,6 +148,5 @@ public class UserDaoTest {
         assertEquals(registrationDate, userProps.getRegistration());
         assertEquals(firstLoginDate, userProps.getFirstLogin());
         assertEquals(lastLoginDate, userProps.getLastLogin());
-        assertEquals(admin, userProps.getUserSettings().isAdmin());
     }
 }
