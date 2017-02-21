@@ -6,10 +6,7 @@ up:
 	docker-compose up -d
 
 run-env:
-	docker-compose up -d elasticsearch mongo redis
-
-run-frontend:
-	docker-compose up -d frontend
+	docker-compose up -d frontend elasticsearch mongo redis
 
 stop:
 	docker-compose stop -t 3

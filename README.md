@@ -13,7 +13,7 @@
 ## Prerequisites
 Running this project requires 
 
-* [jdk8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+* [jdk8 or higher](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 * [maven](https://maven.apache.org/)
 * [docker](https://www.docker.com/products/overview)
 * [node/npm](https://nodejs.org/)
