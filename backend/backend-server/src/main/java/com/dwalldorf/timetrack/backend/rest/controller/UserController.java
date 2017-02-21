@@ -11,9 +11,9 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,7 +56,14 @@ public class UserController extends BaseController {
         return this.getCurrentUser();
     }
 
-    @CrossOrigin
+    @PutMapping
+    @RequireLogin
+    public ResponseEntity<UserModel> update(@RequestBody UserModel user) {
+        user.setId(userService.getCurrentUser().getId());
+        user = this.userService.update(user);
+        return new ResponseEntity<>(user, OK);
+    }
+
     @PostMapping(URI_LOGOUT)
     @RequireLogin
     public ResponseEntity logout() {
