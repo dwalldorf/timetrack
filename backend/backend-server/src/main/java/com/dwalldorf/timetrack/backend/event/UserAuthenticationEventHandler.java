@@ -69,6 +69,11 @@ public class UserAuthenticationEventHandler {
         }
     }
 
+    /**
+     * Sets firstLogin if it isn't set and updates lastLogin
+     *
+     * @param actor user that logged in
+     */
     private void setLoginDate(UserModel actor) {
         final DateTime now = new DateTime();
 
@@ -86,7 +91,6 @@ public class UserAuthenticationEventHandler {
             logAuthenticationInfo("Logout: '{}'", event.getUsername());
         }
     }
-
 
     private void logAuthenticationInfo(final String format, final Object... arguments) {
         logger.info(marker, format, arguments);
