@@ -17,7 +17,7 @@ public class UserModel extends AbstractModel {
     @Email(message = "email is invalid")
     private String email;
 
-    private boolean confirmedEmail;
+    private Boolean confirmedEmail;
 
     @NotEmpty(message = "password must not be empty")
     private String password;
@@ -57,7 +57,7 @@ public class UserModel extends AbstractModel {
         return this;
     }
 
-    public boolean isConfirmedEmail() {
+    public Boolean isConfirmedEmail() {
         return confirmedEmail;
     }
 
