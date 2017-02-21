@@ -9,11 +9,11 @@ public class UserAuthenticationEvent extends ActionEvent {
 
     private final String message;
 
-    UserAuthenticationEvent(final Action action, final UserModel user, final Result result) {
+    private UserAuthenticationEvent(final Action action, final UserModel user, final Result result) {
         this(action, user, result, null);
     }
 
-    UserAuthenticationEvent(final Action action, final UserModel user, final Result result, final String message) {
+    private UserAuthenticationEvent(final Action action, final UserModel user, final Result result, final String message) {
         super(action, user, result);
         this.message = message;
     }
