@@ -11,12 +11,15 @@ body {
 
 #main-wrapper {
   #header {
-    background-color: $background-header;
-    height: 80px;
+    height: 60px;
+
+    #logged-in-header {
+      margin-top: 10px
+    }
   }
 
   #content {
-    h1,h2,h3 {
+    h1, h2, h3 {
       font-weight: 200;
     }
   }
