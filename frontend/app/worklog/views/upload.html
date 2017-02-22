@@ -1,24 +1,20 @@
-<div class="row">
-    <div class="col-xs-12">
-        <label class="btn btn-default btn-file" title="Select csv for upload">
-            <span class="glyphicon glyphicon-plus"></span>
-            <input type="file" ng2FileSelect [uploader]="uploader" hidden/>
-        </label>
+<label class="btn btn-default btn-file" title="Select csv for upload">
+    <span class="glyphicon glyphicon-plus"></span>
+    <input type="file" ng2FileSelect [uploader]="uploader" hidden/>
+</label>
 
-        <button *ngIf="uploader.getNotUploadedItems().length > 0"
-                type="button"
-                class="btn btn-success"
-                (click)="uploader.uploadAll()">
-            Upload
-        </button>
-        <button *ngIf="uploader.getNotUploadedItems().length > 0"
-                type="button"
-                class="btn btn-danger"
-                (click)="uploader.clearQueue()">
-            Cancel
-        </button>
-        <span *ngIf="uploader.getNotUploadedItems().length > 0">
+<button *ngIf="uploader.getNotUploadedItems().length > 0"
+        type="button"
+        class="btn btn-success"
+        (click)="uploader.uploadAll()">
+    Upload
+</button>
+<button *ngIf="uploader.getNotUploadedItems().length > 0"
+        type="button"
+        class="btn btn-danger"
+        (click)="uploader.clearQueue()">
+    Cancel
+</button>
+<span *ngIf="uploader.getNotUploadedItems().length > 0">
             {{uploader.getNotUploadedItems()[0].file.name}}
-        </span>
-    </div>
-</div>
+</span>
