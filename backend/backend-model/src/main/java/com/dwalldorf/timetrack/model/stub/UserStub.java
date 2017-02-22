@@ -57,7 +57,8 @@ public class UserStub {
             .setPassword(password)
             .setRegistration(registration)
             .setFirstLogin(firstLogin)
-            .setLastLogin(lastLogin);
+            .setLastLogin(lastLogin)
+            .setWorkingHoursWeek((float) randomUtil.randomInt(32, 40));
 
         if (user.isConfirmedEmail()) {
             user.setFirstLogin(registration.plusMinutes(randomUtil.randomInt(10, 600)))

@@ -4,22 +4,24 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 import {LoginComponent} from "./user/login.component";
 import {RegisterComponent} from "./user/register.component";
 import {AppConfig} from "./core/config/app.config";
+import {SettingsComponent} from "./user/settings.component";
 
 const appRoutes: Routes = [
     {
         path: AppConfig.getRouterLink(AppConfig.ROUTE_HOME),
-        component: DashboardComponent,
-        data: {requireLogin: true}
+        component: DashboardComponent
     },
     {
         path: AppConfig.getRouterLink(AppConfig.ROUTE_LOGIN),
-        component: LoginComponent,
-        data: {requireLogin: false}
+        component: LoginComponent
     },
     {
         path: AppConfig.getRouterLink(AppConfig.ROUTE_REGISTER),
-        component: RegisterComponent,
-        data: {requireLogin: false}
+        component: RegisterComponent
+    },
+    {
+        path: AppConfig.getRouterLink(AppConfig.ROUTE_SETTINGS),
+        component: SettingsComponent
     },
 ];
 

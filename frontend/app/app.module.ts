@@ -10,7 +10,6 @@ import {UserModule} from "./user/user.module";
 import {DashboardModule} from "./dashboard/dashboard.module";
 import {CoreModule} from "./core/core.module";
 import {CookieService} from "angular2-cookie/services/cookies.service";
-import {CacheService} from "./core/service/cache.service";
 import {StatsModule} from "./stats/stats.module";
 
 @NgModule({
@@ -29,8 +28,8 @@ import {StatsModule} from "./stats/stats.module";
     providers: [
         {
             provide: [HttpService],
-            useFactory: (backend: XHRBackend, options: RequestOptions, cacheService: CacheService) => {
-                return new HttpService(backend, options, cacheService);
+            useFactory: (backend: XHRBackend, options: RequestOptions) => {
+                return new HttpService(backend, options);
             },
             deps: [XHRBackend, RequestOptions]
         },

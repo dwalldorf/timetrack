@@ -21,7 +21,7 @@ public abstract class ActionEvent {
 
     private final Result result;
 
-    protected ActionEvent(Action action, UserModel actor, Result result) {
+    ActionEvent(Action action, UserModel actor, Result result) {
         this.action = action;
         this.actor = actor;
         this.result = result;

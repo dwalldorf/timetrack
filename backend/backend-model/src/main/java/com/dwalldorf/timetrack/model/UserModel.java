@@ -17,7 +17,7 @@ public class UserModel extends AbstractModel {
     @Email(message = "email is invalid")
     private String email;
 
-    private boolean confirmedEmail;
+    private Boolean confirmedEmail;
 
     @NotEmpty(message = "password must not be empty")
     private String password;
@@ -27,6 +27,8 @@ public class UserModel extends AbstractModel {
     private DateTime firstLogin;
 
     private DateTime lastLogin;
+
+    private Float workingHoursWeek;
 
     public String getId() {
         return id;
@@ -55,11 +57,11 @@ public class UserModel extends AbstractModel {
         return this;
     }
 
-    public boolean isConfirmedEmail() {
+    public Boolean isConfirmedEmail() {
         return confirmedEmail;
     }
 
-    public UserModel setConfirmedEmail(boolean confirmedEmail) {
+    public UserModel setConfirmedEmail(Boolean confirmedEmail) {
         this.confirmedEmail = confirmedEmail;
         return this;
     }
@@ -97,6 +99,15 @@ public class UserModel extends AbstractModel {
 
     public UserModel setLastLogin(DateTime lastLogin) {
         this.lastLogin = lastLogin;
+        return this;
+    }
+
+    public Float getWorkingHoursWeek() {
+        return workingHoursWeek;
+    }
+
+    public UserModel setWorkingHoursWeek(Float workingHoursWeek) {
+        this.workingHoursWeek = workingHoursWeek;
         return this;
     }
 }

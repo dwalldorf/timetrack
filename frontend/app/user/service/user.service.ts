@@ -44,6 +44,20 @@ export class UserService {
         return JSON.parse(userStr);
     }
 
+    public update(user: User): void {
+        let currentUser = this.getCurrentUser();
+        if (!currentUser) {
+            return;
+        }
+
+        // only update properties we want to update client-side
+        let updateUser = new User();
+        updateUser.workingHoursWeek = user.workingHoursWeek;
+
+        this._httpService.put('/users', updateUser)
+            .subscribe(() => this.fetchCurrentUser());
+    }
+
     public logout(): Observable<Response> {
         let observable: Observable<Response> = this._httpService.post('/users/logout', null);
         observable.subscribe(
