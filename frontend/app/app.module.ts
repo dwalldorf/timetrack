@@ -11,6 +11,7 @@ import {DashboardModule} from "./dashboard/dashboard.module";
 import {CoreModule} from "./core/core.module";
 import {CookieService} from "angular2-cookie/services/cookies.service";
 import {StatsModule} from "./stats/stats.module";
+import {WorklogModule} from "./worklog/worklog.module";
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import {StatsModule} from "./stats/stats.module";
         CoreModule,
         StatsModule,
         DashboardModule,
-        UserModule
+        UserModule,
+        WorklogModule
     ],
     providers: [
         {
