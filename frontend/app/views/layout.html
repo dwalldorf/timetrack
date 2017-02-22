@@ -7,10 +7,17 @@
                 <div id="logged-in-header" *ngIf="currentUser">
                     <div class="col-xs-1"></div>
                     <div class="col-xs-9">
-                        <button class="btn btn-default"
-                                routerLink="/">
-                            Dashboard
-                        </button>
+                        <div class="row">
+                            <div class="col-xs-2">
+                                <button class="btn btn-default"
+                                        routerLink="/">
+                                    Dashboard
+                                </button>
+                            </div>
+                            <div class="col-xs-10">
+                                <upload-csv></upload-csv>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-xs-2">
                         <div class="dropdown">

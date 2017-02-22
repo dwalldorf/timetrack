@@ -1,4 +1,4 @@
-import {Http, XHRBackend, RequestOptions, Headers, Response} from "@angular/http";
+import {Http, XHRBackend, RequestOptions, Headers, Response, RequestOptionsArgs} from "@angular/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Rx";
 
@@ -26,6 +26,10 @@ export class HttpService extends Http {
 
     public post(url: string, body: any): Observable<any> {
         return this.makeReq(HttpService.METHOD_POST, url, body);
+    }
+
+    public postFile(url: string, file: File): Observable<any> {
+        return this.makeReq(HttpService.METHOD_POST, url, file);
     }
 
     public put(url: string, body: any): Observable<any> {

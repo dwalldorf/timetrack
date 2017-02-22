@@ -21,25 +21,20 @@
             'angular-in-memory-web-api': 'npm:angular-in-memory-web-api/bundles/in-memory-web-api.umd.js',
             'angular2-cookie': 'npm:angular2-cookie',
             'chart-js': 'npm:chart.js/Chart.bundle.js',
-            'ng2-charts': 'npm:ng2-charts/bundles/ng2-charts.umd.min.js'
+            'ng2-charts': 'npm:ng2-charts/bundles/ng2-charts.umd.min.js',
+            'ng2-file-upload': 'npm:ng2-file-upload/bundles/ng2-file-upload.umd.min.js'
         },
         packages: {
             'app': {
                 main: './main.js',
                 defaultExtension: 'js'
             },
-            'rxjs': {
-                defaultExtension: 'js'
-            },
-            'angular2-cookie': {
-                defaultExtension: 'js'
-            },
-            'chart-js': {
-                defaultExtension: 'js'
-            },
-            'ng2-charts': {
-                defaultExtension: 'js'
-            }
+
+            'rxjs': {defaultExtension: 'js'},
+            'angular2-cookie': {defaultExtension: 'js'},
+            'chart-js': {defaultExtension: 'js'},
+            'ng2-charts': {defaultExtension: 'js'},
+            'ng2-file-upload': {defaultExtension: 'js'}
         }
     });
 })(this);
