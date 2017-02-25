@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.dwalldorf.timetrack.backend.service.WorklogService;
+import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -34,13 +35,13 @@ public class CsvUploadControllerIT extends BaseControllerIT {
 
     @Test
     public void testUploadCsvFile_Success() throws Exception {
-        mockLoggedIn();
-        when(worklogService.diffWithDatabase(any())).then(returnsFirstArg());
+        UserModel mockUser = mockLoggedIn();
+        when(worklogService.diffWithDatabase(any(), eq(mockUser))).then(returnsFirstArg());
 
         doMultipartFilePost(CsvUploadController.BASE_URI, getDataCsv())
                 .andExpect(status().isCreated());
 
-        verify(worklogService).diffWithDatabase(anyListOf(WorklogEntryModel.class));
+        verify(worklogService).diffWithDatabase(anyListOf(WorklogEntryModel.class), eq(mockUser));
         verify(worklogService).save(worklogEntryModelCaptor.capture());
 
         List<WorklogEntryModel> savedEntries = worklogEntryModelCaptor.getValue();

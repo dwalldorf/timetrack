@@ -31,10 +31,10 @@ public class WorklogService {
         this.graphDateTimeFormatter = graphDateTimeFormatter;
     }
 
-    public List<WorklogEntryModel> diffWithDatabase(List<WorklogEntryModel> worklogEntries) {
+    public List<WorklogEntryModel> diffWithDatabase(List<WorklogEntryModel> worklogEntries, UserModel user) {
         ArrayList<WorklogEntryModel> retVal = new ArrayList<>();
 
-        List<WorklogEntryModel> dbEntries = findAll();
+        List<WorklogEntryModel> dbEntries = worklogEntryDao.findByUser(user);
         worklogEntries.forEach(entry -> {
             boolean found = false;
             for (WorklogEntryModel dbEntry : dbEntries) {
