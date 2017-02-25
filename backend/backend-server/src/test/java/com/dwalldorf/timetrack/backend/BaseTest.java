@@ -14,7 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public abstract class BaseTest {
 
     @Before
-    public void beforeSetUp() throws Exception {
+    public final void beforeSetUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         this.setUp();
     }
