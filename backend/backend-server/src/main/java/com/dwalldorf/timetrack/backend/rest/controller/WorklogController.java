@@ -21,6 +21,8 @@ public class WorklogController extends BaseController {
 
     static final String BASE_URI = "/worklog";
 
+    static final String GRAPH_URI = "/graph_data";
+
     private final GraphService graphService;
 
     private final WorklogService worklogService;
@@ -39,7 +41,7 @@ public class WorklogController extends BaseController {
     }
 
     @RequireLogin
-    @GetMapping("/graph_data")
+    @GetMapping(GRAPH_URI)
     public GraphMapList getGraphData(
             @RequestParam(value = "from") String from,
             @RequestParam(value = "to") String to,
