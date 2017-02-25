@@ -71,4 +71,9 @@ public class WorklogServiceTest extends BaseTest {
         assertEquals(newEntry2_New.getComment(), diffedWorklogEntries.get(0).getComment());
         assertEquals(newEntry3_New.getComment(), diffedWorklogEntries.get(1).getComment());
     }
+
+    @Test
+    public void testGetGraphMapList() throws Exception {
+        // TODO write test
+    }
 }
