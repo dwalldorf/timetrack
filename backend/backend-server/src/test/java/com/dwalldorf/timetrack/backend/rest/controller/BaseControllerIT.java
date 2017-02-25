@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.backend.rest.controller;
 
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -7,6 +8,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.dwalldorf.timetrack.backend.config.TestConfig;
+import com.dwalldorf.timetrack.backend.service.UserService;
+import com.dwalldorf.timetrack.model.UserModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.inject.Inject;
@@ -14,6 +17,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -37,6 +41,9 @@ public abstract class BaseControllerIT {
 
     @Inject
     private ObjectMapper mapper;
+
+    @MockBean
+    protected UserService userService;
 
     @Before
     public void setUp() throws Exception {
@@ -69,6 +76,15 @@ public abstract class BaseControllerIT {
         return prepareRequest(put(uri), body);
     }
 
+    protected UserModel mockLoggedIn() {
+        UserModel mockUser = new UserModel()
+                .setId("someId")
+                .setUsername("username");
+        when(userService.getCurrentUser()).thenReturn(mockUser);
+
+        return mockUser;
+    }
+
     private ResultActions prepareRequest(MockHttpServletRequestBuilder builder) throws Exception {
         return prepareRequest(builder, null);
     }
@@ -85,7 +101,6 @@ public abstract class BaseControllerIT {
                 builder.content(toJsonString(body));
             }
         }
-
         return mockMvc.perform(builder)
                       .andDo(print());
     }
