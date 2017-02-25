@@ -4,6 +4,7 @@ import com.dwalldorf.timetrack.backend.annotation.RequireLoginTest;
 import com.dwalldorf.timetrack.backend.config.GraphDateTimeFormatterConfigTest;
 import com.dwalldorf.timetrack.backend.config.SessionConfigTest;
 import com.dwalldorf.timetrack.backend.event.PermissionFailureEventHandlerTest;
+import com.dwalldorf.timetrack.backend.event.UserAuthenticationEventHandlerTest;
 import com.dwalldorf.timetrack.backend.rest.controller.UserControllerTest;
 import com.dwalldorf.timetrack.backend.rest.dto.ListDtoTest;
 import com.dwalldorf.timetrack.backend.service.CsvImportServiceTest;
@@ -21,6 +22,7 @@ import org.junit.runners.Suite;
         SessionConfigTest.class,
 
         PermissionFailureEventHandlerTest.class,
+        UserAuthenticationEventHandlerTest.class,
 
         UserControllerTest.class,
 

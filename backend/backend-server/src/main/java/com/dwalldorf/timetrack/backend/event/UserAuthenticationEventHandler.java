@@ -47,7 +47,7 @@ public class UserAuthenticationEventHandler {
                 logAuthenticationInfo("Successful registration: '{}'", event.getUsername());
                 break;
             case FAILURE:
-                logAuthenticationInfo("Failure during registration with username: {}, message: {}",
+                logAuthenticationInfo("Failure during registration with username: '{}', message: {}",
                         event.getUsername(),
                         event.getMessage()
                 );
