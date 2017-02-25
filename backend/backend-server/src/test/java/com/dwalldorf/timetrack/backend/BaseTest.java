@@ -58,7 +58,7 @@ public abstract class BaseTest {
     }
 
     protected final void assertLogged(String message, Level logLevel, String markerName) {
-        verify(mockAppender).doAppend(loggingEventCaptor.capture());
+        verify(mockAppender, atLeastOnce()).doAppend(loggingEventCaptor.capture());
         List<LoggingEvent> loggingEvents = getLoggingEvents(message);
 
         if (loggingEvents.size() == 0) {
