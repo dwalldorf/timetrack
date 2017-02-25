@@ -5,9 +5,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.dwalldorf.timetrack.backend.service.UserService;
 import com.dwalldorf.timetrack.backend.service.WorklogService;
-import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import java.util.Collections;
 import org.joda.time.DateTime;
@@ -19,9 +17,6 @@ public class WorklogControllerIT extends BaseControllerIT {
     @MockBean
     private WorklogService worklogServiceMock;
 
-    @MockBean
-    private UserService userService;
-
     @Test
     public void testGetWorklog_NotLoggedIn() throws Exception {
         doGet(WorklogController.BASE_URI)
@@ -30,10 +25,7 @@ public class WorklogControllerIT extends BaseControllerIT {
 
     @Test
     public void testGetWorklog_ReturnsList() throws Exception {
-        UserModel mockUser = new UserModel()
-                .setId("someId")
-                .setUsername("username");
-        when(userService.getCurrentUser()).thenReturn(mockUser);
+        mockLoggedIn();
 
         WorklogEntryModel worklogEntry = new WorklogEntryModel()
                 .setId("abc001")
