@@ -17,7 +17,7 @@ public class GraphDateTimeFormatterConfigTest extends BaseTest {
     }
 
     @Test
-    public void dateTimeFormatter() throws Exception {
+    public void testDateTimeFormatter() throws Exception {
         final String expectedPattern = "^\\d{4}-\\d{2}-\\d{2}$";
 
         DateTimeFormatter dateTimeFormatter = graphDateTimeFormatterConfig.dateTimeFormatter();
