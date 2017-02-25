@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
 import javax.inject.Inject;
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Service;
 
@@ -68,11 +69,14 @@ public class WorklogService {
                 labelFunction = model -> graphDateTimeFormatter.print(model.getStart());
                 return getDailyGraphMapList(labelFunction, entries);
             case WEEK:
-                labelFunction = model -> String.format(
-                        "%s-%s",
-                        model.getStart().getWeekyear(),
-                        DOUBLE_DIGIT_FORMAT.format(model.getStart().getWeekOfWeekyear())
-                );
+                labelFunction = model -> {
+                    DateTime start = model.getStart();
+                    return String.format(
+                            "%s-%s",
+                            start.getWeekyear(),
+                            DOUBLE_DIGIT_FORMAT.format(start.getWeekOfWeekyear())
+                    );
+                };
                 return getGroupedGraphMapList(labelFunction, entries);
             case MONTH:
                 labelFunction = model -> String.format(

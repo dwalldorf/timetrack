@@ -1,15 +1,24 @@
 package com.dwalldorf.timetrack.backend.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 import com.dwalldorf.timetrack.backend.BaseTest;
+import com.dwalldorf.timetrack.model.GraphMapList;
+import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
+import com.dwalldorf.timetrack.model.internal.GraphConfig;
+import com.dwalldorf.timetrack.model.stub.UserStub;
 import com.dwalldorf.timetrack.model.stub.WorklogStub;
 import com.dwalldorf.timetrack.model.util.RandomUtil;
 import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
 import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;
+import org.joda.time.Months;
+import org.joda.time.Weeks;
 import org.joda.time.format.DateTimeFormat;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -19,13 +28,21 @@ public class WorklogServiceTest extends BaseTest {
 
     private final WorklogStub worklogStub;
 
+    private final UserStub userStub;
+
+    private static final DateTime FROM_DATE = new DateTime().minusMonths(2);
+    private static final DateTime TO_DATE = new DateTime();
+
     @Mock
     private WorklogEntryDao worklogEntryDao;
 
     private WorklogService service;
 
     public WorklogServiceTest() throws Exception {
-        worklogStub = new WorklogStub(new RandomUtil());
+        final RandomUtil randomUtil = new RandomUtil();
+
+        worklogStub = new WorklogStub(randomUtil);
+        userStub = new UserStub(randomUtil);
     }
 
     @Override
@@ -35,7 +52,8 @@ public class WorklogServiceTest extends BaseTest {
 
     @Test
     public void testDiffWithDatabase_FiltersExistingEntries() throws Exception {
-        // prepare
+        UserModel mockUser = userStub.createUser();
+
         final String customer = "testCustomer";
         final String project = "testProject";
 
@@ -63,8 +81,8 @@ public class WorklogServiceTest extends BaseTest {
         final List<WorklogEntryModel> newEntries = Arrays.asList(newEntry1_Duplicate, newEntry2_New, newEntry3_New);
 
         // when
-        Mockito.when(worklogEntryDao.findAll()).thenReturn(mockDbEntries);
-        List<WorklogEntryModel> diffedWorklogEntries = service.diffWithDatabase(newEntries);
+        Mockito.when(worklogEntryDao.findByUser(eq(mockUser))).thenReturn(mockDbEntries);
+        List<WorklogEntryModel> diffedWorklogEntries = service.diffWithDatabase(newEntries, mockUser);
 
         //then
         assertEquals(2, diffedWorklogEntries.size());
@@ -73,7 +91,77 @@ public class WorklogServiceTest extends BaseTest {
     }
 
     @Test
-    public void testGetGraphMapList() throws Exception {
-        // TODO write test
+    public void testGetGraphMapList_Day() throws Exception {
+        GraphConfig graphConfig = getGraphConfig(GraphConfig.Scale.DAY);
+        UserModel mockUser = userStub.createUser();
+        List<WorklogEntryModel> mockDaoResult = createList(mockUser);
+
+        when(worklogEntryDao.findByGraphConfig(eq(mockUser), eq(graphConfig)))
+                .thenReturn(mockDaoResult);
+
+        GraphMapList graphMapList = service.getGraphMapList(mockUser, graphConfig);
+
+        assertEquals(mockDaoResult.size(), graphMapList.size());
+    }
+
+    @Test
+    public void testGetGraphMapList_Week() throws Exception {
+        GraphConfig graphConfig = getGraphConfig(GraphConfig.Scale.WEEK);
+        UserModel mockUser = userStub.createUser();
+        List<WorklogEntryModel> mockDaoResult = createList(mockUser);
+
+        when(worklogEntryDao.findByGraphConfig(eq(mockUser), eq(graphConfig)))
+                .thenReturn(mockDaoResult);
+
+        GraphMapList graphMapList = service.getGraphMapList(mockUser, graphConfig);
+
+        // it can be the exact amount of weeks between both dates, or +1 because of the way we group things
+        int expectedWeeks = Weeks.weeksBetween(FROM_DATE, TO_DATE).getWeeks();
+        boolean correctAmountOfWeeks = false;
+
+        if (graphMapList.size() == expectedWeeks || graphMapList.size() == expectedWeeks + 1) {
+            correctAmountOfWeeks = true;
+        }
+
+        assertTrue(
+                String.format("Expected %d or %d weeks", expectedWeeks, expectedWeeks + 1),
+                correctAmountOfWeeks
+        );
+    }
+
+    @Test
+    public void testGetGraphMapList_Month() throws Exception {
+        GraphConfig graphConfig = getGraphConfig(GraphConfig.Scale.MONTH);
+        UserModel mockUser = userStub.createUser();
+        List<WorklogEntryModel> mockDaoResult = createList(mockUser);
+
+        when(worklogEntryDao.findByGraphConfig(eq(mockUser), eq(graphConfig)))
+                .thenReturn(mockDaoResult);
+
+        GraphMapList graphMapList = service.getGraphMapList(mockUser, graphConfig);
+
+        // it can be the exact amount of months between both dates, or +1 because of the way we group things
+        int expectedMonths = Months.monthsBetween(FROM_DATE, TO_DATE).getMonths();
+        boolean correctAmountOfMonths = false;
+
+        if (graphMapList.size() == expectedMonths || graphMapList.size() == expectedMonths + 1) {
+            correctAmountOfMonths = true;
+        }
+
+        assertTrue(
+                String.format("Expected %d or %d months", expectedMonths, expectedMonths + 1),
+                correctAmountOfMonths
+        );
+    }
+
+    private GraphConfig getGraphConfig(GraphConfig.Scale scale) {
+        return new GraphConfig()
+                .setFrom(FROM_DATE)
+                .setTo(TO_DATE)
+                .setScale(scale);
+    }
+
+    private List<WorklogEntryModel> createList(UserModel user) {
+        return worklogStub.createWorklogEntrySeries(user.getId(), FROM_DATE, 9999);
     }
 }
