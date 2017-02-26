@@ -3,22 +3,22 @@ import {WorklogService} from "./service/worklog.service";
 import {CommonModule} from "@angular/common";
 import {FileUploadModule} from "ng2-file-upload";
 import {WorklogEditComponent} from "./worklog.edit.component";
-import {WorklogAddComponent} from "./worklog.add.component";
+import {WorklogButtonBarComponent} from "./worklog.buttonbar.component";
 
 @NgModule({
     declarations: [
-        WorklogAddComponent,
+        WorklogButtonBarComponent,
         WorklogEditComponent
     ],
     imports: [
-        CommonModule,
+        CommonModule,g
         FileUploadModule
     ],
     providers: [
         WorklogService
     ],
     exports: [
-        WorklogAddComponent,
+        WorklogButtonBarComponent,
         WorklogEditComponent
     ]
 })
