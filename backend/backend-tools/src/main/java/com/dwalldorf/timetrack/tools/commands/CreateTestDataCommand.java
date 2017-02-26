@@ -10,7 +10,6 @@ import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
-import org.apache.commons.cli.CommandLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -48,7 +47,7 @@ public class CreateTestDataCommand extends AbstractCommand {
     }
 
     @Override
-    public void run(CommandLine cmd) {
+    public void run() {
         final Integer userCount = getOptionValueInt(CMD_USER_COUNT_OPT_NAME, CMD_USER_COUNT_OPT_DEFAULT);
         final Integer worklogCount = getOptionValueInt(CMD_WORKLOG_COUNT_OPT_NAME, CMD_WORKLOG_COUNT_OPT_DEFAULT);
 

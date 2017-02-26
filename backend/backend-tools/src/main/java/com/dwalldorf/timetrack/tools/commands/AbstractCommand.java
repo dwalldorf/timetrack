@@ -20,7 +20,7 @@ public abstract class AbstractCommand implements CommandLineRunner {
         CommandLine cmd = getCmd(args);
 
         if (invoked(getCmdName())) {
-            this.run(cmd);
+            this.run();
         }
     }
 
@@ -45,7 +45,7 @@ public abstract class AbstractCommand implements CommandLineRunner {
         return Integer.valueOf(optionValueString);
     }
 
-    protected abstract void run(CommandLine cmd);
+    protected abstract void run();
 
     protected abstract String getCmdName();
 }

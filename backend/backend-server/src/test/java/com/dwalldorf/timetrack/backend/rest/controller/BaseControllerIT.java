@@ -46,7 +46,7 @@ public abstract class BaseControllerIT {
     protected UserService userService;
 
     @Before
-    public void setUp() throws Exception {
+    public final void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
 

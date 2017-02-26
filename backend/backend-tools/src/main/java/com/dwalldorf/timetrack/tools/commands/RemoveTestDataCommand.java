@@ -6,7 +6,6 @@ import com.dwalldorf.timetrack.repository.dao.UserDao;
 import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
 import java.util.List;
 import javax.inject.Inject;
-import org.apache.commons.cli.CommandLine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -29,7 +28,7 @@ public class RemoveTestDataCommand extends AbstractCommand {
     }
 
     @Override
-    public void run(CommandLine cmd) {
+    public void run() {
         logger.info("Wiping test data...");
         List<UserModel> testUsers = userDao.findTestUsers();
 
