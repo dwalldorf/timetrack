@@ -17,8 +17,6 @@ public abstract class AbstractCommand implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        CommandLine cmd = getCmd(args);
-
         if (invoked(getCmdName())) {
             this.run();
         }
