@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class RandomUtil {
 
+    @SuppressWarnings("SpellCheckingInspection")
     private final static char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
 
     private final Random random;

@@ -50,6 +50,7 @@ public class PasswordServiceTest {
 
     @Test
     public void testIsExpectedPassword() {
+        @SuppressWarnings("SpellCheckingInspection")
         final String PASSWORD = "fsaHJSSAusdj12dDS*d7/dsa-DSpqsutvDIl";
         final byte[] SALT = passwordService.createSalt();
 
