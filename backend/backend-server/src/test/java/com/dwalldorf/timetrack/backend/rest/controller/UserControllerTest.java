@@ -1,6 +1,5 @@
 package com.dwalldorf.timetrack.backend.rest.controller;
 
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 import com.dwalldorf.timetrack.backend.BaseTest;
