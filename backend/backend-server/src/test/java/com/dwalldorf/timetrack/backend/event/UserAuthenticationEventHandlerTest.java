@@ -15,7 +15,8 @@ public class UserAuthenticationEventHandlerTest extends BaseTest {
     private static final String USER_ID = "58ad775daf1e9c9d16444a96";
     private static final String USER_NAME = "test_user";
     private static final String expectedMarkerName = "user_auth";
-    private static final UserModel mockUser = mock(UserModel.class);
+
+    private UserModel mockUser;
 
     private UserAuthenticationEventHandler eventHandler;
 
@@ -23,6 +24,7 @@ public class UserAuthenticationEventHandlerTest extends BaseTest {
     protected void setUp() {
         UserDao mockUserDao = mock(UserDao.class);
         this.eventHandler = new UserAuthenticationEventHandler(mockUserDao);
+        this.mockUser = mock(UserModel.class);
 
         when(mockUser.getId()).thenReturn(USER_ID);
         when(mockUser.getUsername()).thenReturn(USER_NAME);
