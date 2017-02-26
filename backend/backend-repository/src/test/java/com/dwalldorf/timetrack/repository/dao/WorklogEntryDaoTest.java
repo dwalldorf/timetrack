@@ -21,6 +21,7 @@ public class WorklogEntryDaoTest {
     private static final String userId = "someUserId";
     private static final String customer = "customer";
     private static final String project = "project";
+    private static final String task = "task";
 
     private WorklogEntryDao worklogEntryDao;
 
@@ -44,6 +45,7 @@ public class WorklogEntryDaoTest {
         assertEquals(userId, document.getUserId());
         assertEquals(customer, document.getCustomer());
         assertEquals(project, document.getProject());
+        assertEquals(task, document.getTask());
     }
 
     @Test
@@ -66,6 +68,7 @@ public class WorklogEntryDaoTest {
         assertEquals(userId, document1.getUserId());
         assertEquals(customer, document1.getCustomer());
         assertEquals(project, document1.getProject());
+        assertEquals(task, document1.getTask());
 
         assertNull(documents.get(1).getId());
         assertNull(documents.get(2).getId());
@@ -85,6 +88,7 @@ public class WorklogEntryDaoTest {
         assertEquals(userId, model.getUserId());
         assertEquals(customer, model.getCustomer());
         assertEquals(project, model.getProject());
+        assertEquals(task, model.getTask());
     }
 
     @Test
@@ -114,7 +118,8 @@ public class WorklogEntryDaoTest {
                 .setId(id)
                 .setUserId(userId)
                 .setCustomer(customer)
-                .setProject(project);
+                .setProject(project)
+                .setTask(task);
     }
 
     private WorklogEntryDocument getDocument() {
@@ -122,6 +127,7 @@ public class WorklogEntryDaoTest {
                 .setId(id)
                 .setUserId(userId)
                 .setCustomer(customer)
-                .setProject(project);
+                .setProject(project)
+                .setTask(task);
     }
 }
