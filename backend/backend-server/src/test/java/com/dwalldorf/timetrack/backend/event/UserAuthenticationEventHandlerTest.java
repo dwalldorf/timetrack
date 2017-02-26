@@ -14,17 +14,14 @@ public class UserAuthenticationEventHandlerTest extends BaseTest {
 
     private static final String USER_ID = "58ad775daf1e9c9d16444a96";
     private static final String USER_NAME = "test_user";
+    private static final String expectedMarkerName = "user_auth";
+    private static final UserModel mockUser = mock(UserModel.class);
 
-    private String expectedMarkerName = "user_auth";
-
-    private UserModel mockUser = mock(UserModel.class);
-
-    private UserDao mockUserDao;
     private UserAuthenticationEventHandler eventHandler;
 
     @Override
     protected void setUp() {
-        this.mockUserDao = mock(UserDao.class);
+        UserDao mockUserDao = mock(UserDao.class);
         this.eventHandler = new UserAuthenticationEventHandler(mockUserDao);
 
         when(mockUser.getId()).thenReturn(USER_ID);

@@ -13,7 +13,7 @@ abstract class BaseController {
         this.userService = userService;
     }
 
-    protected UserModel getCurrentUser() {
+    final UserModel getCurrentUser() {
         return userService.getCurrentUser();
     }
 }

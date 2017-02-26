@@ -10,7 +10,7 @@ public class PermissionFailureEventHandlerTest extends BaseTest {
     private PermissionFailureEventHandler eventHandler;
 
     private static final String eventMessage = "UserController.getMe() called without login";
-    private String expectedMarkerName = "permission_failure";
+    private static final String expectedMarkerName = "permission_failure";
 
     @Override
     protected void setUp() {

@@ -25,12 +25,13 @@ public abstract class BaseTest {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(BaseTest.class);
 
-    private Logger rootLogger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-    private Appender mockAppender = spy(Appender.class);
+    private final Logger rootLogger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+    private final Appender mockAppender = spy(Appender.class);
 
-    private ArgumentCaptor<LoggingEvent> loggingEventCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
+    private final ArgumentCaptor<LoggingEvent> loggingEventCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
 
     @Before
+    @SuppressWarnings("unchecked")
     public final void beforeSetUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
@@ -57,6 +58,7 @@ public abstract class BaseTest {
         assertLogged(message, logLevel, null);
     }
 
+    @SuppressWarnings("unchecked")
     protected final void assertLogged(String message, Level logLevel, String markerName) {
         verify(mockAppender, atLeastOnce()).doAppend(loggingEventCaptor.capture());
         List<LoggingEvent> loggingEvents = getLoggingEvents(message);

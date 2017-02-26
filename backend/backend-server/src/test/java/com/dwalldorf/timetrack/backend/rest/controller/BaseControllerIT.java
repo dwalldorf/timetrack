@@ -34,7 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 @ContextConfiguration(classes = TestConfig.class)
 public abstract class BaseControllerIT {
 
-    protected MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Inject
     private WebApplicationContext ctx;
@@ -76,7 +76,7 @@ public abstract class BaseControllerIT {
         return prepareRequest(put(uri), body);
     }
 
-    protected UserModel mockLoggedIn() {
+    UserModel mockLoggedIn() {
         UserModel mockUser = new UserModel()
                 .setId("someId")
                 .setUsername("username");

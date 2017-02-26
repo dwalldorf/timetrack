@@ -94,7 +94,7 @@ public class WorklogServiceTest extends BaseTest {
     public void testGetGraphMapList_Day() throws Exception {
         GraphConfig graphConfig = getGraphConfig(GraphConfig.Scale.DAY);
         UserModel mockUser = userStub.createUser();
-        List<WorklogEntryModel> mockDaoResult = createList(mockUser);
+        List<WorklogEntryModel> mockDaoResult = createWorklogEntrySeries(mockUser);
 
         when(worklogEntryDao.findByGraphConfig(eq(mockUser), eq(graphConfig)))
                 .thenReturn(mockDaoResult);
@@ -108,7 +108,7 @@ public class WorklogServiceTest extends BaseTest {
     public void testGetGraphMapList_Week() throws Exception {
         GraphConfig graphConfig = getGraphConfig(GraphConfig.Scale.WEEK);
         UserModel mockUser = userStub.createUser();
-        List<WorklogEntryModel> mockDaoResult = createList(mockUser);
+        List<WorklogEntryModel> mockDaoResult = createWorklogEntrySeries(mockUser);
 
         when(worklogEntryDao.findByGraphConfig(eq(mockUser), eq(graphConfig)))
                 .thenReturn(mockDaoResult);
@@ -133,7 +133,7 @@ public class WorklogServiceTest extends BaseTest {
     public void testGetGraphMapList_Month() throws Exception {
         GraphConfig graphConfig = getGraphConfig(GraphConfig.Scale.MONTH);
         UserModel mockUser = userStub.createUser();
-        List<WorklogEntryModel> mockDaoResult = createList(mockUser);
+        List<WorklogEntryModel> mockDaoResult = createWorklogEntrySeries(mockUser);
 
         when(worklogEntryDao.findByGraphConfig(eq(mockUser), eq(graphConfig)))
                 .thenReturn(mockDaoResult);
@@ -161,7 +161,7 @@ public class WorklogServiceTest extends BaseTest {
                 .setScale(scale);
     }
 
-    private List<WorklogEntryModel> createList(UserModel user) {
+    private List<WorklogEntryModel> createWorklogEntrySeries(UserModel user) {
         return worklogStub.createWorklogEntrySeries(user.getId(), FROM_DATE, 9999);
     }
 }
