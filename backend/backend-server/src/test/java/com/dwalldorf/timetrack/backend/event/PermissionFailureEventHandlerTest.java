@@ -2,7 +2,6 @@ package com.dwalldorf.timetrack.backend.event;
 
 import ch.qos.logback.classic.Level;
 import com.dwalldorf.timetrack.backend.BaseTest;
-import com.dwalldorf.timetrack.model.UserModel;
 import org.junit.Test;
 
 public class PermissionFailureEventHandlerTest extends BaseTest {
@@ -19,24 +18,9 @@ public class PermissionFailureEventHandlerTest extends BaseTest {
 
     @Test
     public void testOnPermissionFailureEvent_NotLoggedIn() throws Exception {
-        PermissionFailureEvent event = new PermissionFailureEvent(null, eventMessage);
+        PermissionFailureEvent event = PermissionFailureEvent.failureEvent(eventMessage);
         eventHandler.onPermissionFailureEvent(event);
 
         assertLogged(eventMessage, Level.INFO, expectedMarkerName);
-    }
-
-    @Test
-    public void testOnPermissionFailureEvent_LoggedIn() throws Exception {
-        String userId = "58ad775daf1e9c9d16444a96";
-        String username = "test_user";
-        UserModel mockUser = new UserModel()
-                .setId(userId)
-                .setUsername(username);
-        String expectedMessage = String.format("%s - caused by: '%s' with userId %s", eventMessage, username, userId);
-
-        PermissionFailureEvent event = new PermissionFailureEvent(mockUser, eventMessage);
-        eventHandler.onPermissionFailureEvent(event);
-
-        assertLogged(expectedMessage, Level.INFO, expectedMarkerName);
     }
 }

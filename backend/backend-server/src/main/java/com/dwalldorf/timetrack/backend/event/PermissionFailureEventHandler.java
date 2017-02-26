@@ -1,6 +1,5 @@
 package com.dwalldorf.timetrack.backend.event;
 
-import com.dwalldorf.timetrack.model.UserModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
@@ -18,17 +17,7 @@ public class PermissionFailureEventHandler {
     @Async
     @EventListener(PermissionFailureEvent.class)
     public void onPermissionFailureEvent(final PermissionFailureEvent event) {
-        UserModel user = event.getUser();
-        if (user != null) {
-            logPermissionFailure(
-                    "{} - caused by: '{}' with userId {}",
-                    event.getMessage(),
-                    user.getUsername(),
-                    user.getId()
-            );
-        } else {
-            logPermissionFailure(event.getMessage());
-        }
+        logPermissionFailure(event.getMessage());
     }
 
     private void logPermissionFailure(final String format, final Object... arguments) {
