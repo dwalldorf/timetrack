@@ -1,11 +1,10 @@
 package com.dwalldorf.timetrack.backend.rest.dto;
 
-import com.dwalldorf.timetrack.model.AbstractModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.List;
 
-public class ListDto<T extends AbstractModel> implements Serializable {
+public class ListDto<T extends Serializable> implements Serializable {
 
     private final List<T> items;
 
