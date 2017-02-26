@@ -108,6 +108,16 @@ public class UserDaoTest {
     }
 
     @Test
+    public void testToModelList_WithNull() throws Exception {
+        // TODO test
+    }
+
+    @Test
+    public void testToModelList() throws Exception {
+        // TODO test
+    }
+
+    @Test
     public void testToDocument_WithNull() {
         UserDocument document = userDao.toDocument(null);
         assertNull(document);
