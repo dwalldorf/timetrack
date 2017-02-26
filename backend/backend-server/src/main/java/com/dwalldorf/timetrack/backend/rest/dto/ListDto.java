@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ListDto<T extends Serializable> implements Serializable {
 
-    private List<T> items;
+    private final List<T> items;
 
     public ListDto(List<T> items) {
         this.items = items;

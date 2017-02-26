@@ -14,7 +14,7 @@ public class VersionControllerIT extends BaseControllerIT {
 
     @Test
     public void testGetVersion_Success() throws Exception {
-        doGet("/version")
+        doGet(VersionController.BASE_URI)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.version", is(version)));
     }

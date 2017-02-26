@@ -10,26 +10,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.dwalldorf.timetrack.backend.rest.dto.LoginDto;
-import com.dwalldorf.timetrack.backend.service.UserService;
 import com.dwalldorf.timetrack.model.UserModel;
 import org.junit.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 public class UserControllerIT extends BaseControllerIT {
-
-    @MockBean
-    private UserService userService;
-
-    @Test
-    public void testRegister_Success() throws Exception {
-        UserModel user = new UserModel()
-                .setUsername("testUser")
-                .setEmail("name@host.tld")
-                .setPassword("password");
-
-        doPost(BASE_URI, user)
-                .andExpect(status().isCreated());
-    }
 
     @Test
     public void testRegister_NoUsername() throws Exception {
@@ -62,16 +46,14 @@ public class UserControllerIT extends BaseControllerIT {
     }
 
     @Test
-    public void testLogin_Success() throws Exception {
-        final String username = "username";
-        final String password = "password";
-        LoginDto loginDto = new LoginDto()
-                .setUsername(username)
-                .setPassword(password);
-        when(userService.login(eq(username), eq(password))).thenReturn(new UserModel());
+    public void testRegister_Success() throws Exception {
+        UserModel user = new UserModel()
+                .setUsername("testUser")
+                .setEmail("name@host.tld")
+                .setPassword("password");
 
-        doPost(BASE_URI + URI_LOGIN, loginDto)
-                .andExpect(status().isOk());
+        doPost(BASE_URI, user)
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -86,20 +68,42 @@ public class UserControllerIT extends BaseControllerIT {
     }
 
     @Test
-    public void testGetMe_NotLoggedIn() throws Exception {
-        when(userService.getCurrentUser()).thenReturn(null);
+    public void testLogin_Success() throws Exception {
+        final String username = "username";
+        final String password = "password";
+        LoginDto loginDto = new LoginDto()
+                .setUsername(username)
+                .setPassword(password);
+        when(userService.login(eq(username), eq(password))).thenReturn(new UserModel());
 
+        doPost(BASE_URI + URI_LOGIN, loginDto)
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testLogin_AlreadyLoggedIn_Success() throws Exception {
+        mockLoggedIn();
+
+        final String username = "username";
+        final String password = "password";
+        LoginDto loginDto = new LoginDto()
+                .setUsername(username)
+                .setPassword(password);
+        when(userService.login(eq(username), eq(password))).thenReturn(new UserModel());
+
+        doPost(BASE_URI + URI_LOGIN, loginDto)
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void testGetMe_NotLoggedIn() throws Exception {
         doGet(BASE_URI + URI_ME)
                 .andExpect(status().isUnauthorized());
     }
 
     @Test
     public void testGetMe_Success() throws Exception {
-        UserModel mockUser = new UserModel()
-                .setId("someId")
-                .setUsername("username");
-
-        when(userService.getCurrentUser()).thenReturn(mockUser);
+        UserModel mockUser = mockLoggedIn();
 
         doGet(BASE_URI + URI_ME)
                 .andExpect(status().isOk())
@@ -110,6 +114,25 @@ public class UserControllerIT extends BaseControllerIT {
     }
 
     @Test
+    public void testUpdate_NotLoggedIn() throws Exception {
+        UserModel updateUser = new UserModel()
+                .setId("someId")
+                .setUsername("username");
+
+        doPut(BASE_URI, updateUser)
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    public void testUpdate_Success() throws Exception {
+        UserModel mockUser = mockLoggedIn();
+        mockUser.setWorkingHoursWeek(40F);
+
+        doPut(BASE_URI, mockUser)
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void testLogout_NotLoggedIn() throws Exception {
         doPost(BASE_URI + URI_LOGOUT)
                 .andExpect(status().isUnauthorized());
@@ -117,8 +140,7 @@ public class UserControllerIT extends BaseControllerIT {
 
     @Test
     public void testLogout_Success() throws Exception {
-        when(userService.getCurrentUser()).thenReturn(new UserModel());
-
+        mockLoggedIn();
         doPost(BASE_URI + URI_LOGOUT)
                 .andExpect(status().isOk());
     }

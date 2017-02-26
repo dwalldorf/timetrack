@@ -1,15 +1,12 @@
 package com.dwalldorf.timetrack.backend.rest.controller;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
-import com.dwalldorf.timetrack.backend.rest.controller.UserController;
 import com.dwalldorf.timetrack.backend.BaseTest;
-import com.dwalldorf.timetrack.repository.dao.UserDao;
 import com.dwalldorf.timetrack.backend.exception.InvalidInputException;
 import com.dwalldorf.timetrack.backend.rest.dto.LoginDto;
 import com.dwalldorf.timetrack.backend.service.UserService;
+import com.dwalldorf.timetrack.repository.dao.UserDao;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

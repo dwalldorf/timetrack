@@ -1,7 +1,12 @@
 package com.dwalldorf.timetrack.backend;
 
 import com.dwalldorf.timetrack.backend.annotation.RequireLoginTest;
+import com.dwalldorf.timetrack.backend.config.GraphDateTimeFormatterConfigTest;
+import com.dwalldorf.timetrack.backend.config.SessionConfigTest;
+import com.dwalldorf.timetrack.backend.event.PermissionFailureEventHandlerTest;
+import com.dwalldorf.timetrack.backend.event.UserAuthenticationEventHandlerTest;
 import com.dwalldorf.timetrack.backend.rest.controller.UserControllerTest;
+import com.dwalldorf.timetrack.backend.rest.dto.ListDtoTest;
 import com.dwalldorf.timetrack.backend.service.CsvImportServiceTest;
 import com.dwalldorf.timetrack.backend.service.GraphServiceTest;
 import com.dwalldorf.timetrack.backend.service.UserServiceTest;
@@ -13,7 +18,15 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         RequireLoginTest.class,
 
+        GraphDateTimeFormatterConfigTest.class,
+        SessionConfigTest.class,
+
+        PermissionFailureEventHandlerTest.class,
+        UserAuthenticationEventHandlerTest.class,
+
         UserControllerTest.class,
+
+        ListDtoTest.class,
 
         CsvImportServiceTest.class,
         GraphServiceTest.class,

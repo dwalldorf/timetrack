@@ -17,13 +17,8 @@ public class UserDocument implements Serializable {
     @Reference
     private UserProperties userProperties;
 
-    public UserDocument(String id) {
-        this.id = id;
-        this.userProperties = new UserProperties();
-    }
-
     public UserDocument() {
-        this(null);
+        this.userProperties = new UserProperties();
     }
 
     public String getId() {

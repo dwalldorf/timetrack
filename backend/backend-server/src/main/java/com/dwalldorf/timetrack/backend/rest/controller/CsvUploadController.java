@@ -38,8 +38,11 @@ public class CsvUploadController extends BaseController {
         UserModel user = this.getCurrentUser();
 
         List<WorklogEntryModel> worklogEntries = csvImportService.getWorklogEntriesFromCsv(file, user);
-        worklogEntries = worklogService.diffWithDatabase(worklogEntries);
-        worklogEntries = worklogService.save(worklogEntries);
+        worklogEntries = worklogService.diffWithDatabase(worklogEntries, user);
+
+        if (worklogEntries.size() > 0) {
+            worklogEntries = worklogService.save(worklogEntries);
+        }
 
         return new ResponseEntity<>(worklogEntries, CREATED);
     }
