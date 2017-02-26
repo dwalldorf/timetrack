@@ -7,11 +7,4 @@ public class CommandLineService {
 
     private Boolean foundCommand = false;
 
-    public Boolean getFoundCommand() {
-        return foundCommand;
-    }
-
-    public void setFoundCommand(Boolean foundCommand) {
-        this.foundCommand = foundCommand;
-    }
 }

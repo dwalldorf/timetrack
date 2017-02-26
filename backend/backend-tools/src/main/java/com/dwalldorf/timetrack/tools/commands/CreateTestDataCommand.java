@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 public class CreateTestDataCommand extends AbstractCommand {
 
     public static final String CMD_NAME = "testData";
-    public static final String CMD_USER_ID_OR_NAME_OPT_NAME = "userId";
     public static final String CMD_USER_COUNT_OPT_NAME = "userCount";
     public static final Integer CMD_USER_COUNT_OPT_DEFAULT = 10;
 

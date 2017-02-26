@@ -54,10 +54,6 @@ public abstract class BaseTest {
         return joinPointMock;
     }
 
-    protected final void assertLogged(String message, Level logLevel) {
-        assertLogged(message, logLevel, null);
-    }
-
     @SuppressWarnings("unchecked")
     protected final void assertLogged(String message, Level logLevel, String markerName) {
         verify(mockAppender, atLeastOnce()).doAppend(loggingEventCaptor.capture());

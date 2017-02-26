@@ -8,19 +8,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.*;
 
-import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.backend.BaseTest;
 import com.dwalldorf.timetrack.backend.event.UserAuthenticationEvent;
+import com.dwalldorf.timetrack.backend.exception.InvalidInputException;
+import com.dwalldorf.timetrack.model.UserModel;
+import com.dwalldorf.timetrack.model.stub.UserStub;
+import com.dwalldorf.timetrack.model.util.RandomUtil;
 import com.dwalldorf.timetrack.repository.dao.UserDao;
 import com.dwalldorf.timetrack.repository.exception.BadPasswordException;
-import com.dwalldorf.timetrack.backend.exception.InvalidInputException;
 import javax.servlet.http.HttpSession;
-import org.joda.time.DateTime;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
@@ -28,11 +28,10 @@ import org.springframework.context.ApplicationEventPublisher;
 
 public class UserServiceTest extends BaseTest {
 
-    private final static String ID = "someId";
     private final static String USERNAME = "testUser";
-    private final static String EMAIL = "max@mustermann.org";
-    private final static DateTime REGISTRATION = new DateTime();
     private final static String PASSWORD = "notSoSecurePassword123";
+
+    private static final UserStub userStub = new UserStub(new RandomUtil());
 
     @Mock
     private ApplicationEventPublisher eventPublisher;
@@ -52,30 +51,25 @@ public class UserServiceTest extends BaseTest {
 
     @Test(expected = InvalidInputException.class)
     public void testRegister_UsernameExists() throws Exception {
-        final String username = "username";
-        UserModel user = new UserModel()
-                .setUsername(username);
-
-        when(userDao.findByUsername(eq(username))).thenReturn(new UserModel());
+        UserModel user = userStub.createUser();
+        when(userDao.findByUsername(eq(user.getUsername()))).thenReturn(user);
 
         userService.register(user);
     }
 
     @Test(expected = InvalidInputException.class)
     public void testRegister_EmailExists() throws Exception {
-        final String email = "test@example.com";
-        UserModel user = new UserModel()
-                .setEmail(email);
-
-        when(userDao.findByUsername(anyString())).thenReturn(new UserModel());
+        UserModel user = userStub.createUser();
+        when(userDao.findByUsername(user.getUsername())).thenReturn(user);
 
         userService.register(user);
     }
 
     @Test
     public void testRegister_SetsRegistrationDate() throws Exception {
-        UserModel registerUser = new UserModel();
-        when(userDao.register(any(UserModel.class))).thenReturn(registerUser);
+        UserModel registerUser = userStub.createUser();
+        when(userDao.register(eq(registerUser))).thenReturn(registerUser);
+
         UserModel registeredUser = userService.register(registerUser);
 
         assertNotNull(registeredUser.getRegistration());
@@ -99,7 +93,7 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testLogin_WrongPassword_PublishesLoginFailureEvent() throws Exception {
-        when(userDao.findByUsername(eq(USERNAME))).thenReturn(new UserModel());
+        when(userDao.findByUsername(eq(USERNAME))).thenReturn(userStub.createUser());
         when(userDao.login(eq(USERNAME), anyString())).thenThrow(new BadPasswordException(USERNAME));
 
         userService.login(USERNAME, "wrongPassword");
@@ -115,15 +109,12 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testLogin_AlreadyLoggedIn_Publishes() throws Exception {
-        final String username = "someUsername";
-        UserModel mockUser = new UserModel()
-                .setId("someId")
-                .setUsername(username);
+        UserModel mockUser = userStub.createUser();
 
         when(httpSession.getAttribute("user")).thenReturn(mockUser);
         ArgumentCaptor<UserAuthenticationEvent> captor = ArgumentCaptor.forClass(UserAuthenticationEvent.class);
 
-        userService.login(username, "somePassword");
+        userService.login(mockUser.getUsername(), "somePassword");
         verify(eventPublisher).publishEvent(captor.capture());
 
         UserAuthenticationEvent event = captor.getValue();
