@@ -11,7 +11,7 @@ import {WorklogButtonBarComponent} from "./worklog.buttonbar.component";
         WorklogEditComponent
     ],
     imports: [
-        CommonModule,g
+        CommonModule,
         FileUploadModule
     ],
     providers: [
