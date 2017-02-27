@@ -3,10 +3,9 @@ import {FileUploader} from "ng2-file-upload";
 
 @Component({
     selector: 'worklog-add',
-    templateUrl: '/app/worklog/views/add.html'
+    templateUrl: '/app/worklog/views/button-bar.html'
 })
 export class WorklogButtonBarComponent {
 
     private uploader: FileUploader = new FileUploader({url: 'http://localhost:8080/csv'});
-
 }

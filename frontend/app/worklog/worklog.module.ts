@@ -4,6 +4,8 @@ import {CommonModule} from "@angular/common";
 import {FileUploadModule} from "ng2-file-upload";
 import {WorklogEditComponent} from "./worklog.edit.component";
 import {WorklogButtonBarComponent} from "./worklog.buttonbar.component";
+import {FormsModule} from "@angular/forms";
+import {AppRoutingModule} from "../app.routing.module";
 
 @NgModule({
     declarations: [
@@ -11,7 +13,9 @@ import {WorklogButtonBarComponent} from "./worklog.buttonbar.component";
         WorklogEditComponent
     ],
     imports: [
+        AppRoutingModule,
         CommonModule,
+        FormsModule,
         FileUploadModule
     ],
     providers: [
