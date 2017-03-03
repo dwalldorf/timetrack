@@ -40,7 +40,7 @@ public class WorklogControllerIT extends BaseControllerIT {
 
     @Test
     public void testGetWorklog_ReturnsList() throws Exception {
-        mockLoggedIn();
+        UserModel mockUser = mockLoggedIn();
 
         WorklogEntryModel worklogEntry = new WorklogEntryModel()
                 .setId("abc001")
@@ -49,7 +49,7 @@ public class WorklogControllerIT extends BaseControllerIT {
                 .setStart(new DateTime().minusHours(8))
                 .setStop(new DateTime())
                 .setDuration((8 * 60));
-        when(worklogServiceMock.findAll()).thenReturn(Collections.singletonList(worklogEntry));
+        when(worklogServiceMock.findByUser(eq(mockUser))).thenReturn(Collections.singletonList(worklogEntry));
 
         doGet(BASE_URI)
                 .andExpect(status().isOk())

@@ -8,6 +8,10 @@ public class PermissionFailureEvent {
         return new PermissionFailureEvent(message);
     }
 
+    public static PermissionFailureEvent failureEvent(final String format, final Object... args) {
+        return new PermissionFailureEvent(String.format(format, args));
+    }
+
     private PermissionFailureEvent(final String message) {
         this.message = message;
     }

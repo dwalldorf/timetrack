@@ -5,19 +5,28 @@ import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import com.dwalldorf.timetrack.model.internal.GraphConfig;
 import com.dwalldorf.timetrack.repository.document.WorklogEntryDocument;
 import com.dwalldorf.timetrack.repository.repository.WorklogRepository;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
 public class WorklogEntryDao {
 
+    private final MongoTemplate mongoTemplate;
+
     private final WorklogRepository worklogRepository;
 
     @Inject
-    public WorklogEntryDao(WorklogRepository worklogRepository) {
+    public WorklogEntryDao(MongoTemplate mongoTemplate, WorklogRepository worklogRepository) {
+        this.mongoTemplate = mongoTemplate;
         this.worklogRepository = worklogRepository;
     }
 
@@ -28,12 +37,17 @@ public class WorklogEntryDao {
         return toModelList(documents);
     }
 
-    public List<WorklogEntryModel> findAll() {
-        return toModelList(worklogRepository.findAll());
+    public WorklogEntryModel save(WorklogEntryModel entry) {
+        WorklogEntryDocument persistedEntry = worklogRepository.save(toDocument(entry));
+        return toModel(persistedEntry);
     }
 
     public List<WorklogEntryModel> findByUser(UserModel user) {
-        return toModelList(worklogRepository.findByUserId(user.getId()));
+        return toModelList(worklogRepository.findByUserIdOrderByStartDesc(user.getId()));
+    }
+
+    public WorklogEntryModel findById(String id) {
+        return toModel(worklogRepository.findOne(id));
     }
 
     public void delete(List<WorklogEntryModel> entries) {
@@ -48,6 +62,38 @@ public class WorklogEntryDao {
                 graphConf.getTo()
         );
         return toModelList(documents);
+    }
+
+    public List<String> getUserCustomers(UserModel user, String search) {
+        return getDistinctValueFromWorklog(user, "customer", search);
+    }
+
+    public List<String> getUserProjects(UserModel user, String search) {
+        return getDistinctValueFromWorklog(user, "project", search);
+    }
+
+    private List<String> getDistinctValueFromWorklog(UserModel user, String valueName, String search) {
+        List<String> result = new ArrayList<>();
+        DBCollection collection = mongoTemplate.getCollection(WorklogEntryDocument.COLLECTION_NAME);
+
+        List<BasicDBObject> pipeline = Arrays.asList(
+                new BasicDBObject("$match", new BasicDBObject("userId", user.getId())),
+                new BasicDBObject("$group", new BasicDBObject("_id", "$" + valueName))
+        );
+        Iterable<DBObject> distinctValues = collection.aggregate(pipeline).results();
+
+        for (DBObject dbObject : distinctValues) {
+            String currentValue = String.valueOf(dbObject.get("_id"));
+
+            if (search == null || search.isEmpty()) {
+                result.add(currentValue);
+            } else {
+                if (currentValue.toLowerCase().contains(search.toLowerCase())) {
+                    result.add(currentValue);
+                }
+            }
+        }
+        return result;
     }
 
     WorklogEntryDocument toDocument(WorklogEntryModel model) {

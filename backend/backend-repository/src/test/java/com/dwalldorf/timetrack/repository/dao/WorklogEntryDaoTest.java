@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WorklogEntryDaoTest {
@@ -27,8 +28,9 @@ public class WorklogEntryDaoTest {
 
     @Before
     public void setUp() throws Exception {
-        WorklogRepository worklogRepository = mock(WorklogRepository.class);
-        this.worklogEntryDao = new WorklogEntryDao(worklogRepository);
+        MongoTemplate mockMongoTemplate = mock(MongoTemplate.class);
+        WorklogRepository mockWorklogRepository = mock(WorklogRepository.class);
+        this.worklogEntryDao = new WorklogEntryDao(mockMongoTemplate, mockWorklogRepository);
     }
 
     @Test
