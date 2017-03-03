@@ -1,1 +1,92 @@
-edit
+<div id="worklog-edit-container">
+    <div class="panel panel-default">
+        <form (ngSubmit)="saveWorklogEntry()">
+            <div class="panel-heading">
+                <h2>{{title}}</h2>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="control-label">
+                        <span>Customer:</span>
+                    </label>
+
+                    <ng2-completer [(ngModel)]="entry.customer"
+                                   name="customerCompleter"
+                                   inputName="customer"
+                                   inputClass="form-control"
+                                   [datasource]="customerCompletionDataService"
+                                   [autoMatch]="true"
+                                   [minSearchLength]="0">
+                    </ng2-completer>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">
+                        <span>Project:</span>
+                    </label>
+
+                    <ng2-completer [(ngModel)]="entry.project"
+                                   name="projectCompleter"
+                                   inputName="project"
+                                   inputClass="form-control"
+                                   [datasource]="projectCompletionDataService"
+                                   [minSearchLength]="0">
+                    </ng2-completer>
+                </div>
+
+                <div class="form-group">
+                    <label for="task" class="control-label">
+                        <span>Task:</span>
+                    </label>
+                    <input type="text"
+                           id="task"
+                           name="task"
+                           [(ngModel)]="entry.task"
+                           class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="start" class="control-label">
+                        <span>Start:</span>
+                    </label>
+                    <input type="datetime-local"
+                           id="start"
+                           name="start"
+                           [(ngModel)]="entry.start"
+                           class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="stop" class="control-label">
+                        <span>Stop:</span>
+                    </label>
+                    <input type="datetime-local"
+                           id="stop"
+                           name="stop"
+                           [(ngModel)]="entry.stop"
+                           class="form-control"/>
+                </div>
+
+                <div class="form-group">
+                    <label for="comment" class="control-label">
+                        <span>Comment:</span>
+                    </label>
+                    <textarea id="comment"
+                              name="comment"
+                              [(ngModel)]="entry.comment"
+                              class="form-control"
+                              rows="4">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" (click)="cancel()" class="btn btn-default">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

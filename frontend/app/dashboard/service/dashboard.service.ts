@@ -16,7 +16,7 @@ export class DashboardService {
         let fromStr = this.getDateString(from),
             toStr = this.getDateString(to);
 
-        return this._httpService.get('/worklog/graph_data?' +
+        return this._httpService.get('/worklogs/graph_data?' +
             'from=' + fromStr +
             '&to=' + toStr +
             '&scale=' + scale

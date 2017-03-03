@@ -3,6 +3,7 @@ import {UserService} from "../user/service/user.service";
 import {DashboardService} from "./service/dashboard.service";
 import {Response} from "@angular/http";
 import {GraphData} from "./model/graph.data";
+import {DateUtil} from "../core/util/date.util";
 
 @Component({
     templateUrl: '/app/dashboard/views/dashboard.html'
@@ -31,8 +32,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         this._fromDate.setMonth(this._fromDate.getMonth() - 1);
         this._toDate = new Date();
 
-        this.fromDate = this.getDateString(this._fromDate);
-        this.toDate = this.getDateString(this._toDate);
+        this.fromDate = DateUtil.toHtmlInputDate(this._fromDate);
+        this.toDate = DateUtil.toHtmlInputDate(this._toDate);
         this.scale = 'day';
     }
 
@@ -64,14 +65,5 @@ export class DashboardComponent implements OnInit, AfterViewInit {
                     this.data = res.json();
                 }
             });
-    }
-
-    private getDateString(date: Date): string {
-        let month: string = (date.getMonth() + 1) + '';
-        if (month.length === 1) {
-            month = '0' + month;
-        }
-
-        return date.getFullYear() + '-' + month + '-' + date.getDate();
     }
 }

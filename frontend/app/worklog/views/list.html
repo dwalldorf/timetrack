@@ -1,0 +1,47 @@
+<div id="worklog-list-container">
+    <table class="table table-condensed table-hover table-striped table-responsive">
+        <thead>
+        <tr>
+            <th>Actions</th>
+            <th>Start</th>
+            <th>Stop</th>
+            <th>Duration</th>
+            <th>Customer</th>
+            <th>Project</th>
+            <th>Task</th>
+            <th>Comment</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let entry of worklogData.items; let i = index">
+            <td>
+                <button type="button" class="btn btn-default btn-sm" (click)="onSelect(entry)">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </button>
+                <button type="button" class="btn btn-default btn-sm" (click)="onDelete(entry)">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </td>
+            <td (click)="onSelect(entry)">{{dateTimeFormat(entry.start)}}</td>
+            <td (click)="onSelect(entry)">{{timeFormat(entry.stop)}}</td>
+            <td (click)="onSelect(entry)">{{toHours(entry.duration)}}h</td>
+            <td (click)="onSelect(entry)">{{entry.customer}}</td>
+            <td (click)="onSelect(entry)">{{entry.project}}</td>
+            <td (click)="onSelect(entry)">{{entry.task}}</td>
+            <td>
+                <!--<div *ngIf="entry.comment">-->
+                <button type="button"
+                        class="btn btn-default"
+                        data-toggle="popover"
+                        data-container="body"
+                        data-placement="left"
+                        data-original-title="Comment"
+                        data-content="Some popover what blabla">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </button>
+                <!--</div>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
