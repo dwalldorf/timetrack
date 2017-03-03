@@ -9,18 +9,20 @@ public class WorklogEntryModel extends AbstractModel {
 
     private String userId;
 
+    @NotEmpty(message = "customer must not be empty")
     private String customer;
 
     private String project;
 
     private String task;
 
-    @NotEmpty
     private DateTime start;
 
-    @NotEmpty
     private DateTime stop;
 
+    /**
+     * Duration in minutes
+     */
     private Integer duration;
 
     private String comment;
@@ -99,6 +101,13 @@ public class WorklogEntryModel extends AbstractModel {
         return start;
     }
 
+    public WorklogEntryModel setStart(String start) {
+        if (start != null) {
+            this.start = new DateTime(start);
+        }
+        return this;
+    }
+
     public WorklogEntryModel setStart(DateTime start) {
         this.start = start;
         return this;
@@ -108,15 +117,29 @@ public class WorklogEntryModel extends AbstractModel {
         return stop;
     }
 
+    public WorklogEntryModel setStop(String stop) {
+        if (stop != null) {
+            this.stop = new DateTime(stop);
+        }
+        return this;
+    }
+
     public WorklogEntryModel setStop(DateTime stop) {
         this.stop = stop;
         return this;
     }
 
+    /**
+     * @return duration in minutes
+     */
     public Integer getDuration() {
         return duration;
     }
 
+    /**
+     * @param duration duration in minutes
+     * @return current instance
+     */
     public WorklogEntryModel setDuration(Integer duration) {
         this.duration = duration;
         return this;
