@@ -6,10 +6,10 @@ import {AppConfig} from "../config/app.config";
 @Injectable()
 export class HttpService extends Http {
 
-    private static METHOD_GET = 'get';
-    private static METHOD_POST = 'post';
-    private static METHOD_PUT = 'put';
-    private static METHOD_DELETE = 'delete';
+    private static METHOD_GET: string = 'get';
+    private static METHOD_POST: string = 'post';
+    private static METHOD_PUT: string = 'put';
+    private static METHOD_DELETE: string = 'delete';
 
     constructor(backend: XHRBackend, options: RequestOptions) {
         let headers: Headers = options.headers;
