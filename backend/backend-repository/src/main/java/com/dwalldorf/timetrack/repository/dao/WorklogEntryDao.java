@@ -50,6 +50,10 @@ public class WorklogEntryDao {
         return toModel(worklogRepository.findOne(id));
     }
 
+    public void delete(WorklogEntryModel entry) {
+        worklogRepository.delete(toDocument(entry));
+    }
+
     public void delete(List<WorklogEntryModel> entries) {
         List<WorklogEntryDocument> documents = toDocumentList(entries);
         worklogRepository.delete(documents);

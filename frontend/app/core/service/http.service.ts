@@ -1,4 +1,4 @@
-import {Http, XHRBackend, RequestOptions, Headers, Response} from "@angular/http";
+import {Http, XHRBackend, RequestOptions, Headers} from "@angular/http";
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Rx";
 import {AppConfig} from "../config/app.config";
@@ -51,6 +51,9 @@ export class HttpService extends Http {
                 break;
             case HttpService.METHOD_PUT:
                 observable = super.put(url, body);
+                break;
+            case HttpService.METHOD_DELETE:
+                observable = super.delete(url);
                 break;
         }
 

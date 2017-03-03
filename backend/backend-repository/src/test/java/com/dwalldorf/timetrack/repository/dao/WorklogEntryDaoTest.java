@@ -30,6 +30,7 @@ public class WorklogEntryDaoTest {
     public void setUp() throws Exception {
         MongoTemplate mockMongoTemplate = mock(MongoTemplate.class);
         WorklogRepository mockWorklogRepository = mock(WorklogRepository.class);
+
         this.worklogEntryDao = new WorklogEntryDao(mockMongoTemplate, mockWorklogRepository);
     }
 

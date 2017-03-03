@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.backend.service;
 
+import com.dwalldorf.timetrack.backend.exception.IdentityConflictException;
 import com.dwalldorf.timetrack.model.GraphMap;
 import com.dwalldorf.timetrack.model.GraphMapList;
 import com.dwalldorf.timetrack.model.UserModel;
@@ -8,7 +9,6 @@ import com.dwalldorf.timetrack.model.internal.GraphConfig;
 import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -87,6 +87,10 @@ public class WorklogService {
         return worklogEntryDao.findById(id);
     }
 
+    public void delete(WorklogEntryModel entry) {
+        worklogEntryDao.delete(entry);
+    }
+
     public List<String> getUserCustomers(UserModel user, String search) {
         return worklogEntryDao.getUserCustomers(user, search);
     }
@@ -95,16 +99,18 @@ public class WorklogService {
         return worklogEntryDao.getUserProjects(user, searchStr);
     }
 
-    private List<Map<String, String>> searchStringToMap(List<String> searchResult) {
-        List<Map<String, String>> result = new ArrayList<>();
+    public void assureIdentity(WorklogEntryModel entry, UserModel user) throws IdentityConflictException {
+        if (entry.getUserId() == null) {
+            return;
+        }
 
-        searchResult.forEach(s -> {
-            HashMap<String, String> entryMap = new HashMap<>(1);
-            entryMap.put("title", s);
-
-            result.add(entryMap);
-        });
-        return result;
+        if (!entry.getUserId().equals(user.getId())) {
+            throw new IdentityConflictException(
+                    "User with id '%s' tried to modify worklog entry with id '%s' which belongs to a different user.",
+                    user.getId(),
+                    entry.getId()
+            );
+        }
     }
 
     public GraphMapList getGraphMapList(UserModel user, GraphConfig graphConfig) {

@@ -1,9 +1,12 @@
 package com.dwalldorf.timetrack.backend.rest.controller;
 
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+import com.dwalldorf.timetrack.backend.event.IdentityConflictEvent;
 import com.dwalldorf.timetrack.backend.event.PermissionFailureEvent;
+import com.dwalldorf.timetrack.backend.exception.IdentityConflictException;
 import com.dwalldorf.timetrack.backend.exception.LoginRequiredException;
 import com.dwalldorf.timetrack.backend.exception.NotFoundException;
 import javax.inject.Inject;
@@ -25,7 +28,13 @@ public class ErrorController extends BaseController {
     @ExceptionHandler(LoginRequiredException.class)
     @ResponseStatus(UNAUTHORIZED)
     public void handleLoginRequireException(LoginRequiredException e) {
-        eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(e.getMessage()));
+        eventPublisher.publishEvent(new PermissionFailureEvent(e.getMessage()));
+    }
+
+    @ExceptionHandler(IdentityConflictException.class)
+    @ResponseStatus(CONFLICT)
+    public void handleIdentityConflictException(IdentityConflictException e) {
+        eventPublisher.publishEvent(new IdentityConflictEvent(e.getMessage()));
     }
 
     @ExceptionHandler(NotFoundException.class)

@@ -1,12 +1,10 @@
 package com.dwalldorf.timetrack.backend.event;
 
-public class PermissionFailureEvent {
+public class IdentityConflictEvent {
 
     private final String message;
 
-    public PermissionFailureEvent(final String message) {
-        this.message = message;
-    }
+    public IdentityConflictEvent(String message) {this.message = message;}
 
     public String getMessage() {
         return message;

@@ -1,7 +1,9 @@
 package com.dwalldorf.timetrack.backend.rest.controller;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+
 import com.dwalldorf.timetrack.backend.annotation.RequireLogin;
-import com.dwalldorf.timetrack.backend.event.PermissionFailureEvent;
 import com.dwalldorf.timetrack.backend.exception.NotFoundException;
 import com.dwalldorf.timetrack.backend.rest.dto.ListDto;
 import com.dwalldorf.timetrack.backend.service.GraphService;
@@ -14,8 +16,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,32 +56,22 @@ public class WorklogController extends BaseController {
     @PostMapping
     public ResponseEntity<WorklogEntryModel> createWorklogEntry(@RequestBody @Valid WorklogEntryModel entry) {
         entry = worklogService.save(entry, getCurrentUser());
-        return new ResponseEntity<>(entry, HttpStatus.CREATED);
+        return new ResponseEntity<>(entry, CREATED);
     }
 
     @RequireLogin
     @PutMapping("/{id}")
     public ResponseEntity<WorklogEntryModel> updateWorklogEntry(
             @PathVariable String id,
-            @RequestBody @Valid WorklogEntryModel entry) throws NotFoundException {
+            @RequestBody @Valid WorklogEntryModel entry) {
 
-        UserModel currentUser = getCurrentUser();
-        WorklogEntryModel persistedEntry = worklogService.findById(id);
+        UserModel user = getCurrentUser();
+        WorklogEntryModel persistedEntry = getEntryOrFail(id);
 
-        if (persistedEntry == null) {
-            throw new NotFoundException(String.format("Worklog entry with id '%s' does not exist", id));
-        }
-        if (!persistedEntry.getUserId().equals(currentUser.getId())) {
-            eventPublisher.publishEvent(PermissionFailureEvent.failureEvent(
-                    "User with id '%s' tried to modify worklog entry with id '%s' which belongs to a different user.",
-                    currentUser.getId(),
-                    persistedEntry.getId()
-            ));
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+        worklogService.assureIdentity(persistedEntry, user);
 
-        entry = worklogService.save(entry, null);
-        return new ResponseEntity<>(entry, HttpStatus.OK);
+        entry = worklogService.save(entry, user);
+        return new ResponseEntity<>(entry, OK);
     }
 
     @RequireLogin
@@ -93,6 +85,17 @@ public class WorklogController extends BaseController {
     @GetMapping("/{id}")
     public WorklogEntryModel getWorklogEntry(@PathVariable String id) {
         return worklogService.findById(id);
+    }
+
+    @RequireLogin
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteWorklogEntry(@PathVariable String id) {
+        UserModel user = getCurrentUser();
+        WorklogEntryModel entry = getEntryOrFail(id);
+        worklogService.assureIdentity(entry, user);
+
+        worklogService.delete(entry);
+        return new ResponseEntity(OK);
     }
 
     @RequireLogin
@@ -116,5 +119,14 @@ public class WorklogController extends BaseController {
 
         GraphConfig graphConfig = graphService.fromParameters(from, to, scale);
         return worklogService.getGraphMapList(getCurrentUser(), graphConfig);
+    }
+
+    private WorklogEntryModel getEntryOrFail(final String id) {
+        WorklogEntryModel persistedEntry = worklogService.findById(id);
+
+        if (persistedEntry == null) {
+            throw new NotFoundException(String.format("Worklog entry with id '%s' does not exist", id));
+        }
+        return persistedEntry;
     }
 }
