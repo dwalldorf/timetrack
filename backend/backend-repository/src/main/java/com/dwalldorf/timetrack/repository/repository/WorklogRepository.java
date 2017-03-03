@@ -11,5 +11,5 @@ public interface WorklogRepository extends MongoRepository<WorklogEntryDocument,
 
     List<WorklogEntryDocument> findByUserIdOrderByStartDesc(String userId);
 
-    List<WorklogEntryDocument> findByUserIdAndStartBetween(String userId, DateTime from, DateTime to);
+    List<WorklogEntryDocument> findByUserIdAndStartBetweenOrderByStartDesc(String userId, DateTime from, DateTime to);
 }

@@ -60,7 +60,7 @@ public class WorklogEntryDao {
     }
 
     public List<WorklogEntryModel> findByGraphConfig(UserModel user, GraphConfig graphConf) {
-        List<WorklogEntryDocument> documents = worklogRepository.findByUserIdAndStartBetween(
+        List<WorklogEntryDocument> documents = worklogRepository.findByUserIdAndStartBetweenOrderByStartDesc(
                 user.getId(),
                 graphConf.getFrom(),
                 graphConf.getTo()
