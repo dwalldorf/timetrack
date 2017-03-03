@@ -65,11 +65,8 @@ export class WorklogEditComponent implements OnInit {
     saveWorklogEntry(): void {
         this._worklogService.save(this.entry)
             .subscribe((res: Response) => {
-                if (res.status === 200) {
+                if (res.status === 200 || res.status === 201) {
                     this._routerService.goToWorklogList();
-                }
-                else if (res.status === 201) {
-                    this._routerService.goToEditWorklogEntry(res.json().id);
                 }
             });
     }
