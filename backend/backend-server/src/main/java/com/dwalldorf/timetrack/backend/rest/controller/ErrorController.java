@@ -27,13 +27,13 @@ public class ErrorController extends BaseController {
 
     @ExceptionHandler(LoginRequiredException.class)
     @ResponseStatus(UNAUTHORIZED)
-    public void handleLoginRequireException(LoginRequiredException e) {
+    public void handleLoginRequireException(final LoginRequiredException e) {
         eventPublisher.publishEvent(new PermissionFailureEvent(e.getMessage()));
     }
 
     @ExceptionHandler(IdentityConflictException.class)
     @ResponseStatus(CONFLICT)
-    public void handleIdentityConflictException(IdentityConflictException e) {
+    public void handleIdentityConflictException(final IdentityConflictException e) {
         eventPublisher.publishEvent(new IdentityConflictEvent(e.getMessage()));
     }
 
