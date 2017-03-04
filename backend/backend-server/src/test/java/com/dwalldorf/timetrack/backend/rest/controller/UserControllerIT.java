@@ -68,6 +68,26 @@ public class UserControllerIT extends BaseControllerIT {
     }
 
     @Test
+    public void testLogin_NoUsername() throws Exception {
+        LoginDto loginDto = new LoginDto()
+                .setUsername("")
+                .setPassword("password");
+
+        doPost(BASE_URI + URI_LOGIN, loginDto)
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testLogin_NoPassword() throws Exception {
+        LoginDto loginDto = new LoginDto()
+                .setUsername("username")
+                .setPassword("");
+
+        doPost(BASE_URI + URI_LOGIN, loginDto)
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void testLogin_Success() throws Exception {
         final String username = "username";
         final String password = "password";
