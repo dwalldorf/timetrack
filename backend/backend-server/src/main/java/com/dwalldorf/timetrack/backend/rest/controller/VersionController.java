@@ -12,7 +12,7 @@ public class VersionController extends BaseController {
 
     static final String BASE_URI = "/version";
 
-    @Value("${app.version}")
+    @Value("${info.version}")
     private String version;
 
     @GetMapping

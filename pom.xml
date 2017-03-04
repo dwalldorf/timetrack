@@ -47,6 +47,8 @@
 
         <jsonpath.version>2.2.0</jsonpath.version>
         <jsonsmart.version>2.2.1</jsonsmart.version>
+
+        <spring-boot-admin.version>1.3.0</spring-boot-admin.version>
     </properties>
 
     <profiles>
@@ -151,6 +153,21 @@
                 <version>${logback-elasticsearch-appender.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-server-ui</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
 
             <!-- testing -->
             <dependency>
