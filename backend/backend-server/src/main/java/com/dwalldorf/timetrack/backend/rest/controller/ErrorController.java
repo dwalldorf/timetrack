@@ -27,7 +27,7 @@ public class ErrorController extends BaseController {
 
     @ExceptionHandler(LoginRequiredException.class)
     @ResponseStatus(UNAUTHORIZED)
-    public void handleLoginRequireException(final LoginRequiredException e) {
+    public void handleLoginRequiredException(final LoginRequiredException e) {
         eventPublisher.publishEvent(new PermissionFailureEvent(e.getMessage()));
     }
 
