@@ -22,6 +22,9 @@ public class WorklogStub {
         this.randomUtil = randomUtil;
     }
 
+    public WorklogEntryModel createWorklogEntry() {
+        return createWorklogEntry(randomUtil.randomString(24));
+    }
 
     public WorklogEntryModel createWorklogEntry(String userId) {
         return createWorklogEntry(null, userId, null, null);

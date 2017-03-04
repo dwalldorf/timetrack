@@ -18,9 +18,7 @@ public class PermissionFailureEventHandlerTest extends BaseTest {
 
     @Test
     public void testOnPermissionFailureEvent_NotLoggedIn() throws Exception {
-        PermissionFailureEvent event = PermissionFailureEvent.failureEvent(eventMessage);
-        eventHandler.onPermissionFailureEvent(event);
-
+        eventHandler.onPermissionFailureEvent(new PermissionFailureEvent(eventMessage));
         assertLogged(eventMessage, Level.INFO, expectedMarkerName);
     }
 }

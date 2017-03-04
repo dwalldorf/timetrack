@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.backend.service;
 
+import com.dwalldorf.timetrack.backend.exception.IdentityConflictException;
 import com.dwalldorf.timetrack.model.GraphMap;
 import com.dwalldorf.timetrack.model.GraphMapList;
 import com.dwalldorf.timetrack.model.UserModel;
@@ -14,6 +15,7 @@ import java.util.TreeMap;
 import java.util.function.Function;
 import javax.inject.Inject;
 import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Service;
 
@@ -56,8 +58,53 @@ public class WorklogService {
         return worklogEntryDao.save(worklogEntries);
     }
 
-    public List<WorklogEntryModel> findAll() {
-        return worklogEntryDao.findAll();
+    /**
+     * Sets userId of <code>entry</code> if <code>user</code> is not null.
+     * Calculates duration between start and stop and updates <code>entry</code> if start and stop are not null.
+     *
+     * @param entry the entry to save
+     * @param user  the user to assign <code>entry</code> to
+     * @return updated {@link WorklogEntryModel}
+     */
+    public WorklogEntryModel save(WorklogEntryModel entry, UserModel user) {
+        entry.setUserId(user.getId());
+
+        if (entry.getStart() != null && entry.getStop() != null) {
+            Minutes minutes = Minutes.minutesBetween(entry.getStart(), entry.getStop());
+            entry.setDuration(minutes.getMinutes());
+        }
+
+        return worklogEntryDao.save(entry);
+    }
+
+    public List<WorklogEntryModel> findByUser(UserModel user) {
+        return worklogEntryDao.findByUser(user);
+    }
+
+    public WorklogEntryModel findById(String id) {
+        return worklogEntryDao.findById(id);
+    }
+
+    public void delete(WorklogEntryModel entry) {
+        worklogEntryDao.delete(entry);
+    }
+
+    public List<String> getUserCustomers(UserModel user, String search) {
+        return worklogEntryDao.getUserCustomers(user, search);
+    }
+
+    public List<String> getUserProjects(UserModel user, String searchStr) {
+        return worklogEntryDao.getUserProjects(user, searchStr);
+    }
+
+    public void assureIdentity(WorklogEntryModel entry, UserModel user) throws IdentityConflictException {
+        if (!entry.getUserId().equals(user.getId())) {
+            throw new IdentityConflictException(
+                    "User with id '%s' tried to modify worklog entry with id '%s' which belongs to a different user",
+                    user.getId(),
+                    entry.getId()
+            );
+        }
     }
 
     public GraphMapList getGraphMapList(UserModel user, GraphConfig graphConfig) {

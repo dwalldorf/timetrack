@@ -37,6 +37,7 @@
         "jquery": "3.1.1",
         "lodash": "4.16.4",
         "ng2-charts": "1.5.0",
+        "ng2-completer": "1.2.0",
         "ng2-file-upload": "1.2.0",
         "reflect-metadata": "0.1.9",
         "rx": "4.1.0",

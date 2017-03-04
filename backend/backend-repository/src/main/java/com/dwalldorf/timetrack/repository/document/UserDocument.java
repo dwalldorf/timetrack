@@ -8,8 +8,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * Not to be used outside of backend-repository
  */
-@Document(collection = "users")
+@Document(collection = UserDocument.COLLECTION_NAME)
 public class UserDocument implements Serializable {
+
+    static final String COLLECTION_NAME = "users";
 
     @Id
     private String id;

@@ -5,6 +5,8 @@ import {LoginComponent} from "./user/login.component";
 import {RegisterComponent} from "./user/register.component";
 import {AppConfig} from "./core/config/app.config";
 import {SettingsComponent} from "./user/settings.component";
+import {WorklogEditComponent} from "./worklog/worklog.edit.component";
+import {WorklogListComponent} from "./worklog/worklog.list.component";
 
 const appRoutes: Routes = [
     {
@@ -23,6 +25,18 @@ const appRoutes: Routes = [
         path: AppConfig.getRouterLink(AppConfig.ROUTE_SETTINGS),
         component: SettingsComponent
     },
+    {
+        path: AppConfig.getRouterLink(AppConfig.ROUTE_WORKLOG),
+        component: WorklogListComponent
+    },
+    {
+        path: AppConfig.getRouterLink(AppConfig.ROUTE_WORKLOG_ADD),
+        component: WorklogEditComponent
+    },
+    {
+        path: AppConfig.getRouterLink(AppConfig.ROUTE_WORKLOG_EDIT),
+        component: WorklogEditComponent
+    }
 ];
 
 @NgModule({

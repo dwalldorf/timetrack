@@ -8,8 +8,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  * Not to be used outside of backend-repository
  */
-@Document(collection = "worklogs")
+@Document(collection = WorklogEntryDocument.COLLECTION_NAME)
 public class WorklogEntryDocument {
+
+    public static final String COLLECTION_NAME = "worklogs";
 
     @Id
     private String id;
@@ -17,8 +19,10 @@ public class WorklogEntryDocument {
     @Indexed
     private String userId;
 
+    @Indexed
     private String customer;
 
+    @Indexed
     private String project;
 
     private String task;

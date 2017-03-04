@@ -22,7 +22,8 @@
             'angular2-cookie': 'npm:angular2-cookie',
             'chart-js': 'npm:chart.js/Chart.bundle.js',
             'ng2-charts': 'npm:ng2-charts/bundles/ng2-charts.umd.min.js',
-            'ng2-file-upload': 'npm:ng2-file-upload/bundles/ng2-file-upload.umd.min.js'
+            'ng2-file-upload': 'npm:ng2-file-upload/bundles/ng2-file-upload.umd.min.js',
+            'ng2-completer': 'npm:ng2-completer/ng2-completer.umd.js'
         },
         packages: {
             'app': {
@@ -34,7 +35,8 @@
             'angular2-cookie': {defaultExtension: 'js'},
             'chart-js': {defaultExtension: 'js'},
             'ng2-charts': {defaultExtension: 'js'},
-            'ng2-file-upload': {defaultExtension: 'js'}
+            'ng2-file-upload': {defaultExtension: 'js'},
+            'ng2-completer': {defaultExtension: 'js'}
         }
     });
 })(this);

@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 import com.dwalldorf.timetrack.backend.BaseTest;
+import com.dwalldorf.timetrack.backend.exception.IdentityConflictException;
 import com.dwalldorf.timetrack.model.GraphMapList;
 import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
@@ -16,6 +17,7 @@ import com.dwalldorf.timetrack.repository.dao.WorklogEntryDao;
 import java.util.Arrays;
 import java.util.List;
 import org.joda.time.DateTime;
+import org.joda.time.Minutes;
 import org.joda.time.Months;
 import org.joda.time.Weeks;
 import org.joda.time.format.DateTimeFormat;
@@ -87,6 +89,110 @@ public class WorklogServiceTest extends BaseTest {
         assertEquals(2, diffedWorklogEntries.size());
         assertEquals(newEntry2_New.getComment(), diffedWorklogEntries.get(0).getComment());
         assertEquals(newEntry3_New.getComment(), diffedWorklogEntries.get(1).getComment());
+    }
+
+    @Test
+    public void testSaveList() throws Exception {
+        List<WorklogEntryModel> list = Arrays.asList(
+                worklogStub.createWorklogEntry(),
+                worklogStub.createWorklogEntry()
+        );
+        service.save(list);
+
+        verify(worklogEntryDao).save(eq(list));
+    }
+
+    @Test
+    public void testSaveEntry_SetsUserId() {
+        UserModel mockUser = userStub.createUser();
+        WorklogEntryModel mockEntry = mock(WorklogEntryModel.class);
+
+        service.save(mockEntry, mockUser);
+
+        verify(mockEntry).setUserId(eq(mockUser.getId()));
+    }
+
+    @Test
+    public void testSaveEntry_DoesNotSetDuration_IfStartNull() {
+        UserModel mockUser = userStub.createUser();
+
+        WorklogEntryModel mockEntry = mock(WorklogEntryModel.class);
+        when(mockEntry.getStart()).thenReturn(null);
+        when(mockEntry.getStop()).thenReturn(new DateTime());
+
+        service.save(mockEntry, mockUser);
+
+        verify(mockEntry, never()).setDuration(anyInt());
+    }
+
+    @Test
+    public void testSaveEntry_DoesNotSetDuration_IfStopNull() {
+        UserModel mockUser = userStub.createUser();
+
+        WorklogEntryModel mockEntry = mock(WorklogEntryModel.class);
+        when(mockEntry.getStart()).thenReturn(new DateTime());
+        when(mockEntry.getStop()).thenReturn(null);
+
+        service.save(mockEntry, mockUser);
+
+        verify(mockEntry, never()).setDuration(anyInt());
+    }
+
+    @Test
+    public void testSaveEntry_SetsDuration() {
+        UserModel mockUser = userStub.createUser();
+
+        DateTime start = new DateTime().minusHours(8);
+        DateTime stop = new DateTime();
+        int expectedDuration = Minutes.minutesBetween(start, stop).getMinutes();
+
+        WorklogEntryModel mockEntry = mock(WorklogEntryModel.class);
+        when(mockEntry.getStart()).thenReturn(start);
+        when(mockEntry.getStop()).thenReturn(stop);
+
+        service.save(mockEntry, mockUser);
+
+        verify(mockEntry).setDuration(eq(expectedDuration));
+    }
+
+    @Test
+    public void testFindByUser() throws Exception {
+        UserModel user = userStub.createUser();
+        service.findByUser(user);
+
+        verify(worklogEntryDao).findByUser(eq(user));
+    }
+
+    @Test
+    public void testFindById() throws Exception {
+        String id = "someId";
+        service.findById(id);
+
+        verify(worklogEntryDao).findById(eq(id));
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        WorklogEntryModel entry = worklogStub.createWorklogEntry();
+        service.delete(entry);
+
+        verify(worklogEntryDao).delete(eq(entry));
+    }
+
+    @Test(expected = IdentityConflictException.class)
+    public void testAssureIdentity_ThrowsIdentityConflictException() {
+        UserModel mockUser = userStub.createUser();
+        WorklogEntryModel mockEntry = worklogStub.createWorklogEntry();
+
+        service.assureIdentity(mockEntry, mockUser);
+    }
+
+    @Test
+    public void testAssureIdentity_Success() {
+        UserModel mockUser = userStub.createUser();
+        WorklogEntryModel mockEntry = worklogStub.createWorklogEntry(mockUser.getId());
+
+        service.assureIdentity(mockEntry, mockUser);
     }
 
     @Test

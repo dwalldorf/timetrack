@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WorklogRepository extends MongoRepository<WorklogEntryDocument, String> {
 
-    List<WorklogEntryDocument> findByUserId(String userId);
+    List<WorklogEntryDocument> findByUserIdOrderByStartDesc(String userId);
 
-    List<WorklogEntryDocument> findByUserIdAndStartBetween(String userId, DateTime from, DateTime to);
+    List<WorklogEntryDocument> findByUserIdAndStartBetweenOrderByStartDesc(String userId, DateTime from, DateTime to);
 }

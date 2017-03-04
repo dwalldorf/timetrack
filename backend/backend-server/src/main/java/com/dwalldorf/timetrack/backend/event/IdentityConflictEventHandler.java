@@ -9,14 +9,14 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PermissionFailureEventHandler {
+public class IdentityConflictEventHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(PermissionFailureEventHandler.class);
-    private static final Marker marker = MarkerFactory.getMarker("permission_failure");
+    private static final Logger logger = LoggerFactory.getLogger(IdentityConflictEventHandler.class);
+    private static final Marker marker = MarkerFactory.getMarker("identity_conflict");
 
     @Async
-    @EventListener(PermissionFailureEvent.class)
-    public void onPermissionFailureEvent(final PermissionFailureEvent event) {
+    @EventListener(IdentityConflictEvent.class)
+    public void onIdentityConflictEvent(final IdentityConflictEvent event) {
         logger.info(marker, event.getMessage());
     }
 }
