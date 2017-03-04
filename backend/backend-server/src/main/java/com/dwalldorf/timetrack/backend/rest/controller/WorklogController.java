@@ -15,7 +15,6 @@ import com.dwalldorf.timetrack.model.internal.GraphConfig;
 import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,18 +35,14 @@ public class WorklogController extends BaseController {
     static final String PROJECTS_URI = "/projects";
     static final String GRAPH_URI = "/graph_data";
 
-    private final ApplicationEventPublisher eventPublisher;
-
     private final GraphService graphService;
 
     private final WorklogService worklogService;
 
     @Inject
     public WorklogController(
-            ApplicationEventPublisher eventPublisher,
             GraphService graphService,
             WorklogService worklogService) {
-        this.eventPublisher = eventPublisher;
         this.graphService = graphService;
         this.worklogService = worklogService;
     }
