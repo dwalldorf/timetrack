@@ -113,8 +113,6 @@ public class WorklogController extends BaseController {
             @RequestParam(value = "scale", required = false, defaultValue = "day") String scale) {
 
         GraphConfig graphConfig = graphService.fromParameters(from, to, scale);
-        UserModel currentUser = getCurrentUser();
-
         return worklogService.getGraphMapList(getCurrentUser(), graphConfig);
     }
 
