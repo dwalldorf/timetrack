@@ -8,8 +8,11 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.spi.LoggingEvent;
 import ch.qos.logback.core.Appender;
+import com.dwalldorf.timetrack.backend.service.UserService;
+import com.dwalldorf.timetrack.repository.dao.UserDao;
 import java.util.ArrayList;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.Signature;
 import org.junit.Before;
@@ -19,6 +22,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class BaseTest {
@@ -30,10 +34,21 @@ public abstract class BaseTest {
 
     private final ArgumentCaptor<LoggingEvent> loggingEventCaptor = ArgumentCaptor.forClass(LoggingEvent.class);
 
+    protected UserDao mockUserDao;
+    protected HttpSession mockHttpSession;
+    protected UserService mockUserService;
+
     @Before
     @SuppressWarnings("unchecked")
     public final void beforeSetUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+
+        this.mockUserDao = mock(UserDao.class);
+        this.mockHttpSession = mock(HttpSession.class);
+        this.mockUserService = mock(UserService.class);
+
+        ReflectionTestUtils.setField(mockUserService, "userDao", mockUserDao);
+        ReflectionTestUtils.setField(mockUserService, "httpSession", mockHttpSession);
 
         when(mockAppender.getName()).thenReturn("MOCK_APPENDER");
         rootLogger.addAppender(mockAppender);

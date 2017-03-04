@@ -21,7 +21,6 @@ import com.dwalldorf.timetrack.repository.exception.BadPasswordException;
 import javax.servlet.http.HttpSession;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.springframework.context.ApplicationEventPublisher;
 
 public class UserServiceTest extends BaseTest {
@@ -31,26 +30,25 @@ public class UserServiceTest extends BaseTest {
 
     private static final UserStub userStub = new UserStub(new RandomUtil());
 
-    @Mock
-    private ApplicationEventPublisher eventPublisher;
-
-    @Mock
-    private UserDao userDao;
-
-    @Mock
-    private HttpSession httpSession;
+    private ApplicationEventPublisher mockEventPublisher;
+    private UserDao mockUserDao;
+    private HttpSession mockHttpSession;
 
     private UserService userService;
 
     @Override
     protected void setUp() {
-        this.userService = new UserService(userDao, eventPublisher, httpSession);
+        this.mockEventPublisher = mock(ApplicationEventPublisher.class);
+        this.mockUserDao = mock(UserDao.class);
+        this.mockHttpSession = mock(HttpSession.class);
+
+        this.userService = new UserService(mockUserDao, mockEventPublisher, mockHttpSession);
     }
 
     @Test(expected = InvalidInputException.class)
     public void testRegister_UsernameExists() throws Exception {
         UserModel user = userStub.createUser();
-        when(userDao.findByUsername(eq(user.getUsername()))).thenReturn(user);
+        when(mockUserDao.findByUsername(eq(user.getUsername()))).thenReturn(user);
 
         userService.register(user);
     }
@@ -58,7 +56,7 @@ public class UserServiceTest extends BaseTest {
     @Test(expected = InvalidInputException.class)
     public void testRegister_EmailExists() throws Exception {
         UserModel user = userStub.createUser();
-        when(userDao.findByUsername(user.getUsername())).thenReturn(user);
+        when(mockUserDao.findByUsername(user.getUsername())).thenReturn(user);
 
         userService.register(user);
     }
@@ -66,7 +64,7 @@ public class UserServiceTest extends BaseTest {
     @Test
     public void testRegister_SetsRegistrationDate() throws Exception {
         UserModel registerUser = userStub.createUser();
-        when(userDao.register(eq(registerUser))).thenReturn(registerUser);
+        when(mockUserDao.register(eq(registerUser))).thenReturn(registerUser);
 
         UserModel registeredUser = userService.register(registerUser);
 
@@ -75,7 +73,7 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testLogin_ReturnsNullIfUserNotFound() {
-        when(userDao.findByUsername(eq(USERNAME))).thenReturn(null);
+        when(mockUserDao.findByUsername(eq(USERNAME))).thenReturn(null);
         UserModel retVal = userService.login(USERNAME, PASSWORD);
 
         assertNull(retVal);
@@ -83,7 +81,7 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testLogin_ReturnsNullIfUserFoundButWrongPassword() {
-        when(userDao.findByUsername(eq(USERNAME))).thenThrow(new BadPasswordException(USERNAME));
+        when(mockUserDao.findByUsername(eq(USERNAME))).thenThrow(new BadPasswordException(USERNAME));
 
         UserModel retVal = userService.login(USERNAME, "wrongPassword");
         assertNull(retVal);
@@ -91,13 +89,13 @@ public class UserServiceTest extends BaseTest {
 
     @Test
     public void testLogin_WrongPassword_PublishesLoginFailureEvent() throws Exception {
-        when(userDao.findByUsername(eq(USERNAME))).thenReturn(userStub.createUser());
-        when(userDao.login(eq(USERNAME), anyString())).thenThrow(new BadPasswordException(USERNAME));
+        when(mockUserDao.findByUsername(eq(USERNAME))).thenReturn(userStub.createUser());
+        when(mockUserDao.login(eq(USERNAME), anyString())).thenThrow(new BadPasswordException(USERNAME));
 
         userService.login(USERNAME, "wrongPassword");
 
         ArgumentCaptor<UserAuthenticationEvent> captor = ArgumentCaptor.forClass(UserAuthenticationEvent.class);
-        verify(eventPublisher).publishEvent(captor.capture());
+        verify(mockEventPublisher).publishEvent(captor.capture());
 
         UserAuthenticationEvent event = captor.getValue();
         assertEquals(LOGIN, event.getAction());
@@ -109,11 +107,11 @@ public class UserServiceTest extends BaseTest {
     public void testLogin_AlreadyLoggedIn_Publishes() throws Exception {
         UserModel mockUser = userStub.createUser();
 
-        when(httpSession.getAttribute("user")).thenReturn(mockUser);
+        when(mockHttpSession.getAttribute("user")).thenReturn(mockUser);
         ArgumentCaptor<UserAuthenticationEvent> captor = ArgumentCaptor.forClass(UserAuthenticationEvent.class);
 
         userService.login(mockUser.getUsername(), "somePassword");
-        verify(eventPublisher).publishEvent(captor.capture());
+        verify(mockEventPublisher).publishEvent(captor.capture());
 
         UserAuthenticationEvent event = captor.getValue();
         assertEquals(LOGIN, event.getAction());
@@ -126,8 +124,8 @@ public class UserServiceTest extends BaseTest {
         ArgumentCaptor<UserAuthenticationEvent> captor = ArgumentCaptor.forClass(UserAuthenticationEvent.class);
         userService.logout();
 
-        verify(httpSession).invalidate();
-        verify(eventPublisher).publishEvent(captor.capture());
+        verify(mockHttpSession).invalidate();
+        verify(mockEventPublisher).publishEvent(captor.capture());
 
         UserAuthenticationEvent event = captor.getValue();
         assertEquals(LOGOUT, event.getAction());
