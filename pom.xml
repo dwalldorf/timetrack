@@ -151,7 +151,6 @@
                 <version>${logback-elasticsearch-appender.version}</version>
             </dependency>
 
-
             <!-- testing -->
             <dependency>
                 <groupId>com.jayway.jsonpath</groupId>

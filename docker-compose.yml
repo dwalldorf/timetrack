@@ -33,7 +33,7 @@ services:
     volumes:
       - ./frontend:/usr/local/apache2/htdocs/
 
-  # infra
+  # logging / stats
   elasticsearch:
     image: timetrack/elasticsearch:latest
     ports:
@@ -49,6 +49,36 @@ services:
      - ./docker/containers/kibana/config/:/opt/kibana/config/
     ports:
      - 5601:5601
+
+   # monitoring / metrics
+  influxdb:
+    build: ./docker/containers/influxdb
+    ports:
+      - "8086:8086"
+      - "8083:8086"
+      - "8090:8090"
+      - "8099:8099"
+    environment:
+      INFLUXDB_DATA_ENGINE: tsm1
+
+  telegraf:
+    build: ./docker/containers/telegraf
+    ports:
+      - "8125:8125"
+    depends_on:
+      - influxdb
+      - grafana
+    links:
+      - influxdb
+
+  grafana:
+    build: ./docker/containers/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - influxdb
+    links:
+      - influxdb
 
 volumes:
   timetrack-redis-data: {}
