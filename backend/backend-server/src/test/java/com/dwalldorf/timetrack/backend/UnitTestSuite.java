@@ -3,6 +3,7 @@ package com.dwalldorf.timetrack.backend;
 import com.dwalldorf.timetrack.backend.annotation.RequireLoginTest;
 import com.dwalldorf.timetrack.backend.config.GraphDateTimeFormatterConfigTest;
 import com.dwalldorf.timetrack.backend.config.SessionConfigTest;
+import com.dwalldorf.timetrack.backend.event.IdentityConflictEventHandlerTest;
 import com.dwalldorf.timetrack.backend.event.PermissionFailureEventHandlerTest;
 import com.dwalldorf.timetrack.backend.event.UserAuthenticationEventHandlerTest;
 import com.dwalldorf.timetrack.backend.rest.controller.UserControllerTest;
@@ -21,6 +22,7 @@ import org.junit.runners.Suite;
         GraphDateTimeFormatterConfigTest.class,
         SessionConfigTest.class,
 
+        IdentityConflictEventHandlerTest.class,
         PermissionFailureEventHandlerTest.class,
         UserAuthenticationEventHandlerTest.class,
 
