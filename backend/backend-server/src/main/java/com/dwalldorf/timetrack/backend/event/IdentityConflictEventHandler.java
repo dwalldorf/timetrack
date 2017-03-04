@@ -16,7 +16,7 @@ public class IdentityConflictEventHandler {
 
     @Async
     @EventListener(IdentityConflictEvent.class)
-    public void onIdentityConflictEventHandler(final IdentityConflictEvent event) {
+    public void onIdentityConflictEvent(final IdentityConflictEvent event) {
         logger.info(marker, event.getMessage());
     }
 }

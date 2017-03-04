@@ -106,7 +106,7 @@ public class WorklogService {
 
         if (!entry.getUserId().equals(user.getId())) {
             throw new IdentityConflictException(
-                    "User with id '%s' tried to modify worklog entry with id '%s' which belongs to a different user.",
+                    "User with id '%s' tried to modify worklog entry with id '%s' which belongs to a different user",
                     user.getId(),
                     entry.getId()
             );
