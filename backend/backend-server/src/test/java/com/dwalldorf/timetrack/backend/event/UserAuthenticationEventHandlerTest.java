@@ -56,6 +56,21 @@ public class UserAuthenticationEventHandlerTest extends BaseTest {
     }
 
     @Test
+    public void testOnUserAuthenticationEvent_Login_Failure() {
+        String username = "username";
+        String message = "username not found";
+        UserAuthenticationEvent event = UserAuthenticationEvent.loginFailedEvent(username, message);
+        eventHandler.onUserAuthenticationEvent(event);
+
+        String expectedMessage = String.format("Failure during login with name: '%s', message: %s",
+                username,
+                message
+        );
+
+        assertLogged(expectedMessage, INFO, expectedMarkerName);
+    }
+
+    @Test
     public void testOnUserAuthenticationEvent_Login_Success_LogSuccess() throws Exception {
         UserAuthenticationEvent event = UserAuthenticationEvent.loginSuccessEvent(mockUser);
         String expectedMessage = String.format("Successful login: '%s'", USER_NAME);
@@ -92,5 +107,14 @@ public class UserAuthenticationEventHandlerTest extends BaseTest {
         eventHandler.onUserAuthenticationEvent(event);
 
         verify(mockUser).setLastLogin(any(DateTime.class));
+    }
+
+    @Test
+    public void testOnUserAuthenticationEvent_Logout_Success() throws Exception {
+        UserAuthenticationEvent event = UserAuthenticationEvent.logoutEvent(mockUser);
+        eventHandler.onUserAuthenticationEvent(event);
+        String expectedMessage = String.format("Logout: '%s'", event.getUsername());
+
+        assertLogged(expectedMessage, INFO, expectedMarkerName);
     }
 }
