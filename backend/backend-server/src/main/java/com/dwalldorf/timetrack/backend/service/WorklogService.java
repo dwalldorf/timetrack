@@ -67,9 +67,7 @@ public class WorklogService {
      * @return updated {@link WorklogEntryModel}
      */
     public WorklogEntryModel save(WorklogEntryModel entry, UserModel user) {
-        if (user != null) {
-            entry.setUserId(user.getId());
-        }
+        entry.setUserId(user.getId());
 
         if (entry.getStart() != null && entry.getStop() != null) {
             Minutes minutes = Minutes.minutesBetween(entry.getStart(), entry.getStop());
@@ -100,10 +98,6 @@ public class WorklogService {
     }
 
     public void assureIdentity(WorklogEntryModel entry, UserModel user) throws IdentityConflictException {
-        if (entry.getUserId() == null) {
-            return;
-        }
-
         if (!entry.getUserId().equals(user.getId())) {
             throw new IdentityConflictException(
                     "User with id '%s' tried to modify worklog entry with id '%s' which belongs to a different user",
