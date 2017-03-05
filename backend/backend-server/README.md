@@ -8,8 +8,9 @@ then run the application in `dev` profile.
 
 
 ## Links
-* [elasticsearch](../../docker/containers/elasticsearch)
-* [kibana](../../docker/containers/kibana)
+* [mongo](../../docker/containers/mongo) for persistence
+* [redis](../../docker/containers/redis) for session
+* [elasticsearch](../../docker/containers/elasticsearch) for logging
 * [admin-ui](../admin-ui)
 
 
