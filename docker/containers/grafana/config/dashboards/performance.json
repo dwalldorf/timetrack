@@ -4,14 +4,14 @@
         "rows": [
             {
                 "collapse": false,
-                "height": 458,
+                "height": "450px",
                 "panels": [
                     {
                         "aliasColors": {},
                         "bars": false,
                         "datasource": "influxdb",
                         "fill": 1,
-                        "height": "400px",
+                        "height": "",
                         "id": 1,
                         "legend": {
                             "avg": false,
@@ -47,7 +47,7 @@
                                     },
                                     {
                                         "params": [
-                                            "0"
+                                            "previous"
                                         ],
                                         "type": "fill"
                                     }
@@ -65,8 +65,10 @@
                                             "type": "field"
                                         },
                                         {
-                                            "params": [],
-                                            "type": "mean"
+                                            "params": [
+                                                95
+                                            ],
+                                            "type": "percentile"
                                         },
                                         {
                                             "params": [
@@ -83,8 +85,10 @@
                                             "type": "field"
                                         },
                                         {
-                                            "params": [],
-                                            "type": "mean"
+                                            "params": [
+                                                95
+                                            ],
+                                            "type": "percentile"
                                         },
                                         {
                                             "params": [
@@ -101,8 +105,10 @@
                                             "type": "field"
                                         },
                                         {
-                                            "params": [],
-                                            "type": "mean"
+                                            "params": [
+                                                95
+                                            ],
+                                            "type": "percentile"
                                         },
                                         {
                                             "params": [
@@ -119,8 +125,10 @@
                                             "type": "field"
                                         },
                                         {
-                                            "params": [],
-                                            "type": "mean"
+                                            "params": [
+                                                95
+                                            ],
+                                            "type": "percentile"
                                         },
                                         {
                                             "params": [
@@ -137,8 +145,10 @@
                                             "type": "field"
                                         },
                                         {
-                                            "params": [],
-                                            "type": "mean"
+                                            "params": [
+                                                95
+                                            ],
+                                            "type": "percentile"
                                         },
                                         {
                                             "params": [
@@ -155,8 +165,10 @@
                                             "type": "field"
                                         },
                                         {
-                                            "params": [],
-                                            "type": "mean"
+                                            "params": [
+                                                95
+                                            ],
+                                            "type": "percentile"
                                         },
                                         {
                                             "params": [
@@ -173,8 +185,10 @@
                                             "type": "field"
                                         },
                                         {
-                                            "params": [],
-                                            "type": "mean"
+                                            "params": [
+                                                95
+                                            ],
+                                            "type": "percentile"
                                         },
                                         {
                                             "params": [
@@ -228,7 +242,7 @@
                 "repeatIteration": null,
                 "repeatRowId": null,
                 "showTitle": false,
-                "title": "Dashboard Row",
+                "title": "Response Times",
                 "titleSize": "h6"
             }
         ],
@@ -269,7 +283,7 @@
         },
         "timezone": "browser",
         "title": "Performance",
-        "version": 5
+        "version": 6
     },
     "overwrite": false
 }
