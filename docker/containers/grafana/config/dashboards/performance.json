@@ -1,0 +1,275 @@
+{
+    "dashboard": {
+        "id": null,
+        "rows": [
+            {
+                "collapse": false,
+                "height": 458,
+                "panels": [
+                    {
+                        "aliasColors": {},
+                        "bars": false,
+                        "datasource": "influxdb",
+                        "fill": 1,
+                        "height": "400px",
+                        "id": 1,
+                        "legend": {
+                            "avg": false,
+                            "current": false,
+                            "max": false,
+                            "min": false,
+                            "show": true,
+                            "total": false,
+                            "values": false
+                        },
+                        "lines": true,
+                        "linewidth": 1,
+                        "links": [],
+                        "nullPointMode": "null",
+                        "percentage": false,
+                        "pointradius": 5,
+                        "points": false,
+                        "renderer": "flot",
+                        "seriesOverrides": [],
+                        "span": 12,
+                        "stack": false,
+                        "steppedLine": true,
+                        "targets": [
+                            {
+                                "alias": "$col",
+                                "dsType": "influxdb",
+                                "groupBy": [
+                                    {
+                                        "params": [
+                                            "10s"
+                                        ],
+                                        "type": "time"
+                                    },
+                                    {
+                                        "params": [
+                                            "0"
+                                        ],
+                                        "type": "fill"
+                                    }
+                                ],
+                                "measurement": "jolokia",
+                                "policy": "default",
+                                "refId": "A",
+                                "resultFormat": "time_series",
+                                "select": [
+                                    [
+                                        {
+                                            "params": [
+                                                "metrics_gauge.response.users"
+                                            ],
+                                            "type": "field"
+                                        },
+                                        {
+                                            "params": [],
+                                            "type": "mean"
+                                        },
+                                        {
+                                            "params": [
+                                                "/users"
+                                            ],
+                                            "type": "alias"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "params": [
+                                                "metrics_gauge.response.users.login"
+                                            ],
+                                            "type": "field"
+                                        },
+                                        {
+                                            "params": [],
+                                            "type": "mean"
+                                        },
+                                        {
+                                            "params": [
+                                                "/users/login"
+                                            ],
+                                            "type": "alias"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "params": [
+                                                "metrics_gauge.response.users.logout"
+                                            ],
+                                            "type": "field"
+                                        },
+                                        {
+                                            "params": [],
+                                            "type": "mean"
+                                        },
+                                        {
+                                            "params": [
+                                                "/users/logout"
+                                            ],
+                                            "type": "alias"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "params": [
+                                                "metrics_gauge.response.users.me"
+                                            ],
+                                            "type": "field"
+                                        },
+                                        {
+                                            "params": [],
+                                            "type": "mean"
+                                        },
+                                        {
+                                            "params": [
+                                                "/users/me"
+                                            ],
+                                            "type": "alias"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "params": [
+                                                "metrics_gauge.response.worklogs"
+                                            ],
+                                            "type": "field"
+                                        },
+                                        {
+                                            "params": [],
+                                            "type": "mean"
+                                        },
+                                        {
+                                            "params": [
+                                                "/worklogs"
+                                            ],
+                                            "type": "alias"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "params": [
+                                                "metrics_gauge.response.worklogs.graph_data"
+                                            ],
+                                            "type": "field"
+                                        },
+                                        {
+                                            "params": [],
+                                            "type": "mean"
+                                        },
+                                        {
+                                            "params": [
+                                                "/worklogs/graph_data"
+                                            ],
+                                            "type": "alias"
+                                        }
+                                    ],
+                                    [
+                                        {
+                                            "params": [
+                                                "metrics_gauge.response.worklogs.id"
+                                            ],
+                                            "type": "field"
+                                        },
+                                        {
+                                            "params": [],
+                                            "type": "mean"
+                                        },
+                                        {
+                                            "params": [
+                                                "/worklogs/{id}"
+                                            ],
+                                            "type": "alias"
+                                        }
+                                    ]
+                                ],
+                                "tags": []
+                            }
+                        ],
+                        "thresholds": [],
+                        "timeFrom": null,
+                        "timeShift": null,
+                        "title": "Response Times",
+                        "tooltip": {
+                            "shared": true,
+                            "sort": 0,
+                            "value_type": "individual"
+                        },
+                        "transparent": true,
+                        "type": "graph",
+                        "xaxis": {
+                            "mode": "time",
+                            "name": null,
+                            "show": true,
+                            "values": []
+                        },
+                        "yaxes": [
+                            {
+                                "format": "ms",
+                                "label": null,
+                                "logBase": 1,
+                                "max": null,
+                                "min": null,
+                                "show": true
+                            },
+                            {
+                                "format": "short",
+                                "label": null,
+                                "logBase": 1,
+                                "max": null,
+                                "min": null,
+                                "show": true
+                            }
+                        ]
+                    }
+                ],
+                "repeat": null,
+                "repeatIteration": null,
+                "repeatRowId": null,
+                "showTitle": false,
+                "title": "Dashboard Row",
+                "titleSize": "h6"
+            }
+        ],
+        "schemaVersion": 14,
+        "style": "dark",
+        "tags": [],
+        "templating": {
+            "list": []
+        },
+        "time": {
+            "from": "now-1h",
+            "to": "now"
+        },
+        "timepicker": {
+            "refresh_intervals": [
+                "5s",
+                "10s",
+                "30s",
+                "1m",
+                "5m",
+                "15m",
+                "30m",
+                "1h",
+                "2h",
+                "1d"
+            ],
+            "time_options": [
+                "5m",
+                "15m",
+                "1h",
+                "6h",
+                "12h",
+                "24h",
+                "2d",
+                "7d",
+                "30d"
+            ]
+        },
+        "timezone": "browser",
+        "title": "Performance",
+        "version": 5
+    },
+    "overwrite": false
+}
