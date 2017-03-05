@@ -17,5 +17,6 @@
         <module>backend-repository</module>
         <module>backend-server</module>
         <module>backend-tools</module>
+        <module>admin-ui</module>
     </modules>
 </project>

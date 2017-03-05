@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public class VersionControllerIT extends BaseControllerIT {
 
-    @Value("${app.version}")
+    @Value("${info.version}")
     private String version;
 
     @Test

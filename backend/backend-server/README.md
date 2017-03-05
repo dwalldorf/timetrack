@@ -6,7 +6,12 @@ Is a spring-boot REST-API that handles time tracking data.
 In order to run we need at least a mongodb. Follow [Run it](../README.md) from the parent project,
 then run the application in `dev` profile.
 
-Also checkout [elasticsearch](../docker/containers/elasticsearch/README.md) and [kibana](../docker/containers/kibana/README.md).
+
+## Links
+* [mongo](../../docker/containers/mongo) for persistence
+* [redis](../../docker/containers/redis) for session
+* [elasticsearch](../../docker/containers/elasticsearch) for logging
+* [admin-ui](../admin-ui)
 
 
 ---
