@@ -4,5 +4,6 @@
     "Name" : "influxdb",
     "Type" : "influxdb",
     "isDefault" : true,
-    "id" : 1
+    "id" : 1,
+    "database": "telegraf"
 }

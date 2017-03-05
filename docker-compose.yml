@@ -4,7 +4,8 @@ services:
 
   # backend application
   backend:
-    image: timetrack/backend:latest
+    build: ./backend
+#    image: timetrack/backend:latest
     ports:
       - 8080:8080
     links:
@@ -50,31 +51,41 @@ services:
     ports:
      - 5601:5601
 
-   # monitoring / metrics
+  # monitoring / metrics
+  admin-ui:
+    build: ./backend/admin-ui
+    ports:
+      - 8081:8081
   influxdb:
     build: ./docker/containers/influxdb
     ports:
-      - "8086:8086"
-      - "8083:8086"
-      - "8090:8090"
-      - "8099:8099"
+      - 2003:2003
+      - 8086:8086
+      - 8083:8083
+      - 8090:8090
+      - 8099:8099
+    environment:
+      - INFLUXDB_ADMIN_ENABLED: true
+    volumes:
+      - timetrack-influx-data:/var/lib/influxdb
     environment:
       INFLUXDB_DATA_ENGINE: tsm1
 
   telegraf:
     build: ./docker/containers/telegraf
     ports:
-      - "8125:8125"
+      - 8125:8125
     depends_on:
       - influxdb
       - grafana
     links:
+      - backend
       - influxdb
 
   grafana:
     build: ./docker/containers/grafana
     ports:
-      - "3000:3000"
+      - 3000:3000
     depends_on:
       - influxdb
     links:
@@ -84,3 +95,4 @@ volumes:
   timetrack-redis-data: {}
   timetrack-mongo-data: {}
   timetrack-elastic-data: {}
+  timetrack-influx-data: {}

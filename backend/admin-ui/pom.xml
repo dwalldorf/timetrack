@@ -24,6 +24,7 @@
     </dependencies>
 
     <build>
+        <finalName>admin-ui</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
