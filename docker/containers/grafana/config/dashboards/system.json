@@ -1,7 +1,6 @@
 {
     "dashboard": {
         "graphTooltip": 2,
-        "hideControls": false,
         "id": null,
         "refresh": "5s",
         "rows": [
@@ -595,7 +594,7 @@
                         "fill": 1,
                         "height": "",
                         "id": 2,
-                        "interval": ">10s",
+                        "interval": "",
                         "legend": {
                             "alignAsTable": false,
                             "avg": false,
@@ -628,7 +627,7 @@
                                 "groupBy": [
                                     {
                                         "params": [
-                                            "30s"
+                                            "1m"
                                         ],
                                         "type": "time"
                                     },
@@ -735,11 +734,11 @@
                             "current": false,
                             "hideEmpty": false,
                             "hideZero": false,
-                            "max": true,
-                            "min": true,
+                            "max": false,
+                            "min": false,
                             "show": true,
                             "total": false,
-                            "values": true
+                            "values": false
                         },
                         "lines": false,
                         "linewidth": 1,
@@ -760,7 +759,7 @@
                                 "groupBy": [
                                     {
                                         "params": [
-                                            "30s"
+                                            "1m"
                                         ],
                                         "type": "time"
                                     },
@@ -807,7 +806,7 @@
                                         },
                                         {
                                             "params": [
-                                                "free"
+                                                "used"
                                             ],
                                             "type": "alias"
                                         }
@@ -898,7 +897,7 @@
         },
         "timezone": "browser",
         "title": "System",
-        "version": 12
+        "version": 13
     },
     "overwrite": false
 }
