@@ -90,14 +90,14 @@ public class WorklogEntryModelTest {
         copy4.setStart(new DateTime());
         assertFalse(copy4.equalsLogically(original));
 
-        // copy with other stop is NOT equal
+        // copy with other stop is equal
         WorklogEntryModel copy5 = new WorklogEntryModel(copy);
         copy5.setStop(copy5.getStop().minusMinutes(30));
-        assertFalse(copy5.equalsLogically(original));
+        assertTrue(copy5.equalsLogically(original));
 
-        // copy with other duration is NOT equal
+        // copy with other duration is equal
         WorklogEntryModel copy6 = new WorklogEntryModel(copy);
         copy6.setDuration(123);
-        assertFalse(copy6.equalsLogically(original));
+        assertTrue(copy6.equalsLogically(original));
     }
 }

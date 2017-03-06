@@ -46,9 +46,7 @@ public class WorklogEntryModel extends AbstractModel {
         return (String.valueOf(this.getUserId()).equals(String.valueOf(entry.getUserId())) &&
                 String.valueOf(this.getCustomer()).equals(String.valueOf(entry.getCustomer())) &&
                 String.valueOf(this.getProject()).equals(String.valueOf(entry.getProject())) &&
-                String.valueOf(this.getStart()).equals(String.valueOf(entry.getStart())) &&
-                String.valueOf(this.getStop()).equals(String.valueOf(entry.getStop())) &&
-                String.valueOf(this.getDuration()).equals(String.valueOf(entry.getDuration()))
+                String.valueOf(this.getStart()).equals(String.valueOf(entry.getStart()))
         );
     }
 
@@ -102,7 +100,7 @@ public class WorklogEntryModel extends AbstractModel {
     }
 
     public WorklogEntryModel setStart(String start) {
-        if (start != null) {
+        if (start != null && !start.isEmpty()) {
             this.start = new DateTime(start);
         }
         return this;
@@ -118,7 +116,7 @@ public class WorklogEntryModel extends AbstractModel {
     }
 
     public WorklogEntryModel setStop(String stop) {
-        if (stop != null) {
+        if (stop != null && !stop.isEmpty()) {
             this.stop = new DateTime(stop);
         }
         return this;
