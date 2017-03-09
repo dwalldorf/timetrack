@@ -72,10 +72,10 @@ export class WorklogEditComponent implements OnInit {
     }
 
     cancel(): void {
-        this.entry = new WorklogEntryModel();
-
         if (this.entry.id) {
             this._routerService.goToWorklogList();
         }
+
+        this.entry = new WorklogEntryModel();
     }
 }
