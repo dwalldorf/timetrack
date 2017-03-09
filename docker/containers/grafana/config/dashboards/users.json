@@ -12,7 +12,7 @@
                         "datasource": "influxdb",
                         "description": "logins and registrations",
                         "fill": 1,
-                        "id": 3,
+                        "id": null,
                         "interval": "",
                         "legend": {
                             "avg": false,

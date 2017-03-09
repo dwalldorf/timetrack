@@ -4,23 +4,26 @@ services:
 
   # backend application
   backend:
-    build: ./backend
 #    image: timetrack/backend:latest
+    build: ./backend
+    hostname: timetrack-backend
     ports:
       - 8080:8080
     links:
       - mongo
       - elasticsearch
-    volumes:
-      - ./backend/target/log:/var/log
   mongo:
-    image: timetrack/mongo:latest
+#    image: timetrack/mongo:latest
+    build: ./docker/containers/mongo
+    hostname: timetrack-mongo
     ports:
       - 27017:27017
     volumes:
       - timetrack-mongo-data:/data/db
   redis:
-    image: timetrack/redis:latest
+#    image: timetrack/redis:latest
+    build: ./docker/containers/redis
+    hostname: timetrack-redis
     ports:
       - 6379:6379
     volumes:
@@ -29,6 +32,7 @@ services:
   # frontend
   frontend:
     image: timetrack/frontend:latest
+    hostname: timetrack-frontend
     ports:
       - 80:80
     volumes:
@@ -36,7 +40,9 @@ services:
 
   # logging / stats
   elasticsearch:
-    image: timetrack/elasticsearch:latest
+#    image: timetrack/elasticsearch:latest
+    build: ./docker/containers/elasticsearch
+    hostname: timetrack-elastic
     ports:
       - 9200:9200
       - 9300:9300
@@ -45,19 +51,23 @@ services:
     volumes:
       - timetrack-elastic-data:/usr/share/elasticsearch/data
   kibana:
-    image: timetrack/kibana:latest
+#    image: timetrack/kibana:latest
+    build: ./docker/containers/kibana
+    hostname: timetrack-kibana
     volumes:
-     - ./docker/containers/kibana/config/:/opt/kibana/config/
+      - ./docker/containers/kibana/config/:/opt/kibana/config/
     ports:
      - 5601:5601
 
   # monitoring / metrics
   admin-ui:
     build: ./backend/admin-ui
+    hostname: timetrack-admin-ui
     ports:
       - 8081:8081
   influxdb:
     build: ./docker/containers/influxdb
+    hostname: timetrack-influxdb
     ports:
       - 2003:2003
       - 8086:8086
@@ -73,6 +83,7 @@ services:
 
   telegraf:
     build: ./docker/containers/telegraf
+    hostname: timetrack-telegraf
     ports:
       - 8125:8125
     depends_on:
@@ -81,9 +92,12 @@ services:
     links:
       - backend
       - influxdb
+    volumes:
+       - /var/run/docker.sock:/var/run/docker.sock
 
   grafana:
     build: ./docker/containers/grafana
+    hostname: timetrack-grafana
     ports:
       - 3000:3000
     depends_on:
