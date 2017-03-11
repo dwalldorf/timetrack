@@ -19,7 +19,7 @@ public class PasswordService {
     private final SecretKeyFactory keyFactory;
 
     public PasswordService() throws NoSuchAlgorithmException {
-        keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
+        this.keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
     }
 
     public byte[] createSalt() {
