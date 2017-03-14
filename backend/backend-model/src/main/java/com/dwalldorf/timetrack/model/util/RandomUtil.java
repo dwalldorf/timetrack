@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 public class RandomUtil {
 
     @SuppressWarnings("SpellCheckingInspection")
-    private final static char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+    private static final char[] CHARS = "abcdefghijklmnopqrstuvwxyz".toCharArray();
+
+    private static final char[] MONGO_ID_CHARS = "0123456789abcdef".toCharArray();
 
     private final Random random;
 
@@ -24,6 +26,14 @@ public class RandomUtil {
     }
 
     public String randomString(final int length) {
+        return randomString(CHARS, length);
+    }
+
+    public String mongoId() {
+        return randomString(MONGO_ID_CHARS, 24);
+    }
+
+    private String randomString(final char[] chars, final int length) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < length; i++) {
             char c = chars[random.nextInt(chars.length)];
