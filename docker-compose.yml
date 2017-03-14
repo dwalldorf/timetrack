@@ -81,6 +81,37 @@ services:
     environment:
       INFLUXDB_DATA_ENGINE: tsm1
 
+  prometheus:
+    build: ./docker/containers/prometheus
+    hostname: timetrack-prometheus
+    volumes:
+      - timetrack-prometheus_data:/prometheus
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+    links:
+      - cadvisor
+    depends_on:
+      - cadvisor
+
+  node-exporter:
+    image: prom/node-exporter
+    expose:
+      - 9100
+
+  cadvisor:
+    image: google/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    expose:
+      - 9091
+    ports:
+      - 8080:9091
+
   telegraf:
     build: ./docker/containers/telegraf
     hostname: timetrack-telegraf
@@ -104,9 +135,13 @@ services:
       - influxdb
     links:
       - influxdb
+    volumes:
+      - timetrack-grafana-data:/var/lib/grafana
 
 volumes:
   timetrack-redis-data: {}
   timetrack-mongo-data: {}
   timetrack-elastic-data: {}
   timetrack-influx-data: {}
+  timetrack-grafana-data: {}
+  timetrack-prometheus_data: {}

@@ -8,7 +8,11 @@ RUN apt-get update && \
     mkdir -p /etc/grafana/scripts && mkdir /etc/grafana/scripts/dashboards && \
     mkdir -p /var/log/telegraf && touch /var/log/telegraf/telegraf.log
 
-COPY ./config/datasource.json /etc/grafana/scripts/datasource.json
+RUN grafana-cli plugins install \
+    grafana-piechart-panel
+
+COPY ./config/datasources/influxdb.json /etc/grafana/scripts/influxdb.json
+
 COPY ./config/dashboards/system.json /etc/grafana/scripts/dashboards/
 COPY ./config/dashboards/performance.json /etc/grafana/scripts/dashboards/
 COPY ./config/dashboards/users.json /etc/grafana/scripts/dashboards/
