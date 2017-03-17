@@ -7,4 +7,7 @@ pipeline {
       }
     }
   }
+  tools {
+    mvn: 'mvn'
+  }
 }
