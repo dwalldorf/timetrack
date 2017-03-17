@@ -3,7 +3,16 @@ pipeline {
   stages {
     stage('Test') {
       steps {
-        sh 'mvn clean verify'
+        parallel(
+          "Test": {
+            sh 'mvn clean verify'
+            
+          },
+          "": {
+            stash 'jadecr-secret'
+            
+          }
+        )
       }
     }
   }
