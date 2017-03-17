@@ -10,4 +10,7 @@ pipeline {
   tools {
     mvn: 'mvn'
   }
+  triggers {
+    pollSCM('* * * * *')
+  }
 }
