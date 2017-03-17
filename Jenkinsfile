@@ -8,8 +8,8 @@ pipeline {
     }
   }
   tools {
-    jdk: 'jdk8'
-    maven: 'mvn3'
+    jdk 'jdk8'
+    maven 'mvn3'
   }
   triggers {
     pollSCM('* * * * *')
