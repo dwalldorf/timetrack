@@ -6,11 +6,6 @@ pipeline {
         parallel(
           "Test": {
             sh 'mvn clean verify'
-            
-          },
-          "": {
-            stash 'jadecr-secret'
-            
           }
         )
       }
