@@ -4,9 +4,9 @@ pipeline {
     stage('Test') {
       steps {
         parallel(
-          "Test": {
-            sh 'mvn clean verify'
-          }
+                "Test": {
+                  sh 'mvn clean verify'
+                }
         )
       }
     }
