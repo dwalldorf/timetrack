@@ -3,6 +3,7 @@ package com.dwalldorf.timetrack.backend.config;
 import static org.mockito.Mockito.*;
 
 import com.dwalldorf.timetrack.repository.repository.UserRepository;
+import com.dwalldorf.timetrack.repository.repository.WorklogDayMetricRepository;
 import com.dwalldorf.timetrack.repository.repository.WorklogRepository;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
@@ -48,6 +49,9 @@ public class TestConfig {
 
     @MockBean
     private WorklogRepository worklogRepository;
+
+    @MockBean
+    private WorklogDayMetricRepository worklogDayMetricRepository;
 
     @Bean
     @Primary
