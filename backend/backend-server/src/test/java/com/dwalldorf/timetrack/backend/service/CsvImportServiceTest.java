@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.backend.service;
 
+import static com.dwalldorf.timetrack.model.ObjectOrigin.IMPORT;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -41,12 +42,13 @@ public class CsvImportServiceTest extends BaseTest {
 
         assertEquals(36, worklogEntriesFromCsv.size());
 
-        WorklogEntryModel entry1 = worklogEntriesFromCsv.get(0);
-        assertEquals(expectedCustomer, entry1.getCustomer());
-        assertEquals(expectedProject, entry1.getProject());
-        assertNotNull(entry1.getStart());
-        assertNotNull(entry1.getStop());
-        assertEquals(expectedComment, entry1.getComment());
+        WorklogEntryModel entry = worklogEntriesFromCsv.get(0);
+        assertEquals(expectedCustomer, entry.getCustomer());
+        assertEquals(expectedProject, entry.getProject());
+        assertNotNull(entry.getStart());
+        assertNotNull(entry.getStop());
+        assertEquals(expectedComment, entry.getComment());
+        assertEquals(IMPORT, entry.getOrigin());
     }
 
     private MultipartFile getDataCsv() throws IOException {

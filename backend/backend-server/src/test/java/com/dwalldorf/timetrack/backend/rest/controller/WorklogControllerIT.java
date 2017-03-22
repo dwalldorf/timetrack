@@ -9,9 +9,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.dwalldorf.timetrack.backend.service.WorklogService;
+import com.dwalldorf.timetrack.model.ObjectOrigin;
 import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
 import com.dwalldorf.timetrack.model.internal.GraphConfig;
+import com.dwalldorf.timetrack.model.stub.WorklogStub;
+import com.dwalldorf.timetrack.model.util.RandomUtil;
 import java.util.Collections;
 import javax.inject.Inject;
 import org.joda.time.DateTime;
@@ -31,6 +34,28 @@ public class WorklogControllerIT extends BaseControllerIT {
 
     @Inject
     private DateTimeFormatter graphDateTimeFormatter;
+
+    private final WorklogStub worklogStub;
+
+    public WorklogControllerIT() {
+        this.worklogStub = new WorklogStub(new RandomUtil());
+    }
+
+    @Test
+    public void testCreateWorklogEntry_NotLoggedIn() throws Exception {
+        WorklogEntryModel entryModel = new WorklogEntryModel()
+                .setId("ykowinoxftcrnaltdkzgnayh")
+                .setUserId("ykowinoxftcrnaltdkzgnayh")
+                .setCustomer("blub")
+                .setOrigin(ObjectOrigin.IMPORT)
+                .setStart(new DateTime())
+                .setDuration(467);
+
+        WorklogEntryModel worklogEntry = worklogStub.createWorklogEntry();
+
+        doPost(BASE_URI, entryModel)
+                .andExpect(status().isUnauthorized());
+    }
 
     @Test
     public void testGetWorklog_NotLoggedIn() throws Exception {

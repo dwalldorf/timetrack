@@ -1,6 +1,6 @@
 package com.dwalldorf.timetrack.backend.service;
 
-import static com.dwalldorf.timetrack.model.WorklogEntryModel.Origin.IMPORT;
+import static com.dwalldorf.timetrack.model.ObjectOrigin.IMPORT;
 
 import com.dwalldorf.timetrack.backend.exception.CsvParsingException;
 import com.dwalldorf.timetrack.model.UserModel;
@@ -53,8 +53,7 @@ public class CsvImportService {
                 comment = getCleanString(entry.get(6));
             } catch (IllegalArgumentException e) {
                 logger.error(e.getMessage(), e);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                // ignore
+            } catch (ArrayIndexOutOfBoundsException ignored) {
             }
 
             final String customer = getCleanString(entry.get(0));

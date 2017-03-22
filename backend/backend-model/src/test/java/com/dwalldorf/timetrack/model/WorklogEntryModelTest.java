@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.model;
 
+import static com.dwalldorf.timetrack.model.ObjectOrigin.USER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -27,7 +28,8 @@ public class WorklogEntryModelTest {
                 .setStart(start)
                 .setStop(stop)
                 .setDuration(duration)
-                .setComment(comment);
+                .setComment(comment)
+                .setOrigin(USER);
 
         final WorklogEntryModel copy = new WorklogEntryModel(original);
 

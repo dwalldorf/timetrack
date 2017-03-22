@@ -1,6 +1,6 @@
 package com.dwalldorf.timetrack.backend.rest.controller;
 
-import static com.dwalldorf.timetrack.model.WorklogEntryModel.Origin.USER;
+import static com.dwalldorf.timetrack.model.ObjectOrigin.USER;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 

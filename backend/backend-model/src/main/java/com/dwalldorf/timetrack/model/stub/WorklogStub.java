@@ -23,7 +23,12 @@ public class WorklogStub {
     }
 
     public WorklogEntryModel createWorklogEntry() {
-        return createWorklogEntry(randomUtil.randomString(24));
+        return createWorklogEntry(
+                randomUtil.randomString(24),
+                randomUtil.randomString(24),
+                randomUtil.randomString(10),
+                null
+        );
     }
 
     public WorklogEntryModel createWorklogEntry(String userId) {

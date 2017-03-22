@@ -5,11 +5,6 @@ import org.joda.time.DateTime;
 
 public class WorklogEntryModel extends AbstractModel {
 
-    public enum Origin {
-        IMPORT,
-        USER
-    }
-
     private String id;
 
     private String userId;
@@ -32,7 +27,7 @@ public class WorklogEntryModel extends AbstractModel {
 
     private String comment;
 
-    private Origin origin;
+    private ObjectOrigin origin;
 
     public WorklogEntryModel() {
     }
@@ -161,11 +156,11 @@ public class WorklogEntryModel extends AbstractModel {
         return this;
     }
 
-    public Origin getOrigin() {
+    public ObjectOrigin getOrigin() {
         return origin;
     }
 
-    public WorklogEntryModel setOrigin(Origin origin) {
+    public WorklogEntryModel setOrigin(ObjectOrigin origin) {
         this.origin = origin;
         return this;
     }
