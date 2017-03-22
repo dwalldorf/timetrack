@@ -1,5 +1,6 @@
 package com.dwalldorf.timetrack.backend.rest.controller;
 
+import static com.dwalldorf.timetrack.model.WorklogEntryModel.Origin.USER;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
@@ -50,6 +51,7 @@ public class WorklogController extends BaseController {
     @RequireLogin
     @PostMapping
     public ResponseEntity<WorklogEntryModel> createWorklogEntry(@RequestBody @Valid WorklogEntryModel entry) {
+        entry.setOrigin(USER);
         entry = worklogService.save(entry, getCurrentUser());
         return new ResponseEntity<>(entry, CREATED);
     }

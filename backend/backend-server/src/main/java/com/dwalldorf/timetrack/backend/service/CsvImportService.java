@@ -1,5 +1,7 @@
 package com.dwalldorf.timetrack.backend.service;
 
+import static com.dwalldorf.timetrack.model.WorklogEntryModel.Origin.IMPORT;
+
 import com.dwalldorf.timetrack.backend.exception.CsvParsingException;
 import com.dwalldorf.timetrack.model.UserModel;
 import com.dwalldorf.timetrack.model.WorklogEntryModel;
@@ -69,7 +71,8 @@ public class CsvImportService {
                         .setStart(start)
                         .setStop(stop)
                         .setDuration(duration)
-                        .setComment(comment);
+                        .setComment(comment)
+                        .setOrigin(IMPORT);
 
                 retVal.add(worklogEntry);
             } else {
