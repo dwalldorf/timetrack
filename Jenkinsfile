@@ -14,6 +14,7 @@ pipeline {
   }
   tools {
     maven 'mvn3'
+    java 'jdk8'
   }
   triggers {
     pollSCM('* * * * *')
